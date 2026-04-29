@@ -21,7 +21,12 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background: #f5f3ef url('Ubarter_bg_1.png') center bottom / contain no-repeat fixed;
+      background: #f5f3ef;
+      background-image: url('{{ asset("images/ubarter-bg.png") }}');
+      background-position: center bottom;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       position: relative;
       overflow: hidden;
     }
@@ -381,7 +386,7 @@
   
   <!-- NAVBAR -->
   <nav class="ub-topnav">
-    <a class="ub-brand" href="{{ route('welcome') }}">
+    <a class="ub-brand" href="/">
       <img src="{{ asset('images/ub-logo.svg') }}" alt="UB Logo"/>
       <span class="ub-brand-name">University of Batangas</span>
     </a>
@@ -404,7 +409,6 @@
       </p>
       <div class="welcome-btns">
         <button class="btn-welcome-primary" onclick="openLoginCard()">Sign In</button>
-        <a href="{{ route('register') }}" class="btn-welcome-outline">Create Account</a>
       </div>
     </div>
 
@@ -428,58 +432,15 @@
         @endforeach
       @endif
 
-      <form method="POST" action="{{ route('login') }}">
-        @csrf
+      <div style="margin-bottom: 2rem; text-align: center;">
+        <p class="text-gray-600" style="font-size: 0.9rem; line-height: 1.6;">
+          Sign in to your UBarter account using your UB email to get started with the peer-to-peer exchange platform.
+        </p>
+      </div>
 
-        <div style="margin-bottom:1rem;">
-          <label class="field-label">UB Email Address</label>
-          <div class="field-group">
-            <input
-              type="email"
-              name="email"
-              value="{{ old('email') }}"
-              placeholder="student@ub.edu.ph"
-              required
-              autofocus
-            />
-            <span><i class="bi bi-envelope"></i></span>
-          </div>
-          @error('email')
-            <small class="input-error">{{ $message }}</small>
-          @enderror
-        </div>
-
-        <div style="margin-bottom:0.25rem;">
-          <label class="field-label">Password</label>
-          <div class="field-group">
-            <input type="password" name="password" id="loginPass" required/>
-            <span onclick="togglePass()"><i class="bi bi-eye" id="passIcon"></i></span>
-          </div>
-          @error('password')
-            <small class="input-error">{{ $message }}</small>
-          @enderror
-        </div>
-
-        <div class="row-check">
-          <label>
-            <input type="checkbox" name="remember" style="margin-right:0.3rem;"/> Remember me
-          </label>
-          <a href="{{ route('password.request') }}">Forgot password?</a>
-        </div>
-
-        <button type="submit" class="btn-signin">Sign In</button>
-
-      </form>
-
-      <div class="or-divider"><span>or</span></div>
-
-      <a href="{{ route('auth.google') }}" class="btn-sso">
+      <a href="{{ route('auth.google') }}" class="btn-sso" style="margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 1rem; padding: 0.9rem;">
         <i class="bi bi-key-fill"></i> Continue with UB MAIL
       </a>
-
-      <div class="card-footer-note">
-        Don't have an account? <a href="{{ route('register') }}">Register with UBmail</a>
-      </div>
 
       <div class="verified-note">
         <i class="bi bi-shield-check" style="color:var(--ub-maroon);"></i>

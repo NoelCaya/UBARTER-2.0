@@ -43,8 +43,8 @@
                     </a>
 
                     <!-- User Menu -->
-                    <div class="relative group">
-                        <button class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
+                    <div class="relative">
+                        <button id="userMenuBtn" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 focus:outline-none" onclick="toggleUserMenu()">
                             <img src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}&background=0066cc&color=fff" 
                                  alt="{{ auth()->user()->name }}" class="w-8 h-8 rounded-full">
                             <span class="hidden sm:inline text-sm font-medium">{{ auth()->user()->name }}</span>
@@ -52,7 +52,7 @@
                         </button>
                         
                         <!-- Dropdown Menu -->
-                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden z-50">
                             <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 first:rounded-t-lg">
                                 <i class="fas fa-user mr-2"></i> My Profile
                             </a>
@@ -65,7 +65,7 @@
                             <hr class="my-2">
                             <form method="POST" action="{{ route('logout') }}" class="block">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 last:rounded-b-lg">
+                                <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 last:rounded-b-lg cursor-pointer font-medium">
                                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
                                 </button>
                             </form>
@@ -88,3 +88,21 @@
         </div>
     </div>
 </nav>
+
+<script>
+function toggleUserMenu() {
+    const dropdown = document.getElementById('userDropdown');
+    dropdown.classList.toggle('hidden');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const userMenu = document.querySelector('.relative');
+    const userMenuBtn = document.getElementById('userMenuBtn');
+    const userDropdown = document.getElementById('userDropdown');
+    
+    if (userMenuBtn && userDropdown && event.target !== userMenuBtn && !userMenuBtn.contains(event.target)) {
+        userDropdown.classList.add('hidden');
+    }
+});
+</script>

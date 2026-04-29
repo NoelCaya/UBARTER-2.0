@@ -1,292 +1,149 @@
 @extends('layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'UBarter 2.0 Dashboard')
 
 @section('content')
-<div class="p-6 md:p-8">
-    <!-- Welcome Section -->
-    <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900">Welcome back, {{ auth()->user()->name }}! 👋</h1>
-        <p class="text-gray-600 mt-2">Here's what's happening in the UBarter community today.</p>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Items Posted -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-blue-600">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-gray-600 text-sm font-medium">Items Posted</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">12</p>
-                </div>
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-box text-blue-600 text-lg"></i>
-                </div>
-            </div>
-            <p class="text-xs text-gray-500 mt-4">
-                <span class="text-green-600 font-medium">+2</span> this month
-            </p>
-        </div>
-
-        <!-- Successful Trades -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-green-600">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-gray-600 text-sm font-medium">Successful Trades</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">8</p>
-                </div>
-                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-check-circle text-green-600 text-lg"></i>
-                </div>
-            </div>
-            <p class="text-xs text-gray-500 mt-4">
-                <span class="text-green-600 font-medium">100%</span> positive feedback
-            </p>
-        </div>
-
-        <!-- Current Rating -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-yellow-600">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-gray-600 text-sm font-medium">Your Rating</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">4.8</p>
-                </div>
-                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-star text-yellow-600 text-lg"></i>
-                </div>
-            </div>
-            <div class="flex items-center mt-4 space-x-1">
-                <span class="text-yellow-400">★★★★★</span>
-                <span class="text-xs text-gray-500">(156 reviews)</span>
+<div class="p-6 md:p-8 bg-gray-50 min-h-screen">
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <div>
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">
+                Mabuhay, {{ auth()->user()->name }}! 🎓
+            </h1>
+            <div class="flex items-center mt-2 space-x-2">
+                <span class="bg-maroon-600 text-white text-xs px-2 py-1 rounded-full font-bold">UB MAIN</span>
+                <span class="text-green-600 flex items-center text-sm font-medium">
+                    <i class="fas fa-check-circle mr-1"></i> UBmail Verified
+                </span>
             </div>
         </div>
-
-        <!-- Pending Requests -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-purple-600">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-gray-600 text-sm font-medium">Pending Requests</p>
-                    <p class="text-3xl font-bold text-gray-900 mt-2">3</p>
-                </div>
-                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-inbox text-purple-600 text-lg"></i>
-                </div>
-            </div>
-            <p class="text-xs text-gray-500 mt-4">
-                <span class="text-orange-600 font-medium">2 urgent</span>
-            </p>
-        </div>
-    </div>
-
-    <!-- Search Bar (Mobile) -->
-    <div class="mb-8 md:hidden">
-        <div class="relative">
-            <input type="text" placeholder="Search items..." 
-                   class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button class="absolute right-3 top-3 text-gray-400">
-                <i class="fas fa-search"></i>
+        <div class="flex space-x-3">
+            <button class="bg-white border border-gray-300 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-100 transition shadow-sm">
+                <i class="fas fa-history mr-2"></i> Trade History
+            </button>
+            <button class="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition shadow-md">
+                <i class="fas fa-plus mr-2"></i> Post Item
             </button>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Main Content -->
-        <div class="lg:col-span-2">
-            <!-- Featured Items -->
-            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900">Featured Available Items</h2>
-                    <a href="#" class="text-blue-600 hover:text-blue-700 text-sm font-medium">View All →</a>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="opacity-80 text-sm font-medium uppercase tracking-wider">Eco Impact</p>
+                    <p class="text-3xl font-bold mt-1">14.5 kg</p>
+                    <p class="text-xs mt-2 italic">Waste diverted from campus landfills</p>
                 </div>
+                <div class="bg-white/20 p-3 rounded-xl">
+                    <i class="fas fa-leaf text-2xl"></i>
+                </div>
+            </div>
+        </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Item Card 1 -->
-                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition group cursor-pointer">
-                        <div class="relative h-48 bg-gray-100 overflow-hidden">
-                            <img src="https://via.placeholder.com/300x200?text=Calculus+Textbook" alt="Item" class="w-full h-full object-cover group-hover:scale-105 transition">
-                            <div class="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">Barter</div>
-                            <button class="absolute top-3 left-3 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-red-50">
-                                <i class="far fa-heart text-red-500"></i>
-                            </button>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-gray-900 text-sm line-clamp-2">Advanced Calculus Textbook - Brand New</h3>
-                            <p class="text-xs text-gray-600 mt-1">Engineering Department</p>
-                            <div class="flex justify-between items-center mt-3">
-                                <div class="flex items-center space-x-1">
-                                    <img src="https://ui-avatars.com/api/?name=John+Doe&background=0066cc&color=fff" alt="User" class="w-6 h-6 rounded-full">
-                                    <span class="text-xs text-gray-600">John Doe</span>
-                                </div>
-                                <button class="text-blue-600 hover:text-blue-700 text-xs font-medium">View →</button>
-                            </div>
-                        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm font-medium uppercase">Trust Score</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-1">4.9/5.0</p>
+                    <div class="flex items-center mt-2 text-yellow-400 space-x-1">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span class="text-gray-400 text-xs ml-2">(24 Peer Reviews)</span>
                     </div>
+                </div>
+                <div class="bg-yellow-50 p-3 rounded-xl text-yellow-600">
+                    <i class="fas fa-shield-alt text-2xl"></i>
+                </div>
+            </div>
+        </div>
 
-                    <!-- Item Card 2 -->
-                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition group cursor-pointer">
-                        <div class="relative h-48 bg-gray-100 overflow-hidden">
-                            <img src="https://via.placeholder.com/300x200?text=Laptop+Stand" alt="Item" class="w-full h-full object-cover group-hover:scale-105 transition">
-                            <div class="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">Donation</div>
-                            <button class="absolute top-3 left-3 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-red-50">
-                                <i class="far fa-heart text-gray-400"></i>
-                            </button>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-gray-900 text-sm line-clamp-2">Aluminum Laptop Stand - Slightly Used</h3>
-                            <p class="text-xs text-gray-600 mt-1">Computer Science</p>
-                            <div class="flex justify-between items-center mt-3">
-                                <div class="flex items-center space-x-1">
-                                    <img src="https://ui-avatars.com/api/?name=Jane+Smith&background=0066cc&color=fff" alt="User" class="w-6 h-6 rounded-full">
-                                    <span class="text-xs text-gray-600">Jane Smith</span>
-                                </div>
-                                <button class="text-blue-600 hover:text-blue-700 text-xs font-medium">View →</button>
-                            </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm font-medium uppercase">Active Proposals</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-1">3</p>
+                    <p class="text-blue-600 text-xs font-bold mt-2 hover:underline cursor-pointer">
+                        View Chat Requests →
+                    </p>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-xl text-blue-600 relative">
+                    <i class="fas fa-comments text-2xl"></i>
+                    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-8">
+            <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-bold text-blue-900 flex items-center">
+                        <i class="fas fa-magic mr-2 text-blue-600"></i> Smart Matches for You
+                    </h2>
+                    <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded">BETA</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-4 rounded-xl border border-blue-200 shadow-sm flex items-center space-x-4">
+                        <div class="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0 bg-cover" style="background-image: url('https://via.placeholder.com/100')"></div>
+                        <div>
+                            <p class="text-sm font-bold text-gray-900">Drawing Board (A3)</p>
+                            <p class="text-xs text-gray-500">Matches your wishlist item!</p>
+                            <button class="mt-2 text-xs font-bold text-blue-600">Propose Barter</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Recently Posted Items -->
-            <div class="bg-white rounded-xl shadow-sm p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900">Recently Posted</h2>
-                    <a href="#" class="text-blue-600 hover:text-blue-700 text-sm font-medium">View All →</a>
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-50 flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-gray-900">Campus Marketplace</h2>
+                    <select class="text-sm border-none bg-transparent font-medium text-blue-600 focus:ring-0">
+                        <option>All Departments</option>
+                        <option>Engineering</option>
+                        <option>ICT</option>
+                        <option>Nursing</option>
+                    </select>
                 </div>
-
-                <div class="space-y-3">
-                    <!-- List Item 1 -->
-                    <div class="flex items-start space-x-4 p-4 border border-gray-200 rounded-lg hover:bg-blue-50 transition">
-                        <img src="https://via.placeholder.com/80x80?text=Book" alt="Item" class="w-20 h-20 rounded-lg object-cover flex-shrink-0">
-                        <div class="flex-1 min-w-0">
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 class="font-semibold text-gray-900">Programming in Python (3rd Edition)</h3>
-                                <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-medium ml-2 flex-shrink-0">Barter</span>
+                <div class="divide-y divide-gray-50">
+                    <div class="p-6 flex items-center gap-4 hover:bg-gray-50 transition cursor-pointer">
+                        <img src="https://via.placeholder.com/80" class="w-20 h-20 rounded-xl object-cover shadow-sm">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-purple-100 text-purple-700 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">ICT</span>
+                                <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Donation</span>
                             </div>
-                            <div class="flex items-center space-x-3 text-xs text-gray-600 mb-2">
-                                <span class="flex items-center"><i class="fas fa-user-circle mr-1"></i> Maria Santos</span>
-                                <span class="flex items-center"><i class="fas fa-clock mr-1"></i> 2 hours ago</span>
-                                <span class="flex items-center"><i class="fas fa-tag mr-1"></i> Books, Textbooks</span>
-                            </div>
-                            <p class="text-sm text-gray-600 truncate">Great condition, perfect for CS majors and programming enthusiasts...</p>
+                            <h3 class="font-bold text-gray-900">Arduino Uno Starter Kit</h3>
+                            <p class="text-xs text-gray-500 mt-1">Posted by Noelito • 2 mins ago</p>
                         </div>
-                        <button class="text-gray-400 hover:text-red-500 text-lg flex-shrink-0">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    </div>
-
-                    <!-- List Item 2 -->
-                    <div class="flex items-start space-x-4 p-4 border border-gray-200 rounded-lg hover:bg-blue-50 transition">
-                        <img src="https://via.placeholder.com/80x80?text=Uniform" alt="Item" class="w-20 h-20 rounded-lg object-cover flex-shrink-0">
-                        <div class="flex-1 min-w-0">
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 class="font-semibold text-gray-900">UB Engineering Uniform - Size M</h3>
-                                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-medium ml-2 flex-shrink-0">Donation</span>
-                            </div>
-                            <div class="flex items-center space-x-3 text-xs text-gray-600 mb-2">
-                                <span class="flex items-center"><i class="fas fa-user-circle mr-1"></i> Raymond Cruz</span>
-                                <span class="flex items-center"><i class="fas fa-clock mr-1"></i> 5 hours ago</span>
-                                <span class="flex items-center"><i class="fas fa-tag mr-1"></i> Uniforms, Apparel</span>
-                            </div>
-                            <p class="text-sm text-gray-600 truncate">Complete set, worn for 1 semester, perfect condition. Donating to help students...</p>
-                        </div>
-                        <button class="text-red-500 text-lg flex-shrink-0">
-                            <i class="fas fa-heart"></i>
-                        </button>
+                        <button class="p-2 text-gray-400 hover:text-red-500"><i class="far fa-heart text-lg"></i></button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Sidebar -->
-        <div class="lg:col-span-1">
-            <!-- Quick Actions -->
-            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Actions</h3>
-                <div class="space-y-3">
-                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition flex items-center justify-center space-x-2">
-                        <i class="fas fa-plus-circle"></i>
-                        <span>Post New Item</span>
-                    </button>
-                    <button class="w-full bg-gray-100 text-gray-900 py-3 rounded-lg font-medium hover:bg-gray-200 transition flex items-center justify-center space-x-2">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span>Browse All Items</span>
-                    </button>
-                    <button class="w-full bg-gray-100 text-gray-900 py-3 rounded-lg font-medium hover:bg-gray-200 transition flex items-center justify-center space-x-2">
-                        <i class="fas fa-heart"></i>
-                        <span>View Wishlist</span>
-                    </button>
-                </div>
+        <div class="space-y-6">
+            <div class="bg-white rounded-2xl p-6 shadow-sm border-t-4 border-maroon-600">
+                <h3 class="font-bold text-gray-900 mb-2 italic">"It's better if UBarter."</h3>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                    Remember: Always meet in well-lit campus areas like the **UB Lounge** or **Student Center** for safety!
+                </p>
             </div>
 
-            <!-- Mostly Needed Items -->
-            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Mostly Needed Items</h3>
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg border border-orange-200">
-                        <div>
-                            <p class="font-semibold text-gray-900 text-sm">Calculus Books</p>
-                            <p class="text-xs text-gray-600">25 requests</p>
-                        </div>
-                        <span class="text-orange-600 font-bold">25</span>
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                <h3 class="font-bold text-gray-900 mb-4">Trending Requests</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-700">Lab Gowns</span>
+                        <span class="bg-gray-100 text-gray-600 text-[10px] px-2 py-1 rounded font-bold">42 Requests</span>
                     </div>
-                    <div class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-200">
-                        <div>
-                            <p class="font-semibold text-gray-900 text-sm">Lab Coats</p>
-                            <p class="text-xs text-gray-600">18 requests</p>
-                        </div>
-                        <span class="text-blue-600 font-bold">18</span>
-                    </div>
-                    <div class="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
-                        <div>
-                            <p class="font-semibold text-gray-900 text-sm">Programming Guides</p>
-                            <p class="text-xs text-gray-600">14 requests</p>
-                        </div>
-                        <span class="text-purple-600 font-bold">14</span>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-700">Calculators</span>
+                        <span class="bg-gray-100 text-gray-600 text-[10px] px-2 py-1 rounded font-bold">28 Requests</span>
                     </div>
                 </div>
-            </div>
-
-            <!-- Top Donors This Month -->
-            <div class="bg-white rounded-xl shadow-sm p-6">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Top Donors This Month</h3>
-                <div class="space-y-3">
-                    <div class="flex items-center space-x-3">
-                        <div class="flex-shrink-0">
-                            <img src="https://ui-avatars.com/api/?name=Alex+Johnson&background=0066cc&color=fff" alt="User" class="w-10 h-10 rounded-full">
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-gray-900 text-sm">Alex Johnson</p>
-                            <p class="text-xs text-gray-600">9 items donated</p>
-                        </div>
-                        <div class="flex items-center text-yellow-400">
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="flex-shrink-0">
-                            <img src="https://ui-avatars.com/api/?name=Sarah+Williams&background=0066cc&color=fff" alt="User" class="w-10 h-10 rounded-full">
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-gray-900 text-sm">Sarah Williams</p>
-                            <p class="text-xs text-gray-600">7 items donated</p>
-                        </div>
-                        <div class="flex items-center text-yellow-400">
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="flex-shrink-0">
-                            <img src="https://ui-avatars.com/api/?name=Michael+Brown&background=0066cc&color=fff" alt="User" class="w-10 h-10 rounded-full">
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-gray-900 text-sm">Michael Brown</p>
-                            <p class="text-xs text-gray-600">6 items donated</p>
-                        </div>
-                        <div class="flex items-center text-yellow-400">
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
+                <button class="w-full mt-6 py-2 text-sm font-bold text-blue-600 border border-blue-100 rounded-xl hover:bg-blue-50 transition">
+                    View Sustainability Leaderboard
+                </button>
             </div>
         </div>
     </div>
