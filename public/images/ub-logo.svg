@@ -1,0 +1,28 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle -->
+  <circle cx="100" cy="100" r="95" fill="#f5c518" stroke="#7b0f10" stroke-width="3"/>
+  
+  <!-- Inner circle -->
+  <circle cx="100" cy="100" r="85" fill="none" stroke="#7b0f10" stroke-width="2"/>
+  
+  <!-- Text around circle -->
+  <defs>
+    <path id="circlePath" d="M 30, 100 A 70, 70 0 0, 1 170, 100" fill="none"/>
+    <path id="circlePathBottom" d="M 170, 100 A 70, 70 0 0, 1 30, 100" fill="none"/>
+  </defs>
+  
+  <text font-family="serif" font-size="14" font-weight="bold" letter-spacing="2" fill="#7b0f10">
+    <textPath href="#circlePath" startOffset="50%" text-anchor="middle">
+      UNIVERSITY OF BATANGAS
+    </textPath>
+  </text>
+  
+  <text font-family="serif" font-size="12" letter-spacing="1" fill="#7b0f10">
+    <textPath href="#circlePathBottom" startOffset="50%" text-anchor="middle">
+      1946
+    </textPath>
+  </text>
+  
+  <!-- Center crown symbol -->
+  <text x="100" y="115" font-size="50" text-anchor="middle" fill="#7b0f10">✦</text>
+</svg>
