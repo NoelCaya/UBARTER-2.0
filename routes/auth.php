@@ -12,6 +12,15 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+// Test login route for development/testing
+Route::get('test-login', function () {
+    $user = \App\Models\User::find(2) ?? \App\Models\User::first();
+    if ($user) {
+        auth()->login($user);
+    }
+    return redirect('/dashboard');
+})->name('test.login');
+
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
         ->name('register');

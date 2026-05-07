@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Route::get('/dashboard', function () {
@@ -32,6 +32,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
     Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send');
     Route::get('/chat/{userId}', [ChatController::class, 'show'])->name('chat.show');
+    
+    // Navbar routes
+    Route::get('/wishlist', function () {
+        return view('user.wishlist');
+    })->name('wishlist');
+    
+    Route::get('/reviews', function () {
+        return view('user.reviews');
+    })->name('reviews');
+    
+    Route::get('/settings', function () {
+        return view('user.settings');
+    })->name('settings');
+    
+    Route::get('/items/search', function () {
+        $query = request('q');
+        return view('items.search', ['query' => $query]);
+    })->name('items.search');
 });
 
 require __DIR__.'/auth.php';

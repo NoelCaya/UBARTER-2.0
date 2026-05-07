@@ -7,12 +7,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50" style="overflow-x: hidden;">
     <!-- Navigation -->
     @include('components.navbar')
 
     <!-- Main Content -->
-    <div class="flex h-screen bg-gray-50 pt-16">
+    <div class="flex min-h-screen bg-gray-50 pt-16">
         <!-- Sidebar -->
         @if(auth()->check())
             @include('components.sidebar')

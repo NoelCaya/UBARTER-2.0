@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="fixed top-0 w-full bg-white border-b border-gray-200 shadow-md z-40" style="border-bottom-color: #7b0f10;">
+<nav class="fixed top-0 w-full bg-white border-b border-gray-200 shadow-md" style="border-bottom-color: #7b0f10; z-index: 9999;">
     <div class="px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->
@@ -18,13 +18,13 @@
             <!-- Center - Search (hidden on mobile) -->
             @if(auth()->check())
                 <div class="hidden md:flex flex-1 mx-8 max-w-md">
-                    <div class="relative w-full">
-                        <input type="text" placeholder="Search items, users..." 
+                    <form method="GET" action="{{ route('items.search') }}" class="relative w-full">
+                        <input type="text" name="q" placeholder="Search items, users..." 
                                class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#f5c518] text-sm">
-                        <button class="absolute right-3 top-2.5 text-gray-400 hover:text-[#7b0f10]">
+                        <button type="submit" class="absolute right-3 top-2.5 text-gray-400 hover:text-[#7b0f10]">
                             <i class="fas fa-search"></i>
                         </button>
-                    </div>
+                    </form>
                 </div>
             @endif
 
@@ -32,19 +32,19 @@
             <div class="flex items-center space-x-4">
                 @auth
                     <!-- Notifications -->
-                    <button class="relative text-gray-600 hover:text-[#7b0f10] transition">
+                    <button onclick="toggleNotifications()" class="relative text-gray-600 hover:text-[#7b0f10] transition" title="Notifications">
                         <i class="far fa-bell text-xl"></i>
                         <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
                     </button>
 
                     <!-- Chat -->
-                    <a href="{{ route('chat.index') }}" class="text-gray-600 hover:text-[#7b0f10] transition">
+                    <a href="{{ route('chat.index') }}" class="text-gray-600 hover:text-[#7b0f10] transition" title="Messages">
                         <i class="far fa-comments text-xl"></i>
                     </a>
 
                     <!-- User Menu -->
                     <div class="relative">
-                        <button id="userMenuBtn" class="flex items-center space-x-2 text-gray-700 hover:text-[#7b0f10] focus:outline-none" onclick="toggleUserMenu()">
+                        <button id="userMenuBtn" class="flex items-center space-x-2 text-gray-700 hover:text-[#7b0f10] focus:outline-none" onclick="toggleUserMenu()" title="Account Menu">
                             <img src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}&background=7b0f10&color=fff" 
                                  alt="{{ auth()->user()->name }}" class="w-8 h-8 rounded-full border-2 border-[#f5c518]">
                             <span class="hidden sm:inline text-sm font-medium">{{ auth()->user()->name }}</span>
@@ -56,11 +56,14 @@
                             <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-gray-700 hover:bg-[#f5c518]/10 hover:text-[#7b0f10] first:rounded-t-lg transition">
                                 <i class="fas fa-user mr-2"></i> My Profile
                             </a>
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-[#f5c518]/10 hover:text-[#7b0f10] transition">
+                            <a href="{{ route('wishlist') }}" class="block px-4 py-2 text-gray-700 hover:bg-[#f5c518]/10 hover:text-[#7b0f10] transition">
                                 <i class="fas fa-heart mr-2"></i> Wishlist
                             </a>
-                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-[#f5c518]/10 hover:text-[#7b0f10] transition">
+                            <a href="{{ route('reviews') }}" class="block px-4 py-2 text-gray-700 hover:bg-[#f5c518]/10 hover:text-[#7b0f10] transition">
                                 <i class="fas fa-star mr-2"></i> Reviews
+                            </a>
+                            <a href="{{ route('settings') }}" class="block px-4 py-2 text-gray-700 hover:bg-[#f5c518]/10 hover:text-[#7b0f10] transition">
+                                <i class="fas fa-cog mr-2"></i> Settings
                             </a>
                             <hr class="my-2">
                             <form method="POST" action="{{ route('logout') }}" class="block">
@@ -72,7 +75,7 @@
                         </div>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="px-4 py-2 text-[#7b0f10] font-bold hover:text-[#5a0a0b]">
+                    <a href="{{ route('login') }}" class="px-4 py-2 text-[#7b0f10] font-bold hover:text-[#5a0a0b] transition">
                         Login
                     </a>
                     <a href="{{ route('register') }}" class="px-4 py-2 bg-[#7b0f10] text-white rounded-lg hover:bg-[#5a0a0b] transition font-bold">
@@ -81,10 +84,36 @@
                 @endif
 
                 <!-- Mobile Menu Button -->
-                <button onclick="toggleMobileMenu()" class="md:hidden text-gray-600">
+                <button onclick="toggleMobileMenu()" class="md:hidden text-gray-600 hover:text-[#7b0f10]" title="Menu">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Notifications Dropdown (Hidden by default) -->
+    <div id="notificationsDropdown" class="hidden absolute right-4 top-16 w-80 bg-white rounded-lg shadow-lg z-50 border border-gray-100">
+        <div class="p-4 border-b border-gray-100">
+            <h3 class="font-bold text-gray-900">Notifications</h3>
+        </div>
+        <div class="max-h-96 overflow-y-auto">
+            <a href="#" class="block p-4 border-b border-gray-50 hover:bg-gray-50 transition">
+                <p class="font-semibold text-gray-900 text-sm">New trade request from Maria</p>
+                <p class="text-xs text-gray-600 mt-1">5 minutes ago</p>
+            </a>
+            <a href="#" class="block p-4 border-b border-gray-50 hover:bg-gray-50 transition">
+                <p class="font-semibold text-gray-900 text-sm">Your item is now trending!</p>
+                <p class="text-xs text-gray-600 mt-1">1 hour ago</p>
+            </a>
+            <a href="#" class="block p-4 hover:bg-gray-50 transition">
+                <p class="font-semibold text-gray-900 text-sm">New message from James</p>
+                <p class="text-xs text-gray-600 mt-1">3 hours ago</p>
+            </a>
+        </div>
+        <div class="p-3 border-t border-gray-100 text-center">
+            <a href="#" class="text-sm font-bold text-[#7b0f10] hover:text-[#f5c518] transition">
+                View all notifications
+            </a>
         </div>
     </div>
 </nav>
@@ -93,16 +122,28 @@
 function toggleUserMenu() {
     const dropdown = document.getElementById('userDropdown');
     dropdown.classList.toggle('hidden');
+    document.getElementById('notificationsDropdown').classList.add('hidden');
 }
 
-// Close dropdown when clicking outside
+function toggleNotifications() {
+    const dropdown = document.getElementById('notificationsDropdown');
+    dropdown.classList.toggle('hidden');
+    document.getElementById('userDropdown').classList.add('hidden');
+}
+
+// Close dropdowns when clicking outside
 document.addEventListener('click', function(event) {
-    const userMenu = document.querySelector('.relative');
     const userMenuBtn = document.getElementById('userMenuBtn');
     const userDropdown = document.getElementById('userDropdown');
+    const notificationsBtn = event.target.closest('[onclick*="toggleNotifications"]');
+    const notificationsDropdown = document.getElementById('notificationsDropdown');
     
-    if (userMenuBtn && userDropdown && event.target !== userMenuBtn && !userMenuBtn.contains(event.target)) {
+    if (userMenuBtn && !userMenuBtn.contains(event.target) && !userDropdown.contains(event.target)) {
         userDropdown.classList.add('hidden');
+    }
+    
+    if (notificationsBtn === null && notificationsDropdown && !notificationsDropdown.contains(event.target)) {
+        notificationsDropdown.classList.add('hidden');
     }
 });
 </script>
