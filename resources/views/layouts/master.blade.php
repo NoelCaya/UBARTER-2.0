@@ -7,22 +7,29 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-50" style="overflow-x: hidden;">
+<body class="bg-gray-50" style="overflow-x: hidden; color: #1a1209; margin: 0; padding: 0;">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            color: #1a1209;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
     <!-- Navigation -->
     @include('components.navbar')
 
-    <!-- Main Content -->
-    <div class="flex min-h-screen bg-gray-50">
-        <!-- Sidebar -->
-        @if(auth()->check())
-            @include('components.sidebar')
-        @endif
+    <!-- Sidebar -->
+    @if(auth()->check())
+        @include('components.sidebar')
+    @endif
 
-        <!-- Page Content -->
-        <main class="flex-1 overflow-y-auto {{ auth()->check() ? 'md:ml-64' : '' }} pt-20">
-            @yield('content')
-        </main>
-    </div>
+    <!-- Main Content -->
+    <main class="overflow-y-auto min-h-screen bg-gray-50 {{ auth()->check() ? 'md:ml-64' : '' }}" style="margin-top: 4rem;">
+        @yield('content')
+    </main>
 
     <!-- Mobile Menu Toggle Script -->
     <script>

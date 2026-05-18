@@ -49,6 +49,7 @@
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         transition: all 0.3s ease;
+        color: #1a1209;
     }
     
     .ub-card:hover {
@@ -56,9 +57,9 @@
     }
 </style>
 
-<div class="px-4 md:px-8 py-6 bg-gradient-to-b from-gray-50 to-white min-h-screen" style="max-width: 1400px; margin: 0 auto;">
+<div class="w-full px-4 md:px-8 py-6 bg-gradient-to-b from-gray-50 to-white min-h-screen">
     <!-- Header Section -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
         <div>
             <h1 class="text-6xl font-bold text-gray-900 tracking-tight mb-3">
                 Mabuhay, <span class="text-[#7b0f10]">{{ auth()->user()->name }}</span>! 🎓
@@ -71,17 +72,20 @@
             </div>
         </div>
         <div class="flex flex-wrap gap-4">
+            <a href="{{ route('items.browse') }}" class="bg-[#7b0f10] text-white hover:bg-[#5a0a0b] px-8 py-3 rounded-lg text-sm font-bold transition shadow-md flex items-center">
+                <i class="fas fa-shopping-bag mr-2"></i> Browse & Barter
+            </a>
             <a href="{{ route('trade-history') }}" class="bg-white border-2 border-[#7b0f10] text-[#7b0f10] px-8 py-3 rounded-lg text-sm font-bold hover:bg-[#7b0f10] hover:text-white transition shadow-sm">
                 <i class="fas fa-history mr-2"></i> Trade History
             </a>
-            <button class="ub-btn-gold px-8 py-3 rounded-lg text-sm font-bold shadow-md">
+            <a href="{{ route('items.create') }}" class="ub-btn-gold px-8 py-3 rounded-lg text-sm font-bold shadow-md">
                 <i class="fas fa-plus mr-2"></i> Post Item
-            </button>
+            </a>
         </div>
     </div>
 
     <!-- Stats Grid - Full Width -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
         <!-- Eco Impact Card -->
         <div class="ub-card bg-gradient-to-br from-green-500 to-green-600 text-white p-8">
             <div class="flex justify-between items-start">
@@ -127,7 +131,7 @@
     </div>
 
     <!-- Smart Matches Section - Full Width -->
-    <div class="ub-card bg-gradient-to-r from-[#f5c518]/10 to-[#7b0f10]/5 border-l-4 border-[#f5c518] p-8 mb-12">
+    <div class="ub-card bg-gradient-to-r from-[#f5c518]/10 to-[#7b0f10]/5 border-l-4 border-[#f5c518] p-8 mb-8">
         <div class="flex items-center justify-between mb-8">
             <h2 class="text-3xl font-bold text-[#7b0f10] flex items-center">
                 <i class="fas fa-wand-magic-sparkles mr-3 text-[#f5c518] text-4xl"></i> Smart Matches for You
@@ -143,11 +147,27 @@
                     Propose Barter →
                 </button>
             </div>
+            <div class="bg-white p-6 rounded-lg border-2 border-[#f5c518] shadow-sm hover:shadow-lg transition">
+                <div class="aspect-video bg-gray-200 rounded-lg mb-4 bg-cover" style="background-image: url('https://via.placeholder.com/300x150')"></div>
+                <p class="text-lg font-bold text-gray-900 mb-2">Laptop Stand</p>
+                <p class="text-sm text-gray-600 mb-4">Great for your setup!</p>
+                <button class="text-sm font-bold text-[#7b0f10] hover:text-[#f5c518] transition">
+                    Propose Barter →
+                </button>
+            </div>
+            <div class="bg-white p-6 rounded-lg border-2 border-[#f5c518] shadow-sm hover:shadow-lg transition">
+                <div class="aspect-video bg-gray-200 rounded-lg mb-4 bg-cover" style="background-image: url('https://via.placeholder.com/300x150')"></div>
+                <p class="text-lg font-bold text-gray-900 mb-2">USB Hub (7-port)</p>
+                <p class="text-sm text-gray-600 mb-4">Perfect match for your needs!</p>
+                <button class="text-sm font-bold text-[#7b0f10] hover:text-[#f5c518] transition">
+                    Propose Barter →
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- Campus Marketplace - Full Width -->
-    <div class="ub-card overflow-hidden mb-12">
+    <div class="ub-card overflow-hidden mb-8">
         <div class="p-8 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-gray-50 to-white">
             <h2 class="text-3xl font-bold text-gray-900">Campus Marketplace</h2>
             <select class="text-sm border border-[#7b0f10] bg-white text-[#7b0f10] px-4 py-2 rounded-lg font-medium focus:ring-2 focus:ring-[#f5c518]">
@@ -199,7 +219,7 @@
     </div>
 
     <!-- Bottom Section: 2 Cards Side by Side -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <!-- UBarter Quote -->
         <div class="ub-card bg-gradient-to-br from-[#7b0f10] to-[#5a0a0b] text-white p-8">
             <h3 class="font-bold text-2xl mb-4 italic">"It's better if UBarter."</h3>
@@ -265,146 +285,226 @@
         </div>
     </div>
 
-    <!-- OLD GRID THAT WAS CRAMPED - COMMENTED OUT -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 hidden">
-        <!-- Left Column (Main Content) -->
-        <div class="lg:col-span-2 space-y-8">
-            <!-- Smart Matches Section -->
-            <div class="ub-card bg-gradient-to-r from-[#f5c518]/10 to-[#7b0f10]/5 border-l-4 border-[#f5c518] p-6">
-                <div class="flex items-center justify-between mb-5">
-                    <h2 class="text-xl font-bold text-[#7b0f10] flex items-center">
-                        <i class="fas fa-wand-magic-sparkles mr-3 text-[#f5c518]"></i> Smart Matches for You
-                    </h2>
-                    <span class="text-xs font-bold text-[#f5c518] bg-[#7b0f10] px-3 py-1 rounded-full text-white">BETA</span>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-white p-4 rounded-lg border-2 border-[#f5c518] shadow-sm flex items-center space-x-4 hover:shadow-md transition">
-                        <div class="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0 bg-cover" style="background-image: url('https://via.placeholder.com/100')"></div>
-                        <div class="flex-1">
-                            <p class="text-sm font-bold text-gray-900">Drawing Board (A3)</p>
-                            <p class="text-xs text-gray-600">Matches your wishlist item!</p>
-                            <button class="mt-2 text-xs font-bold text-[#7b0f10] hover:text-[#f5c518] transition">
-                                Propose Barter →
+    <!-- Barter & Donation Browse Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Barter Module - Amazon Style -->
+        <div class="ub-card overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-gray-100 bg-gradient-to-r from-[#7b0f10] to-[#9b1a1b] sticky top-0 z-10">
+                <h2 class="text-2xl font-bold text-white flex items-center">
+                    <i class="fas fa-exchange-alt mr-3 text-[#f5c518]"></i> Barter Items
+                </h2>
+                <p class="text-white/80 text-sm mt-1">Scroll to browse items for trading</p>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6" style="max-height: 600px;">
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Product Card 1 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Mechanical Keyboard RGB</h3>
+                            <p class="text-xs text-gray-600 mt-1">Good condition</p>
+                            <p class="text-xs text-gray-500 mt-2">Alex Chen • 3h ago</p>
+                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
+                                Propose Trade
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 2 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Wireless Mouse Logitech</h3>
+                            <p class="text-xs text-gray-600 mt-1">Like new condition</p>
+                            <p class="text-xs text-gray-500 mt-2">Maria Santos • 5h ago</p>
+                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
+                                Propose Trade
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 3 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">USB-C Hub 7-Port</h3>
+                            <p class="text-xs text-gray-600 mt-1">Perfect condition</p>
+                            <p class="text-xs text-gray-500 mt-2">James Reyes • 1d ago</p>
+                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
+                                Propose Trade
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 4 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Portable Speaker</h3>
+                            <p class="text-xs text-gray-600 mt-1">Excellent condition</p>
+                            <p class="text-xs text-gray-500 mt-2">David Kim • 2d ago</p>
+                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
+                                Propose Trade
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 5 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Webcam HD 1080p</h3>
+                            <p class="text-xs text-gray-600 mt-1">Good condition</p>
+                            <p class="text-xs text-gray-500 mt-2">Lisa Wong • 3d ago</p>
+                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
+                                Propose Trade
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 6 -->
+                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Phone Stand Adjustable</h3>
+                            <p class="text-xs text-gray-600 mt-1">Like new</p>
+                            <p class="text-xs text-gray-500 mt-2">Ryan Cruz • 4d ago</p>
+                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
+                                Propose Trade
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Campus Marketplace -->
-            <div class="ub-card overflow-hidden">
-                <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-gray-50 to-white">
-                    <h2 class="text-2xl font-bold text-gray-900">Campus Marketplace</h2>
-                    <select class="text-sm border border-[#7b0f10] bg-white text-[#7b0f10] px-3 py-2 rounded-lg font-medium focus:ring-2 focus:ring-[#f5c518]">
-                        <option>All Departments</option>
-                        <option>Engineering</option>
-                        <option>ICT</option>
-                        <option>Nursing</option>
-                        <option>Business</option>
-                    </select>
-                </div>
-                <div class="divide-y divide-gray-100">
-                    <!-- Marketplace Item -->
-                    <div class="p-6 flex items-center gap-4 hover:bg-[#f5c518]/5 transition cursor-pointer group">
-                        <img src="https://via.placeholder.com/80" class="w-20 h-20 rounded-lg object-cover shadow-sm group-hover:shadow-md transition">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="bg-[#7b0f10]/10 text-[#7b0f10] text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">ICT</span>
-                                <span class="bg-green-100 text-green-700 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Donation</span>
-                            </div>
-                            <h3 class="font-bold text-gray-900">Arduino Uno Starter Kit</h3>
-                            <p class="text-xs text-gray-600 mt-1">Posted by Noelito • 2 mins ago</p>
+        <!-- Donation Module - Amazon Style -->
+        <div class="ub-card overflow-hidden flex flex-col">
+            <div class="p-6 border-b border-gray-100 bg-gradient-to-r from-green-600 to-green-700 sticky top-0 z-10">
+                <h2 class="text-2xl font-bold text-white flex items-center">
+                    <i class="fas fa-gift mr-3"></i> Free Donations
+                </h2>
+                <p class="text-white/80 text-sm mt-1">Scroll to find items for free</p>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6" style="max-height: 600px;">
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Product Card 1 -->
+                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
                         </div>
-                        <button class="p-2 text-gray-400 hover:text-[#f5c518] transition">
-                            <i class="far fa-heart text-lg"></i>
-                        </button>
-                    </div>
-                    
-                    <!-- Another Item -->
-                    <div class="p-6 flex items-center gap-4 hover:bg-[#f5c518]/5 transition cursor-pointer group">
-                        <img src="https://via.placeholder.com/80" class="w-20 h-20 rounded-lg object-cover shadow-sm group-hover:shadow-md transition">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span class="bg-[#7b0f10]/10 text-[#7b0f10] text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Nursing</span>
-                                <span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Trade</span>
-                            </div>
-                            <h3 class="font-bold text-gray-900">Nursing Textbook (2023)</h3>
-                            <p class="text-xs text-gray-600 mt-1">Posted by Maria Santos • 1 hour ago</p>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Canvas Backpack</h3>
+                            <p class="text-xs text-gray-600 mt-1">Excellent condition</p>
+                            <p class="text-xs text-gray-500 mt-2">Sarah Lee • 2h ago</p>
+                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
+                                Claim Item
+                            </button>
                         </div>
-                        <button class="p-2 text-gray-400 hover:text-[#f5c518] transition">
-                            <i class="far fa-heart text-lg"></i>
-                        </button>
                     </div>
-                </div>
-                <div class="p-4 text-center border-t border-gray-100 bg-gray-50">
-                    <a href="#" class="text-sm font-bold text-[#7b0f10] hover:text-[#f5c518] transition">
-                        View All Items →
-                    </a>
+
+                    <!-- Product Card 2 -->
+                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">LED Desk Lamp</h3>
+                            <p class="text-xs text-gray-600 mt-1">Bright & adjustable</p>
+                            <p class="text-xs text-gray-500 mt-2">John Doe • 4h ago</p>
+                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
+                                Claim Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 3 -->
+                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Calculus Study Notes</h3>
+                            <p class="text-xs text-gray-600 mt-1">Handwritten & organized</p>
+                            <p class="text-xs text-gray-500 mt-2">Emma Watson • 6h ago</p>
+                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
+                                Claim Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 4 -->
+                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Water Bottle Tumbler</h3>
+                            <p class="text-xs text-gray-600 mt-1">Stainless steel</p>
+                            <p class="text-xs text-gray-500 mt-2">Michael Torres • 1d ago</p>
+                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
+                                Claim Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 5 -->
+                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Desk Organizer Set</h3>
+                            <p class="text-xs text-gray-600 mt-1">Bamboo material</p>
+                            <p class="text-xs text-gray-500 mt-2">Jessica Park • 2d ago</p>
+                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
+                                Claim Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 6 -->
+                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
+                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
+                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Earbuds & Charging Case</h3>
+                            <p class="text-xs text-gray-600 mt-1">Fully functional</p>
+                            <p class="text-xs text-gray-500 mt-2">Chris Martinez • 3d ago</p>
+                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
+                                Claim Item
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Right Sidebar -->
-        <div class="space-y-6">
-            <!-- UBarter Quote -->
-            <div class="ub-card bg-gradient-to-br from-[#7b0f10] to-[#5a0a0b] text-white p-6">
-                <h3 class="font-bold text-lg mb-3 italic">"It's better if UBarter."</h3>
-                <p class="text-sm leading-relaxed opacity-90">
-                    Remember: Always meet in well-lit campus areas like the <strong>UB Lounge</strong> or <strong>Student Center</strong> for safety! Trust is built on transparency.
-                </p>
-                <div class="mt-4 pt-4 border-t border-white/20 flex space-x-2">
-                    <i class="fas fa-shield-alt text-[#f5c518]"></i>
-                    <span class="text-xs">Safety verified by UB Admin</span>
-                </div>
-            </div>
-
-            <!-- Sustainability Leaderboard Preview -->
-            <div class="ub-card p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-[#7b0f10] text-lg flex items-center">
-                        <i class="fas fa-leaf mr-2 text-green-600"></i> Eco Leaders
-                    </h3>
-                    <span class="text-[#f5c518] text-xs font-bold">This Week</span>
-                </div>
-                <div class="space-y-3">
-                    <!-- Rank 1 -->
-                    <div class="flex items-center justify-between p-3 bg-gradient-to-r from-[#f5c518]/10 to-transparent rounded-lg">
-                        <div class="flex items-center gap-3">
-                            <span class="w-8 h-8 bg-[#f5c518] text-[#7b0f10] rounded-full flex items-center justify-center font-bold text-sm">🥇</span>
-                            <div>
-                                <p class="font-bold text-sm text-gray-900">Alex Chen</p>
-                                <p class="text-xs text-gray-600">ECE • 28.5 kg saved</p>
-                            </div>
-                        </div>
-                        <span class="text-[#f5c518] font-bold text-sm">+8.2 kg</span>
-                    </div>
-                    
-                    <!-- Rank 2 -->
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🥈</span>
-                            <div>
-                                <p class="font-bold text-sm text-gray-900">Maria Santos</p>
-                                <p class="text-xs text-gray-600">BSN • 24.0 kg saved</p>
-                            </div>
-                        </div>
-                        <span class="text-gray-600 font-bold text-sm">+5.1 kg</span>
-                    </div>
-                    
-                    <!-- Rank 3 -->
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🥉</span>
-                            <div>
-                                <p class="font-bold text-sm text-gray-900">James Reyes</p>
-                                <p class="text-xs text-gray-600">IT • 22.3 kg saved</p>
-                            </div>
-                        </div>
-                        <span class="text-gray-600 font-bold text-sm">+3.9 kg</span>
-                    </div>
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-100">
-                    <a href="{{ route('sustainability-leaderboard') }}" class="w-full py-2 text-center text-sm font-bold text-[#7b0f10] border border-[#7b0f10] rounded-lg hover:bg-[#7b0f10] hover:text-white transition">
-                        View Full Leaderboard
-                    </a>
-                </div>
+</div>
+@endsection

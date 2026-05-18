@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TradeController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -50,6 +51,11 @@ Route::middleware('auth')->group(function () {
         $query = request('q');
         return view('items.search', ['query' => $query]);
     })->name('items.search');
+    
+    Route::get('/items/browse', [ItemController::class, 'browse'])->name('items.browse');
+    Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
+    Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+    Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
 });
 
 require __DIR__.'/auth.php';

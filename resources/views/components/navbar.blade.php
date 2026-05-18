@@ -5,9 +5,7 @@
             <!-- Logo -->
             <div class="flex items-center space-x-3">
                 <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 hover:opacity-80 transition">
-                    <div class="w-10 h-10 bg-gradient-to-br from-[#7b0f10] to-[#5a0a0b] rounded-lg flex items-center justify-center">
-                        <span class="text-[#f5c518] font-bold text-lg">UB</span>
-                    </div>
+                    <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo" class="w-9 h-9 object-contain rounded-full border-2 border-[#7b0f10]">
                     <div class="hidden sm:block">
                         <h1 class="text-lg font-bold text-[#7b0f10]">UBarter</h1>
                         <p class="text-xs text-gray-600 font-medium">University of Batangas</p>
@@ -36,11 +34,6 @@
                         <i class="far fa-bell text-xl"></i>
                         <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
                     </button>
-
-                    <!-- Chat -->
-                    <a href="{{ route('chat.index') }}" class="text-gray-600 hover:text-[#7b0f10] transition" title="Messages">
-                        <i class="far fa-comments text-xl"></i>
-                    </a>
 
                     <!-- User Menu -->
                     <div class="relative">

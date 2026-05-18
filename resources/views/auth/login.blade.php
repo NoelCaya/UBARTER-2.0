@@ -21,7 +21,12 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background: linear-gradient(135deg, #f5f3ef 0%, #f0ede7 100%);
+      background: #f5f3ef;
+      background-image: url('{{ asset("images/university-bg.png") }}');
+      background-position: center bottom;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       position: relative;
       overflow: hidden;
     }
