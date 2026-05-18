@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<aside id="mobile-sidebar" class="hidden md:flex fixed left-0 top-16 h-screen w-64 bg-gradient-to-b from-[#7b0f10] to-[#5a0a0b] text-white flex-col border-r border-[#5a0a0b]">
+<aside id="mobile-sidebar" class="hidden md:flex fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-gradient-to-b from-[#7b0f10] to-[#5a0a0b] text-white flex-col border-r border-[#5a0a0b] overflow-y-auto">
     <div class="flex-1 overflow-y-auto px-4 py-6">
         <!-- Main Menu -->
         <nav class="space-y-2">

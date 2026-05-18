@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="fixed top-0 w-full bg-white border-b border-gray-200 shadow-md" style="border-bottom-color: #7b0f10; z-index: 9999;">
+<nav class="fixed top-0 left-0 right-0 w-full bg-white border-b border-gray-200 shadow-md z-50" style="border-bottom-color: #7b0f10; height: 4rem;">
     <div class="px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <!-- Logo -->

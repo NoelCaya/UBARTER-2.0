@@ -21,12 +21,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background: #f5f3ef;
-      background-image: url('{{ asset("images/ubarter-bg.png") }}');
-      background-position: center bottom;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+      background: linear-gradient(135deg, #f5f3ef 0%, #f0ede7 100%);
       position: relative;
       overflow: hidden;
     }

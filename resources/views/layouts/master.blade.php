@@ -12,14 +12,14 @@
     @include('components.navbar')
 
     <!-- Main Content -->
-    <div class="flex min-h-screen bg-gray-50 pt-16">
+    <div class="flex min-h-screen bg-gray-50">
         <!-- Sidebar -->
         @if(auth()->check())
             @include('components.sidebar')
         @endif
 
         <!-- Page Content -->
-        <main class="flex-1 overflow-y-auto {{ auth()->check() ? 'md:ml-64' : '' }}">
+        <main class="flex-1 overflow-y-auto {{ auth()->check() ? 'md:ml-64' : '' }} pt-20">
             @yield('content')
         </main>
     </div>

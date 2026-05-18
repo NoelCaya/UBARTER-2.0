@@ -56,7 +56,7 @@
     }
 </style>
 
-<div class="p-6 md:p-12 bg-gradient-to-b from-gray-50 to-white min-h-screen" style="max-width: 1400px; margin: 0 auto;">
+<div class="px-4 md:px-8 py-6 bg-gradient-to-b from-gray-50 to-white min-h-screen" style="max-width: 1400px; margin: 0 auto;">
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
