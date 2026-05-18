@@ -37,19 +37,8 @@
         opacity: 0.95;
     }
 
-    .item-badge {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-    }
-
     .badge-barter {
-        background: var(--ub-maroon);
+        background: linear-gradient(135deg, var(--ub-maroon) 0%, #9b1a1b 100%);
         color: white;
     }
 
@@ -58,532 +47,205 @@
         color: white;
     }
 
-    .condition-badge {
-        position: absolute;
-        bottom: 12px;
-        left: 12px;
-        background: rgba(0,0,0,0.7);
-        color: white;
-        padding: 4px 10px;
-        border-radius: 4px;
-        font-size: 11px;
-        font-weight: 500;
-    }
-
     .wishlist-btn {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: white;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        transition: all 0.2s;
+        transition: all 0.2s ease;
     }
 
     .wishlist-btn:hover {
-        background: #fef3c7;
-        transform: scale(1.1);
+        transform: scale(1.15);
     }
 
     .wishlist-btn.active {
-        color: #dc2626;
-    }
-
-    .item-content {
-        padding: 12px;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .item-title {
-        font-weight: 600;
-        font-size: 13px;
-        line-height: 1.4;
-        color: #1a1a1a;
-        margin: 0 0 6px 0;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .item-category {
-        font-size: 12px;
-        color: #666;
-        margin-bottom: 8px;
-    }
-
-    .item-seller {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 8px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #eee;
-        font-size: 12px;
-    }
-
-    .seller-avatar {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .seller-info {
-        flex: 1;
-    }
-
-    .seller-name {
-        font-weight: 500;
-        color: #1a1a1a;
-        font-size: 12px;
-    }
-
-    .seller-rating {
-        font-size: 11px;
-        color: #666;
-    }
-
-    .star {
-        color: #fbbf24;
-        font-size: 11px;
-    }
-
-    .item-footer {
-        display: flex;
-        gap: 8px;
-        margin-top: auto;
-    }
-
-    .view-btn {
-        flex: 1;
-        padding: 10px;
-        background: var(--ub-maroon);
-        color: white;
-        border: none;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .view-btn:hover {
-        background: var(--ub-maroon-dark);
-    }
-
-    .inquiry-btn {
-        flex: 1;
-        padding: 10px;
-        background: var(--ub-gold);
-        color: var(--ub-maroon);
-        border: none;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .inquiry-btn:hover {
-        background: #f5c518;
-        box-shadow: 0 2px 8px rgba(245, 197, 24, 0.3);
-    }
-
-    /* Filters Sidebar */
-    .filters-section {
-        position: sticky;
-        top: 100px;
-        max-height: calc(100vh - 120px);
-        overflow-y: auto;
-    }
-
-    .filter-group {
-        margin-bottom: 20px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid #eee;
-    }
-
-    .filter-group:last-child {
-        border-bottom: none;
-    }
-
-    .filter-title {
-        font-weight: 600;
-        font-size: 13px;
-        margin-bottom: 12px;
-        color: #1a1a1a;
-    }
-
-    .filter-option {
-        display: flex;
-        align-items: center;
-        margin-bottom: 8px;
-        cursor: pointer;
-    }
-
-    .filter-option input[type="checkbox"],
-    .filter-option input[type="radio"] {
-        margin-right: 8px;
-        cursor: pointer;
-        accent-color: var(--ub-maroon);
-    }
-
-    .filter-option label {
-        flex: 1;
-        font-size: 13px;
-        cursor: pointer;
-        margin: 0;
-    }
-
-    .filter-count {
-        font-size: 12px;
-        color: #999;
-    }
-
-    .reset-btn {
-        width: 100%;
-        padding: 10px;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 13px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .reset-btn:hover {
-        background: #f9f9f9;
-    }
-
-    /* Search bar */
-    .search-box {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 20px;
-    }
-
-    .search-box input {
-        flex: 1;
-        padding: 10px 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 13px;
-        outline: none;
-        transition: border-color 0.2s;
-    }
-
-    .search-box input:focus {
-        border-color: var(--ub-maroon);
-    }
-
-    .search-box button {
-        padding: 10px 16px;
-        background: var(--ub-maroon);
-        color: white;
-        border: none;
-        border-radius: 4px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .search-box button:hover {
-        background: var(--ub-maroon-dark);
-    }
-
-    /* Sorting */
-    .sort-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid #eee;
-    }
-
-    .item-count {
-        font-size: 13px;
-        color: #666;
-    }
-
-    .sort-select {
-        padding: 8px 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 13px;
-        cursor: pointer;
-        background: white;
-    }
-
-    .view-toggle {
-        display: flex;
-        gap: 4px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 2px;
-    }
-
-    .view-toggle button {
-        padding: 6px 10px;
-        border: none;
-        background: white;
-        cursor: pointer;
-        font-size: 14px;
-        transition: all 0.2s;
-    }
-
-    .view-toggle button.active {
-        background: var(--ub-maroon);
-        color: white;
-    }
-
-    /* Pagination */
-    .pagination-section {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 40px;
-        padding-top: 20px;
-    }
-
-    .pagination-section a,
-    .pagination-section button {
-        padding: 8px 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background: white;
-        color: #666;
-        cursor: pointer;
-        text-decoration: none;
-        font-size: 13px;
-        transition: all 0.2s;
-    }
-
-    .pagination-section a:hover,
-    .pagination-section button:hover {
-        border-color: var(--ub-maroon);
-        color: var(--ub-maroon);
-    }
-
-    .pagination-section .active {
-        background: var(--ub-maroon);
-        color: white;
-        border-color: var(--ub-maroon);
-    }
-
-    /* Empty state */
-    .empty-state {
-        grid-column: 1 / -1;
-        text-align: center;
-        padding: 60px 20px;
-    }
-
-    .empty-state-icon {
-        font-size: 48px;
-        margin-bottom: 20px;
-        color: #ccc;
-    }
-
-    .empty-state-text {
-        font-size: 16px;
-        color: #666;
-        margin-bottom: 20px;
-    }
-
-    /* Scrollbar */
-    .filters-section::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .filters-section::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 10px;
-    }
-
-    .filters-section::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 10px;
-    }
-
-    .filters-section::-webkit-scrollbar-thumb:hover {
-        background: #555;
+        color: #ef4444;
     }
 </style>
 
-<div class="bg-white min-h-screen">
+<div class="w-full px-4 md:px-8 py-6 bg-gradient-to-b from-gray-50 to-white min-h-screen">
     <!-- Header -->
-    <div class="sticky top-0 z-40 bg-white border-b border-gray-200">
-        <div class="px-6 py-4">
-            <h1 class="text-2xl font-bold text-gray-900">🛍️ Browse & Barter</h1>
-            <p class="text-sm text-gray-600 mt-1">Discover items from your UBarter community</p>
-        </div>
+    <div class="mb-8">
+        <h1 class="text-5xl font-bold text-gray-900 mb-2">Browse & Barter</h1>
+        <p class="text-gray-600 text-lg">Discover available items from your UB community. Scroll, filter, and find what you need!</p>
     </div>
 
-    <div class="flex">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
         <!-- Filters Sidebar -->
-        <div class="w-64 border-r border-gray-200 p-6 filters-section">
-            <!-- Search Box -->
-            <div class="search-box mb-6">
-                <form method="GET" action="{{ route('items.browse') }}" class="flex gap-2 w-full">
-                    <input type="text" name="search" placeholder="Search items..." value="{{ $currentFilters['search'] }}" class="flex-1">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-lg shadow-md p-6 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto">
+                <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-filter mr-2 text-[#7b0f10]"></i> Filters
+                </h2>
 
-            <!-- Item Type Filter -->
-            <div class="filter-group">
-                <div class="filter-title">Type</div>
-                <form method="GET" action="{{ route('items.browse') }}" class="inline">
-                    <div class="filter-option">
-                        <input type="radio" id="type_all" name="type" value="all"
-                            {{ $currentFilters['type'] == 'all' ? 'checked' : '' }}
-                            onchange="this.form.submit()">
-                        <label for="type_all">All Types</label>
+                <form action="{{ route('items.browse') }}" method="GET" class="space-y-6">
+                    <!-- Search -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-900 mb-2">Search Items</label>
+                        <input type="text" name="search" value="{{ $currentFilters['search'] }}" placeholder="Search by title..." 
+                               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7b0f10] text-sm">
                     </div>
-                    @foreach($types as $type)
-                        <div class="filter-option">
-                            <input type="radio" id="type_{{ $loop->index }}" name="type" value="{{ $type }}"
-                                {{ $currentFilters['type'] == $type ? 'checked' : '' }}
-                                onchange="this.form.submit()">
-                            <label for="type_{{ $loop->index }}">{{ $type }}</label>
-                        </div>
-                    @endforeach
-                </form>
-            </div>
 
-            <!-- Category Filter -->
-            <div class="filter-group">
-                <div class="filter-title">Category</div>
-                <form method="GET" action="{{ route('items.browse') }}" class="inline">
-                    <div class="filter-option">
-                        <input type="radio" id="category_all" name="category" value="all"
-                            {{ $currentFilters['category'] == 'all' ? 'checked' : '' }}
-                            onchange="this.form.submit()">
-                        <label for="category_all">All Categories</label>
+                    <!-- Item Type -->
+                    <div class="pb-6 border-b border-gray-200">
+                        <h3 class="font-semibold text-gray-900 mb-3 text-sm">Item Type</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="type" value="all" {{ $currentFilters['type'] === 'all' ? 'checked' : '' }} 
+                                       class="w-4 h-4 text-[#7b0f10] rounded focus:ring-[#7b0f10]">
+                                <span class="ml-3 text-sm text-gray-700">All Items</span>
+                            </label>
+                            @foreach($types as $type)
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="type" value="{{ $type }}" {{ $currentFilters['type'] === $type ? 'checked' : '' }}
+                                           class="w-4 h-4 text-[#7b0f10] rounded focus:ring-[#7b0f10]">
+                                    <span class="ml-3 text-sm text-gray-700">{{ $type }}</span>
+                                </label>
+                            @endforeach
+                        </div>
                     </div>
-                    @foreach($categories as $category)
-                        <div class="filter-option">
-                            <input type="radio" id="category_{{ $loop->index }}" name="category" value="{{ $category }}"
-                                {{ $currentFilters['category'] == $category ? 'checked' : '' }}
-                                onchange="this.form.submit()">
-                            <label for="category_{{ $loop->index }}">{{ $category }}</label>
-                        </div>
-                    @endforeach
-                </form>
-            </div>
 
-            <!-- Condition Filter -->
-            <div class="filter-group">
-                <div class="filter-title">Condition</div>
-                <form method="GET" action="{{ route('items.browse') }}" class="inline">
-                    <div class="filter-option">
-                        <input type="radio" id="condition_all" name="condition" value="all"
-                            {{ $currentFilters['condition'] == 'all' ? 'checked' : '' }}
-                            onchange="this.form.submit()">
-                        <label for="condition_all">All Conditions</label>
+                    <!-- Category -->
+                    <div class="pb-6 border-b border-gray-200">
+                        <h3 class="font-semibold text-gray-900 mb-3 text-sm">Category</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="category" value="all" {{ $currentFilters['category'] === 'all' ? 'checked' : '' }}
+                                       class="w-4 h-4 text-[#7b0f10] rounded focus:ring-[#7b0f10]">
+                                <span class="ml-3 text-sm text-gray-700">All Categories</span>
+                            </label>
+                            @foreach($categories as $category)
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="category" value="{{ $category }}" {{ $currentFilters['category'] === $category ? 'checked' : '' }}
+                                           class="w-4 h-4 text-[#7b0f10] rounded focus:ring-[#7b0f10]">
+                                    <span class="ml-3 text-sm text-gray-700">{{ $category }}</span>
+                                </label>
+                            @endforeach
+                        </div>
                     </div>
-                    @foreach($conditions as $condition)
-                        <div class="filter-option">
-                            <input type="radio" id="condition_{{ $loop->index }}" name="condition" value="{{ $condition }}"
-                                {{ $currentFilters['condition'] == $condition ? 'checked' : '' }}
-                                onchange="this.form.submit()">
-                            <label for="condition_{{ $loop->index }}">{{ $condition }}</label>
+
+                    <!-- Condition -->
+                    <div class="pb-6 border-b border-gray-200">
+                        <h3 class="font-semibold text-gray-900 mb-3 text-sm">Condition</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="condition" value="all" {{ $currentFilters['condition'] === 'all' ? 'checked' : '' }}
+                                       class="w-4 h-4 text-[#7b0f10] rounded focus:ring-[#7b0f10]">
+                                <span class="ml-3 text-sm text-gray-700">All Conditions</span>
+                            </label>
+                            @foreach($conditions as $cond)
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="condition" value="{{ $cond }}" {{ $currentFilters['condition'] === $cond ? 'checked' : '' }}
+                                           class="w-4 h-4 text-[#7b0f10] rounded focus:ring-[#7b0f10]">
+                                    <span class="ml-3 text-sm text-gray-700">{{ $cond }}</span>
+                                </label>
+                            @endforeach
                         </div>
-                    @endforeach
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="space-y-2">
+                        <button type="submit" class="w-full py-2 bg-[#7b0f10] text-white rounded-lg font-semibold text-sm hover:bg-[#5a0a0b] transition">
+                            <i class="fas fa-search mr-2"></i> Apply Filters
+                        </button>
+                        <a href="{{ route('items.browse') }}" class="block w-full py-2 text-center border border-gray-300 text-gray-700 rounded-lg font-semibold text-sm hover:bg-gray-50 transition">
+                            <i class="fas fa-redo mr-2"></i> Reset
+                        </a>
+                    </div>
                 </form>
             </div>
-
-            <!-- Reset Button -->
-            <a href="{{ route('items.browse') }}" class="reset-btn block text-center">Reset Filters</a>
         </div>
 
-        <!-- Main Content -->
-        <div class="flex-1 p-6">
-            <!-- Sort & View Options -->
-            <div class="sort-section">
-                <div class="item-count">Showing <strong>{{ $itemCount }}</strong> items</div>
-                <form method="GET" action="{{ route('items.browse') }}" class="inline">
-                    <select name="sort" onchange="this.form.submit()" class="sort-select">
-                        <option value="newest" {{ $currentFilters['sort'] == 'newest' ? 'selected' : '' }}>Newest First</option>
-                        <option value="most_viewed" {{ $currentFilters['sort'] == 'most_viewed' ? 'selected' : '' }}>Most Viewed</option>
-                        <option value="highest_rated" {{ $currentFilters['sort'] == 'highest_rated' ? 'selected' : '' }}>Highest Rated</option>
-                        <option value="most_wishlisted" {{ $currentFilters['sort'] == 'most_wishlisted' ? 'selected' : '' }}>Most Wishlisted</option>
-                    </select>
-                </form>
+        <!-- Items Grid -->
+        <div class="lg:col-span-4">
+            <!-- Header Bar -->
+            <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <p class="text-sm text-gray-600">
+                            Showing <span class="font-bold text-gray-900">{{ $items->count() }}</span> of 
+                            <span class="font-bold text-gray-900">{{ $itemCount }}</span> items
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <label class="text-sm text-gray-700 font-medium">Sort by:</label>
+                        <form action="{{ route('items.browse') }}" method="GET" class="flex">
+                            <input type="hidden" name="search" value="{{ $currentFilters['search'] }}">
+                            <input type="hidden" name="type" value="{{ $currentFilters['type'] }}">
+                            <input type="hidden" name="category" value="{{ $currentFilters['category'] }}">
+                            <input type="hidden" name="condition" value="{{ $currentFilters['condition'] }}">
+                            <select name="sort" onchange="this.form.submit()" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7b0f10] text-sm">
+                                <option value="newest" {{ $currentFilters['sort'] === 'newest' ? 'selected' : '' }}>Newest</option>
+                                <option value="most_viewed" {{ $currentFilters['sort'] === 'most_viewed' ? 'selected' : '' }}>Most Popular</option>
+                                <option value="highest_rated" {{ $currentFilters['sort'] === 'highest_rated' ? 'selected' : '' }}>Highest Rated</option>
+                                <option value="most_wishlisted" {{ $currentFilters['sort'] === 'most_wishlisted' ? 'selected' : '' }}>Most Wishlisted</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
             </div>
 
-            <!-- Items Grid -->
             @if($items->count() > 0)
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Items Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                     @foreach($items as $item)
                         <div class="item-card">
-                            <!-- Image Container -->
-                            <div class="relative group overflow-hidden bg-gray-100" style="height: 280px;">
-                                @if($item->image_url)
-                                    <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="item-image w-full h-full">
-                                @else
-                                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-300 to-gray-400">
-                                        <i class="fas fa-image text-gray-500 text-4xl"></i>
-                                    </div>
-                                @endif
-
+                            <!-- Image Section -->
+                            <div class="relative overflow-hidden bg-gray-100">
+                                <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="item-image" loading="lazy">
+                                
                                 <!-- Type Badge -->
-                                <span class="item-badge {{ $item->item_type == 'Barter' ? 'badge-barter' : 'badge-donation' }}">
-                                    {{ $item->item_type }}
-                                </span>
-
-                                <!-- Condition -->
-                                <div class="condition-badge">{{ $item->condition }}</div>
+                                <div class="absolute top-3 right-3 badge-{{ strtolower($item->item_type) }} px-3 py-1 rounded-full text-xs font-bold shadow-md">
+                                    <i class="fas fa-{{ $item->item_type === 'Barter' ? 'exchange-alt' : 'gift' }} mr-1"></i>{{ $item->item_type }}
+                                </div>
 
                                 <!-- Wishlist Button -->
-                                <button class="wishlist-btn" onclick="toggleWishlist(this, {{ $item->id }})">
-                                    <i class="far fa-heart"></i>
+                                <button class="absolute top-3 left-3 w-10 h-10 bg-white rounded-full flex items-center justify-center wishlist-btn shadow-md hover:bg-red-50 transition">
+                                    <i class="far fa-heart text-red-500 text-lg"></i>
                                 </button>
+
+                                <!-- Condition Badge -->
+                                <div class="absolute bottom-3 left-3 bg-black/60 text-white px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
+                                    {{ $item->condition }}
+                                </div>
+
+                                <!-- Views Count -->
+                                <div class="absolute bottom-3 right-3 bg-black/60 text-white px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
+                                    <i class="fas fa-eye mr-1"></i>{{ $item->views }}
+                                </div>
                             </div>
 
-                            <!-- Content -->
-                            <div class="item-content">
+                            <!-- Content Section -->
+                            <div class="flex flex-col flex-grow p-4">
                                 <!-- Title -->
-                                <h3 class="item-title">{{ $item->title }}</h3>
+                                <h3 class="font-bold text-gray-900 text-sm line-clamp-2 mb-2 hover:text-maroon cursor-pointer">
+                                    {{ $item->title }}
+                                </h3>
 
-                                <!-- Category -->
-                                <p class="item-category">{{ $item->category }}</p>
+                                <!-- Category & Location -->
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-medium">
+                                        {{ $item->category }}
+                                    </span>
+                                </div>
 
                                 <!-- Seller Info -->
-                                <div class="item-seller">
-                                    @if($item->user->profile_photo_path)
-                                        <img src="{{ asset('storage/' . $item->user->profile_photo_path) }}" alt="{{ $item->user->name }}" class="seller-avatar">
-                                    @else
-                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($item->user->name) }}&background=7b0f10&color=fff" alt="{{ $item->user->name }}" class="seller-avatar">
-                                    @endif
-                                    <div class="seller-info flex-1">
-                                        <div class="seller-name">{{ $item->user->name }}</div>
-                                        <div class="seller-rating">
-                                            <span class="star">★</span> {{ number_format($item->seller_rating, 1) }}
+                                <div class="flex items-center gap-2 mb-3 pb-3 border-b border-gray-200">
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($item->user->name) }}&background=7b0f10&color=fff&bold=true" 
+                                         alt="{{ $item->user->name }}" class="w-8 h-8 rounded-full">
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs font-medium text-gray-900 truncate">{{ $item->user->name }}</p>
+                                        <div class="flex items-center gap-1">
+                                            <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                            <span class="text-xs text-gray-600">{{ number_format($item->seller_rating, 1) }}</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Action Buttons -->
-                                <div class="item-footer">
-                                    <a href="{{ route('items.show', $item) }}" class="view-btn">
-                                        View
-                                    </a>
-                                    <button class="inquiry-btn" onclick="sendInquiry({{ $item->id }})">
-                                        Message
-                                    </button>
-                                </div>
+                                <!-- Description Preview -->
+                                <p class="text-xs text-gray-600 mb-4 line-clamp-2">{{ $item->description }}</p>
+
+                                <!-- Action Button -->
+                                <a href="{{ route('items.show', $item) }}" class="mt-auto w-full py-2 bg-[#7b0f10] hover:bg-[#5a0a0b] text-white rounded-lg font-semibold text-sm transition text-center">
+                                    <i class="fas fa-eye mr-1"></i> View Details
+                                </a>
                             </div>
                         </div>
                     @endforeach
@@ -591,49 +253,25 @@
 
                 <!-- Pagination -->
                 @if($items->hasPages())
-                    <div class="pagination-section">
-                        @if($items->onFirstPage())
-                            <span class="opacity-50 cursor-not-allowed">← Previous</span>
-                        @else
-                            <a href="{{ $items->previousPageUrl() }}">← Previous</a>
-                        @endif
-
-                        @foreach($items->getUrlRange(1, $items->lastPage()) as $page => $url)
-                            @if($page == $items->currentPage())
-                                <button class="active">{{ $page }}</button>
-                            @else
-                                <a href="{{ $url }}">{{ $page }}</a>
-                            @endif
-                        @endforeach
-
-                        @if($items->hasMorePages())
-                            <a href="{{ $items->nextPageUrl() }}">Next →</a>
-                        @else
-                            <span class="opacity-50 cursor-not-allowed">Next →</span>
-                        @endif
+                    <div class="flex justify-center my-8">
+                        {{ $items->appends(request()->query())->links() }}
                     </div>
                 @endif
             @else
-                <div class="empty-state">
-                    <div class="empty-state-icon">📭</div>
-                    <div class="empty-state-text">No items found matching your criteria</div>
-                    <a href="{{ route('items.browse') }}" class="view-btn inline-block">Clear Filters</a>
+                <!-- Empty State -->
+                <div class="bg-white rounded-lg shadow-sm p-12 text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-inbox text-6xl text-gray-300"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">No items found</h3>
+                    <p class="text-gray-600 mb-6">Try adjusting your filters or search terms to find what you're looking for.</p>
+                    <a href="{{ route('items.browse') }}" class="inline-block px-6 py-2 bg-[#7b0f10] text-white rounded-lg font-semibold hover:bg-[#5a0a0b] transition">
+                        <i class="fas fa-redo mr-2"></i> Clear Filters
+                    </a>
                 </div>
             @endif
         </div>
     </div>
 </div>
 
-<script>
-    function toggleWishlist(button, itemId) {
-        event.preventDefault();
-        button.classList.toggle('active');
-        // Add your wishlist functionality here
-    }
-
-    function sendInquiry(itemId) {
-        // Navigate to chat or message page
-        // window.location.href = `/chat?item=${itemId}`;
-    }
-</script>
 @endsection

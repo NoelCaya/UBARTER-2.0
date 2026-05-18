@@ -72,8 +72,8 @@
             </div>
         </div>
         <div class="flex flex-wrap gap-4">
-            <a href="{{ route('items.browse') }}" class="bg-[#7b0f10] text-white hover:bg-[#5a0a0b] px-8 py-3 rounded-lg text-sm font-bold transition shadow-md flex items-center">
-                <i class="fas fa-shopping-bag mr-2"></i> Browse & Barter
+            <a href="{{ route('items.browse') }}" class="bg-white border-2 border-[#7b0f10] text-[#7b0f10] px-8 py-3 rounded-lg text-sm font-bold hover:bg-[#7b0f10] hover:text-white transition shadow-sm">
+                <i class="fas fa-shopping-cart mr-2"></i> Browse Items
             </a>
             <a href="{{ route('trade-history') }}" class="bg-white border-2 border-[#7b0f10] text-[#7b0f10] px-8 py-3 rounded-lg text-sm font-bold hover:bg-[#7b0f10] hover:text-white transition shadow-sm">
                 <i class="fas fa-history mr-2"></i> Trade History

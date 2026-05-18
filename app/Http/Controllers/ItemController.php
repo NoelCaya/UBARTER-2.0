@@ -8,35 +8,31 @@ use Illuminate\Http\Request;
 class ItemController extends Controller
 {
     /**
-     * Browse all items with filters
+     * Display browse page with filters
      */
     public function browse(Request $request)
     {
         $query = Item::active();
 
-        // Filter by item type
-        if ($request->has('type') && $request->type != 'all') {
-            $query->byType($request->type);
+        // Apply filters
+        if ($request->search) {
+            $query->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('description', 'like', '%' . $request->search . '%');
         }
 
-        // Filter by category
-        if ($request->has('category') && $request->category != 'all') {
-            $query->category($request->category);
+        if ($request->category && $request->category != 'all') {
+            $query->where('category', $request->category);
         }
 
-        // Filter by condition
-        if ($request->has('condition') && $request->condition != 'all') {
-            $query->byCondition($request->condition);
+        if ($request->type && $request->type != 'all') {
+            $query->where('item_type', $request->type);
         }
 
-        // Search
-        if ($request->has('search') && $request->search) {
-            $search = $request->search;
-            $query->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+        if ($request->condition && $request->condition != 'all') {
+            $query->where('condition', $request->condition);
         }
 
-        // Sorting
+        // Apply sorting
         $sort = $request->sort ?? 'newest';
         switch ($sort) {
             case 'newest':
@@ -130,9 +126,82 @@ class ItemController extends Controller
         ]);
 
         $validated['user_id'] = auth()->id();
+        $validated['status'] = 'Active';
+        $validated['posted_at'] = now();
 
         Item::create($validated);
 
         return redirect()->route('items.browse')->with('success', 'Item posted successfully!');
+    }
+
+    /**
+     * Search items
+     */
+    public function search(Request $request)
+    {
+        $query = Item::active();
+        $searchQuery = $request->input('q', '');
+
+        // Search by title and description
+        if ($searchQuery) {
+            $query->where(function ($q) use ($searchQuery) {
+                $q->where('title', 'like', '%' . $searchQuery . '%')
+                  ->orWhere('description', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        // Apply filters
+        if ($request->category && $request->category != 'all') {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->condition && $request->condition != 'all') {
+            $query->where('condition', $request->condition);
+        }
+
+        if ($request->type && $request->type != 'all') {
+            $query->where('item_type', $request->type);
+        }
+
+        // Apply sorting
+        $sort = $request->sort ?? 'newest';
+        switch ($sort) {
+            case 'newest':
+                $query->newest();
+                break;
+            case 'most_viewed':
+                $query->mostViewed();
+                break;
+            case 'highest_rated':
+                $query->highestRated();
+                break;
+            case 'most_wishlisted':
+                $query->orderBy('wishlist_count', 'desc');
+                break;
+            default:
+                $query->newest();
+        }
+
+        // Paginate
+        $items = $query->with('user')->paginate(12);
+
+        // Get filter options
+        $categories = Item::distinct()->pluck('category')->sort();
+        $conditions = ['New', 'Slightly Used', 'Used'];
+        $types = ['Barter', 'Donation'];
+
+        return view('items.search', [
+            'items' => $items,
+            'query' => $searchQuery,
+            'categories' => $categories,
+            'conditions' => $conditions,
+            'types' => $types,
+            'currentFilters' => [
+                'type' => $request->type ?? 'all',
+                'category' => $request->category ?? 'all',
+                'condition' => $request->condition ?? 'all',
+                'sort' => $sort,
+            ]
+        ]);
     }
 }

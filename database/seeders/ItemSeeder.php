@@ -113,28 +113,21 @@ class ItemSeeder extends Seeder
                 'item_type' => 'Barter',
             ],
             [
-                'title' => 'Student Desk Lamp',
-                'description' => 'LED desk lamp with 3 brightness levels. Energy efficient. White color.',
+                'title' => 'Study Desk Organization Kit',
+                'description' => 'Complete desk organizer with drawers, shelves, and pen holders.',
                 'category' => 'Furniture',
+                'condition' => 'Used',
+                'item_type' => 'Barter',
+            ],
+            [
+                'title' => 'Wireless Mouse USB',
+                'description' => 'Silent wireless mouse with long battery life. Perfect for lectures and coding.',
+                'category' => 'Electronics',
                 'condition' => 'Slightly Used',
                 'item_type' => 'Barter',
             ],
             [
-                'title' => 'Library Research Handbook',
-                'description' => 'Guide to academic research, citations, and documentation styles.',
-                'category' => 'Books & Textbooks',
-                'condition' => 'Used',
-                'item_type' => 'Donation',
-            ],
-            [
-                'title' => 'USB Hub 7-Port',
-                'description' => 'High-speed USB 3.0 hub. Compatible with all laptops and computers.',
-                'category' => 'Electronics',
-                'condition' => 'New',
-                'item_type' => 'Barter',
-            ],
-            [
-                'title' => 'Engineering Calculator',
+                'title' => 'Scientific Calculator',
                 'description' => 'Scientific calculator with graphing capabilities. Model: Casio FX-9860GII.',
                 'category' => 'Electronics',
                 'condition' => 'Slightly Used',
@@ -158,14 +151,75 @@ class ItemSeeder extends Seeder
                 'title' => 'Chemistry Lab Manual',
                 'description' => 'Complete chemistry lab procedures and safety guidelines. Full of diagrams.',
                 'category' => 'Books & Textbooks',
+                'condition' => 'Used',
+                'item_type' => 'Donation',
+            ],
+            [
+                'title' => 'Book Shelf Storage',
+                'description' => 'Wooden book shelf with 5 compartments. Great for organizing textbooks.',
+                'category' => 'Furniture',
                 'condition' => 'Slightly Used',
+                'item_type' => 'Barter',
+            ],
+            [
+                'title' => 'USB Hub 7-Port',
+                'description' => 'High-speed USB 3.0 hub. Compatible with all laptops and computers.',
+                'category' => 'Electronics',
+                'condition' => 'New',
+                'item_type' => 'Barter',
+            ],
+            [
+                'title' => 'Engineering Calculator',
+                'description' => 'Full-function engineering calculator suitable for math and science courses.',
+                'category' => 'Electronics',
+                'condition' => 'New',
+                'item_type' => 'Barter',
+            ],
+            [
+                'title' => 'Student Desk Lamp',
+                'description' => 'LED desk lamp with 3 brightness levels. Energy efficient. White color.',
+                'category' => 'Furniture',
+                'condition' => 'Slightly Used',
+                'item_type' => 'Barter',
+            ],
+            [
+                'title' => 'Library Research Handbook',
+                'description' => 'Guide to academic research, citations, and documentation styles.',
+                'category' => 'Books & Textbooks',
+                'condition' => 'Used',
+                'item_type' => 'Donation',
+            ],
+            [
+                'title' => 'Stationary Supply Pack',
+                'description' => 'Complete pack with notebooks, pens, markers, and highlighters.',
+                'category' => 'Office Supplies',
+                'condition' => 'New',
                 'item_type' => 'Barter',
             ],
         ];
 
+        // Image keywords based on categories
+        $imageKeywords = [
+            'Books & Textbooks' => ['textbook', 'book', 'study', 'reading'],
+            'Uniforms & Apparel' => ['clothing', 'uniform', 'shirt', 'apparel'],
+            'Lab Supplies' => ['laboratory', 'microscope', 'science', 'equipment'],
+            'Electronics' => ['laptop', 'keyboard', 'technology', 'gadget'],
+            'Furniture' => ['desk', 'furniture', 'shelf', 'storage'],
+            'Art & Craft Supplies' => ['art', 'drawing', 'painting', 'canvas'],
+            'Office Supplies' => ['stationery', 'notebook', 'pen', 'supplies'],
+        ];
+
+        $itemIndex = 0;
         foreach ($sampleItems as $itemData) {
             $itemData['user_id'] = $users->random()->id;
-            $itemData['image_url'] = 'https://via.placeholder.com/400x300?text=' . urlencode($itemData['title']);
+            
+            // Generate stock image URL from Unsplash
+            $keywords = $imageKeywords[$itemData['category']] ?? ['student', 'study'];
+            $randomKeyword = $keywords[array_rand($keywords)];
+            // Add some randomness with a number to get different images
+            $randomNum = rand(1, 100);
+            $itemData['image_url'] = "https://source.unsplash.com/400x300/?{$randomKeyword}&sig={$randomNum}";
+            
             $itemData['views'] = rand(10, 500);
             $itemData['wishlist_count'] = rand(0, 50);
             $itemData['seller_rating'] = rand(40, 50) / 10;
@@ -173,6 +227,7 @@ class ItemSeeder extends Seeder
             $itemData['posted_at'] = now()->subDays(rand(1, 30));
 
             Item::create($itemData);
+            $itemIndex++;
         }
     }
 }

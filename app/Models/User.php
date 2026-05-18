@@ -48,4 +48,52 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the items this user has posted
+     */
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
+
+    /**
+     * Get this user's wishlist
+     */
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    /**
+     * Get reviews written by this user
+     */
+    public function reviewsGiven()
+    {
+        return $this->hasMany(Review::class, 'reviewer_id');
+    }
+
+    /**
+     * Get reviews about this user
+     */
+    public function reviewsReceived()
+    {
+        return $this->hasMany(Review::class, 'reviewee_id');
+    }
+
+    /**
+     * Get average rating for this user
+     */
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviewsReceived()->avg('rating') ?? 0;
+    }
+
+    /**
+     * Get total review count
+     */
+    public function getReviewCountAttribute()
+    {
+        return $this->reviewsReceived()->count();
+    }
 }

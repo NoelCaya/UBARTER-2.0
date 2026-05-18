@@ -387,7 +387,7 @@
   <!-- NAVBAR -->
   <nav class="ub-topnav">
     <a class="ub-brand" href="/">
-      <img src="{{ asset('images/ub-logo.svg') }}" alt="UB Logo"/>
+      <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo"/>
       <span class="ub-brand-name">University of Batangas</span>
     </a>
     <div class="ub-nav-links">

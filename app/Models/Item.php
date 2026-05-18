@@ -94,4 +94,20 @@ class Item extends Model
     {
         return $query->orderBy('views', 'desc');
     }
+
+    /**
+     * Get users who wishlisted this item
+     */
+    public function wishlistedBy()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    /**
+     * Get reviews for this item
+     */
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
