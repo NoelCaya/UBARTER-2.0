@@ -3,226 +3,209 @@
 @section('title', 'My Profile')
 
 @section('content')
-<div class="px-4 md:px-6 py-6 max-w-6xl mx-auto">
-    <!-- Profile Header -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
-        <!-- Profile Card -->
-        <div class="lg:col-span-2">
-            <div class="bg-white rounded-xl shadow-sm p-6">
-                <div class="flex flex-col sm:flex-row sm:items-start sm:gap-5 mb-5 pb-5 border-b border-gray-100">
-                    <!-- Avatar -->
-                    <img src="https://ui-avatars.com/api/?name=John+Doe&size=120&background=7b0f10&color=fff"
-                         alt="John Doe" class="w-24 h-24 rounded-full border-4 border-[#f5c518] mb-4 sm:mb-0 flex-shrink-0">
+<div style="max-width:900px; margin:0 auto; padding:24px 16px;">
 
-                    <!-- Profile Info -->
-                    <div class="flex-1">
-                        <div class="flex items-start justify-between gap-3">
-                            <div>
-                                <h1 class="text-xl font-bold text-gray-900">John Doe</h1>
-                                <p class="text-gray-500 text-sm">Engineering Student · University of Batangas</p>
-                            </div>
-                            <a href="{{ route('profile.edit') }}" class="flex-shrink-0 px-4 py-2 bg-[#7b0f10] text-white rounded-lg hover:bg-[#5a0a0b] transition font-semibold text-sm">
-                                Edit Profile
-                            </a>
-                        </div>
-
-                        <!-- Badges -->
-                        <div class="flex flex-wrap gap-2 mt-3 mb-3">
-                            <span class="px-2.5 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold flex items-center gap-1">
-                                <i class="fas fa-check-circle text-xs"></i> Trusted Trader
-                            </span>
-                            <span class="px-2.5 py-1 bg-[#f5c518]/20 text-[#7b0f10] rounded-full text-xs font-semibold flex items-center gap-1">
-                                <i class="fas fa-bolt text-xs"></i> Quick Responder
-                            </span>
-                        </div>
-
-                        <!-- Rating -->
-                        <div class="flex items-center gap-4">
-                            <div>
-                                <div class="flex items-center gap-1 text-[#f5c518] text-sm">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-0.5">4.8 rating (156 reviews)</p>
-                            </div>
-                            <div class="border-l border-gray-200 pl-4">
-                                <p class="text-xl font-bold text-gray-900">23</p>
-                                <p class="text-xs text-gray-500">Successful Trades</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bio -->
-                <div class="mb-5">
-                    <h2 class="text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide">About</h2>
-                    <p class="text-gray-600 text-sm leading-relaxed">
-                        Third-year engineering student with a passion for sustainability and helping classmates. I love bartering for resources and helping the community through donations.
-                    </p>
-                </div>
-
-                <!-- Contact Info -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-5 border-b border-gray-100 mb-5">
-                    <div>
-                        <p class="text-xs text-gray-400 mb-0.5">Email</p>
-                        <p class="font-semibold text-gray-900 text-sm">john.doe@ub.edu.ph</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400 mb-0.5">Member Since</p>
-                        <p class="font-semibold text-gray-900 text-sm">January 15, 2024</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400 mb-0.5">Location</p>
-                        <p class="font-semibold text-gray-900 text-sm">University of Batangas, Batangas City</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400 mb-0.5">Response Rate</p>
-                        <p class="font-semibold text-gray-900 text-sm">99% · replies in ~2 hours</p>
-                    </div>
-                </div>
-
-                <!-- Stats -->
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="bg-[#7b0f10]/5 rounded-lg p-3 text-center border border-[#7b0f10]/10">
-                        <p class="text-xl font-bold text-[#7b0f10]">12</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Items Posted</p>
-                    </div>
-                    <div class="bg-green-50 rounded-lg p-3 text-center border border-green-100">
-                        <p class="text-xl font-bold text-green-600">8</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Donations Made</p>
-                    </div>
-                    <div class="bg-purple-50 rounded-lg p-3 text-center border border-purple-100">
-                        <p class="text-xl font-bold text-purple-600">15</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Items Received</p>
-                    </div>
-                </div>
+    <!-- Profile Header Card -->
+    <div style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 1px 6px rgba(0,0,0,0.08); margin-bottom:20px;">
+        <!-- Cover Banner -->
+        <div style="height:120px; background:linear-gradient(135deg,#7b0f10 0%,#5a0a0b 60%,#9b1a1b 100%); position:relative;">
+            <div style="position:absolute; bottom:-40px; left:24px;">
+                <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=f5c518&color=7b0f10&bold=true&size=80"
+                     alt="{{ auth()->user()->name }}"
+                     style="width:80px;height:80px;border-radius:50%;border:4px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.15);">
             </div>
         </div>
 
-        <!-- Sidebar -->
-        <div class="space-y-4">
-            <!-- Quick Actions -->
-            <div class="bg-white rounded-xl shadow-sm p-5">
-                <h3 class="font-bold text-gray-900 text-sm mb-3">Quick Actions</h3>
-                <div class="space-y-2">
-                    <a href="{{ route('items.create') }}" class="flex items-center w-full px-4 py-2.5 bg-[#7b0f10] text-white rounded-lg hover:bg-[#5a0a0b] transition font-semibold text-sm">
-                        <i class="fas fa-plus mr-2 text-xs"></i>Post New Item
-                    </a>
-                    <a href="{{ route('items.browse') }}" class="flex items-center w-full px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-semibold text-sm">
-                        <i class="fas fa-box mr-2 text-xs"></i>My Listings
-                    </a>
-                    <a href="{{ route('wishlist') }}" class="flex items-center w-full px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-semibold text-sm">
-                        <i class="fas fa-heart mr-2 text-xs"></i>Wishlist
-                    </a>
+        <!-- Info Row -->
+        <div style="padding:52px 24px 20px; display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+            <div>
+                <h1 style="font-size:1.4rem;font-weight:800;color:#1a1209;margin:0 0 4px;">{{ auth()->user()->name }}</h1>
+                <p style="font-size:0.82rem;color:#6b7280;margin:0 0 8px;">{{ auth()->user()->email }}</p>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <span style="background:#7b0f10;color:#fff;font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:0.05em;">UB MAIN</span>
+                    <span style="background:#dcfce7;color:#16a34a;font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:999px;display:flex;align-items:center;gap:4px;">
+                        <i class="fas fa-check-circle" style="font-size:0.65rem;"></i> UBmail Verified
+                    </span>
+                    <span style="background:#fef9c3;color:#92400e;font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:999px;">Trusted Trader</span>
                 </div>
             </div>
+            <a href="{{ route('profile.edit') }}"
+               style="background:#7b0f10;color:#fff;font-size:0.82rem;font-weight:700;padding:8px 18px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:background 0.15s;"
+               onmouseover="this.style.background='#5a0a0b'" onmouseout="this.style.background='#7b0f10'">
+                <i class="fas fa-pen" style="font-size:0.75rem;"></i> Edit Profile
+            </a>
+        </div>
 
-            <!-- Verification Status -->
-            <div class="bg-green-50 rounded-xl shadow-sm p-5 border-l-4 border-green-500">
-                <h3 class="font-bold text-gray-900 text-sm mb-3 flex items-center gap-2">
-                    <i class="fas fa-shield-alt text-green-600"></i> Verification Status
-                </h3>
-                <div class="space-y-2 text-xs">
-                    <div class="flex items-center gap-2 text-green-700">
-                        <i class="fas fa-check-circle"></i><span>Email Verified</span>
-                    </div>
-                    <div class="flex items-center gap-2 text-green-700">
-                        <i class="fas fa-check-circle"></i><span>University ID Verified</span>
-                    </div>
-                    <div class="flex items-center gap-2 text-gray-400">
-                        <i class="far fa-circle"></i><span>Phone Not Verified</span>
-                    </div>
-                </div>
-                <button class="mt-3 text-xs text-green-700 hover:text-green-800 font-semibold">Verify Phone →</button>
+        <!-- Stats Strip -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #f3f4f6;text-align:center;">
+            @foreach([['23','Trades'],['12','Items Posted'],['8','Donations'],['4.9','Trust Score']] as $s)
+            <div style="padding:14px 8px; border-right:1px solid #f3f4f6;">
+                <p style="font-size:1.3rem;font-weight:800;color:#7b0f10;margin:0;">{{ $s[0] }}</p>
+                <p style="font-size:0.7rem;color:#9ca3af;margin:2px 0 0;font-weight:600;">{{ $s[1] }}</p>
             </div>
-
-            <!-- Reputation -->
-            <div class="bg-white rounded-xl shadow-sm p-5">
-                <h3 class="font-bold text-gray-900 text-sm mb-3">Reputation Score</h3>
-                <div class="text-center mb-3">
-                    <p class="text-4xl font-bold text-[#7b0f10]">94</p>
-                    <p class="text-xs text-gray-500">Excellent</p>
-                </div>
-                <div class="space-y-1.5 text-xs">
-                    <div class="flex justify-between">
-                        <span class="text-gray-500">Positive ratings</span>
-                        <span class="font-semibold text-gray-900">156</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-500">Neutral ratings</span>
-                        <span class="font-semibold text-gray-900">2</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-500">Negative ratings</span>
-                        <span class="font-semibold text-gray-900">0</span>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 
-    <!-- Reviews & Activity -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <div class="lg:col-span-2">
-            <div class="bg-white rounded-xl shadow-sm p-6">
-                <h2 class="text-lg font-bold text-gray-900 mb-5">Reviews from Other Users</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 
-                <div class="space-y-5">
-                    <!-- Review 1 -->
-                    <div class="border-b border-gray-100 pb-5 last:border-b-0 last:pb-0">
-                        <div class="flex items-start justify-between mb-2">
-                            <div class="flex items-center gap-3">
-                                <img src="https://ui-avatars.com/api/?name=Sarah+Lee&background=7b0f10&color=fff" alt="Sarah Lee" class="w-9 h-9 rounded-full">
-                                <div>
-                                    <p class="font-semibold text-gray-900 text-sm">Sarah Lee</p>
-                                    <p class="text-xs text-gray-400">2 weeks ago</p>
-                                </div>
-                            </div>
-                            <div class="flex text-[#f5c518] text-xs">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 text-sm">Excellent trade! The calculus book was in perfect condition. John was very professional and responsive. Would definitely trade with again!</p>
-                    </div>
+        <!-- Left Column -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
 
-                    <!-- Review 2 -->
-                    <div class="border-b border-gray-100 pb-5 last:border-b-0 last:pb-0">
-                        <div class="flex items-start justify-between mb-2">
-                            <div class="flex items-center gap-3">
-                                <img src="https://ui-avatars.com/api/?name=Michael+Brown&background=7b0f10&color=fff" alt="Michael Brown" class="w-9 h-9 rounded-full">
-                                <div>
-                                    <p class="font-semibold text-gray-900 text-sm">Michael Brown</p>
-                                    <p class="text-xs text-gray-400">1 month ago</p>
-                                </div>
-                            </div>
-                            <div class="flex text-[#f5c518] text-xs">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 text-sm">Good condition uniform set. Pickup was easy. Wish communication could have been faster, but overall a smooth transaction.</p>
+            <!-- About -->
+            <div style="background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+                <h2 style="font-size:0.95rem;font-weight:800;color:#1a1209;margin:0 0 12px;display:flex;align-items:center;gap:8px;">
+                    <i class="fas fa-user" style="color:#7b0f10;font-size:0.85rem;"></i> About
+                </h2>
+                <p style="font-size:0.82rem;color:#4b5563;line-height:1.7;margin:0 0 12px;">
+                    Third-year engineering student with a passion for sustainability and helping classmates. I love bartering for resources and helping the community through donations.
+                </p>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.8rem;color:#6b7280;">
+                        <i class="fas fa-envelope" style="color:#7b0f10;width:14px;text-align:center;"></i>
+                        <span>{{ auth()->user()->email }}</span>
                     </div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.8rem;color:#6b7280;">
+                        <i class="fas fa-map-marker-alt" style="color:#7b0f10;width:14px;text-align:center;"></i>
+                        <span>University of Batangas, Batangas City</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.8rem;color:#6b7280;">
+                        <i class="fas fa-calendar" style="color:#7b0f10;width:14px;text-align:center;"></i>
+                        <span>Member since January 2024</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.8rem;color:#6b7280;">
+                        <i class="fas fa-reply" style="color:#7b0f10;width:14px;text-align:center;"></i>
+                        <span>Responds in ~2 hours · 99% rate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verification -->
+            <div style="background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+                <h2 style="font-size:0.95rem;font-weight:800;color:#1a1209;margin:0 0 12px;display:flex;align-items:center;gap:8px;">
+                    <i class="fas fa-shield-alt" style="color:#16a34a;font-size:0.85rem;"></i> Verification
+                </h2>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.82rem;color:#16a34a;">
+                        <i class="fas fa-check-circle"></i><span>Email Verified</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.82rem;color:#16a34a;">
+                        <i class="fas fa-check-circle"></i><span>University ID Verified</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.82rem;color:#d1d5db;">
+                        <i class="far fa-circle"></i><span style="color:#9ca3af;">Phone Not Verified</span>
+                    </div>
+                </div>
+                <button style="margin-top:12px;font-size:0.75rem;color:#7b0f10;font-weight:700;background:none;border:none;cursor:pointer;padding:0;">
+                    Verify Phone →
+                </button>
+            </div>
+
+            <!-- Quick Actions -->
+            <div style="background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+                <h2 style="font-size:0.95rem;font-weight:800;color:#1a1209;margin:0 0 12px;">Quick Actions</h2>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <a href="{{ route('items.create') }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#7b0f10;color:#fff;border-radius:10px;text-decoration:none;font-size:0.82rem;font-weight:700;transition:background 0.15s;"
+                       onmouseover="this.style.background='#5a0a0b'" onmouseout="this.style.background='#7b0f10'">
+                        <i class="fas fa-plus" style="font-size:0.75rem;"></i> Post New Item
+                    </a>
+                    <a href="{{ route('items.browse') }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f3f4f6;color:#374151;border-radius:10px;text-decoration:none;font-size:0.82rem;font-weight:700;transition:background 0.15s;"
+                       onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+                        <i class="fas fa-box" style="font-size:0.75rem;"></i> My Listings
+                    </a>
+                    <a href="{{ route('wishlist') }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f3f4f6;color:#374151;border-radius:10px;text-decoration:none;font-size:0.82rem;font-weight:700;transition:background 0.15s;"
+                       onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+                        <i class="fas fa-heart" style="font-size:0.75rem;"></i> Wishlist
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Activity Timeline -->
-        <div class="bg-white rounded-xl shadow-sm p-5">
-            <h2 class="text-base font-bold text-gray-900 mb-4">Recent Activity</h2>
-            <div class="space-y-4">
-                @foreach([
-                    ['bg-[#7b0f10]', 'Posted new item', 'Programming Book Set', 'Today, 10:30 AM'],
-                    ['bg-green-500', 'Trade completed', 'with Sarah Lee', '2 days ago'],
-                    ['bg-[#f5c518]', 'Received donation', 'University Uniform', '5 days ago'],
-                    ['bg-purple-500', 'Reached 20 trades', 'Achievement unlocked!', '1 week ago'],
-                ] as $activity)
-                <div class="flex gap-3">
-                    <div class="w-2 h-2 {{ $activity[0] }} rounded-full mt-1.5 flex-shrink-0"></div>
-                    <div>
-                        <p class="font-semibold text-gray-900 text-sm">{{ $activity[1] }}</p>
-                        <p class="text-xs text-gray-500">{{ $activity[2] }}</p>
-                        <p class="text-xs text-gray-400 mt-0.5">{{ $activity[3] }}</p>
+        <!-- Right Column -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+            <!-- Reviews -->
+            <div style="background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                    <h2 style="font-size:0.95rem;font-weight:800;color:#1a1209;margin:0;display:flex;align-items:center;gap:8px;">
+                        <i class="fas fa-star" style="color:#f5c518;font-size:0.85rem;"></i> Reviews
+                    </h2>
+                    <div style="display:flex;align-items:center;gap:4px;">
+                        @for($i=0;$i<5;$i++)<i class="fas fa-star" style="color:#f5c518;font-size:0.75rem;"></i>@endfor
+                        <span style="font-size:0.78rem;color:#6b7280;margin-left:4px;">4.8 (156)</span>
                     </div>
                 </div>
+
+                @foreach([
+                    ['Sarah Lee','2 weeks ago',5,'Excellent trade! The calculus book was in perfect condition. Very professional and responsive.'],
+                    ['Michael Brown','1 month ago',4,'Good condition uniform set. Pickup was easy. Overall a smooth transaction.'],
+                ] as $r)
+                <div style="padding:12px 0;border-bottom:1px solid #f3f4f6;last-child:border-bottom:none;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode($r[0]) }}&background=7b0f10&color=fff&size=32"
+                                 style="width:32px;height:32px;border-radius:50%;" alt="{{ $r[0] }}">
+                            <div>
+                                <p style="font-size:0.8rem;font-weight:700;color:#1a1209;margin:0;">{{ $r[0] }}</p>
+                                <p style="font-size:0.68rem;color:#9ca3af;margin:0;">{{ $r[1] }}</p>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:2px;">
+                            @for($j=0;$j<5;$j++)
+                                <i class="{{ $j < $r[2] ? 'fas' : 'far' }} fa-star" style="color:#f5c518;font-size:0.65rem;"></i>
+                            @endfor
+                        </div>
+                    </div>
+                    <p style="font-size:0.78rem;color:#4b5563;margin:0;line-height:1.5;">{{ $r[3] }}</p>
+                </div>
                 @endforeach
+
+                <a href="{{ route('reviews') }}" style="display:block;text-align:center;margin-top:12px;font-size:0.78rem;font-weight:700;color:#7b0f10;text-decoration:none;">
+                    View all reviews →
+                </a>
+            </div>
+
+            <!-- Recent Activity -->
+            <div style="background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+                <h2 style="font-size:0.95rem;font-weight:800;color:#1a1209;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
+                    <i class="fas fa-clock" style="color:#7b0f10;font-size:0.85rem;"></i> Recent Activity
+                </h2>
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                    @foreach([
+                        ['#7b0f10','Posted new item','Programming Book Set','Today, 10:30 AM'],
+                        ['#16a34a','Trade completed','with Sarah Lee','2 days ago'],
+                        ['#f5c518','Received donation','University Uniform','5 days ago'],
+                        ['#8b5cf6','Achievement unlocked','Reached 20 trades','1 week ago'],
+                    ] as $a)
+                    <div style="display:flex;gap:12px;align-items:flex-start;">
+                        <div style="width:8px;height:8px;border-radius:50%;background:{{ $a[0] }};margin-top:5px;flex-shrink:0;"></div>
+                        <div>
+                            <p style="font-size:0.8rem;font-weight:700;color:#1a1209;margin:0;">{{ $a[1] }}</p>
+                            <p style="font-size:0.72rem;color:#6b7280;margin:1px 0 0;">{{ $a[2] }}</p>
+                            <p style="font-size:0.68rem;color:#d1d5db;margin:1px 0 0;">{{ $a[3] }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- Reputation -->
+            <div style="background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
+                <h2 style="font-size:0.95rem;font-weight:800;color:#1a1209;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
+                    <i class="fas fa-award" style="color:#f5c518;font-size:0.85rem;"></i> Reputation
+                </h2>
+                <div style="text-align:center;margin-bottom:14px;">
+                    <p style="font-size:2.5rem;font-weight:800;color:#7b0f10;margin:0;line-height:1;">94</p>
+                    <p style="font-size:0.72rem;color:#9ca3af;margin:4px 0 0;font-weight:600;">EXCELLENT</p>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    @foreach([['Positive ratings','156','#16a34a'],['Neutral ratings','2','#f59e0b'],['Negative ratings','0','#ef4444']] as $rep)
+                    <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;">
+                        <span style="color:#6b7280;">{{ $rep[0] }}</span>
+                        <span style="font-weight:700;color:{{ $rep[2] }};">{{ $rep[1] }}</span>
+                    </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

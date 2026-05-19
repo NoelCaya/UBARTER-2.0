@@ -9,8 +9,18 @@
     <style>
         html { scroll-behavior: smooth; }
         body { color: #1a1209; margin: 0; padding: 0; overflow-x: hidden; }
-        /* Smooth sidebar transitions on mobile */
-        #mobile-sidebar { transition: transform 0.25s ease; }
+
+        /* Main content — always offset by sidebar on desktop */
+        #main-content {
+            padding-top: 4rem;
+            min-height: 100vh;
+            background: #f9fafb;
+        }
+        @media (min-width: 768px) {
+            #main-content {
+                margin-left: 240px;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 antialiased">
@@ -23,7 +33,7 @@
     @endif
 
     <!-- Main Content -->
-    <main class="min-h-screen bg-gray-50 {{ auth()->check() ? 'md:ml-60' : '' }}" style="padding-top: 4rem;">
+    <main id="main-content">
         @yield('content')
     </main>
 </body>

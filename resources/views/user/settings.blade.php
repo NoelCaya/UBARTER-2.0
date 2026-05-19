@@ -127,7 +127,8 @@
                     <div class="py-3">
                         <p class="font-medium text-red-900 text-sm mb-1">Deactivate Account</p>
                         <p class="text-xs text-red-600 mb-3">Temporarily deactivate your account. You can reactivate anytime.</p>
-                        <button class="bg-yellow-500 text-white font-bold px-4 py-2 rounded-lg hover:bg-yellow-600 transition text-sm">
+                        <button style="background:#d97706;color:#fff;font-weight:700;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:0.82rem;transition:background 0.15s;"
+                                onmouseover="this.style.background='#b45309'" onmouseout="this.style.background='#d97706'">
                             Deactivate Account
                         </button>
                     </div>

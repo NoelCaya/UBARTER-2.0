@@ -30,84 +30,95 @@
       position: relative;
       overflow: hidden;
     }
+
+    /* Subtle dark overlay to improve contrast without hiding the art */
     #login-page::before {
       content: '';
       position: absolute;
-      inset: 0; 
-      background: linear-gradient(180deg,
-        rgba(245,243,239,0.97) 0%,
-        rgba(245,243,239,0.88) 15%,
-        rgba(245,243,239,0.50) 42%,
-        rgba(245,243,239,0.10) 100%);
+      inset: 0;
+      background: linear-gradient(160deg,
+        rgba(245,243,239,0.82) 0%,
+        rgba(245,243,239,0.60) 40%,
+        rgba(30,10,10,0.25) 100%);
       z-index: 0;
       pointer-events: none;
     }
 
-    /* Navbar */
+    /* ── NAVBAR ── */
     .ub-topnav {
       position: relative;
       z-index: 10;
-      background: rgba(245,243,239,0.97);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(0,0,0,0.07);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--ub-maroon);
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 0.5rem;
-      padding: 0.6rem 1.2rem;
-      min-height: 62px;
+      padding: 0.55rem 1.4rem;
+      min-height: 58px;
     }
     .ub-brand {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.55rem;
       text-decoration: none;
       color: #1a1209;
     }
     .ub-brand img {
-      width: 36px; height: 36px;
+      width: 28px; height: 28px;
       border-radius: 50%;
       object-fit: cover;
+      border: 2px solid var(--ub-maroon);
       flex-shrink: 0;
     }
+    .ub-brand-text { line-height: 1.1; }
     .ub-brand-name {
       font-weight: 800;
-      font-size: 1rem;
-      white-space: nowrap;
+      font-size: 0.95rem;
+      color: var(--ub-maroon);
+      display: block;
+    }
+    .ub-brand-sub {
+      font-size: 0.68rem;
+      color: #888;
+      display: block;
     }
     .ub-nav-links {
       display: flex;
       align-items: center;
-      gap: 0.1rem;
-      flex-wrap: nowrap;
+      gap: 0.15rem;
     }
     .ub-nav-link {
-      padding: 0.4rem 0.7rem;
-      font-size: 0.85rem;
+      padding: 0.38rem 0.75rem;
+      font-size: 0.82rem;
       font-weight: 500;
       color: #2a2015;
       text-decoration: none;
       border-radius: 6px;
       white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
     }
-    .ub-nav-link:hover { background: rgba(0,0,0,0.06); }
+    .ub-nav-link:hover { background: rgba(123,15,16,0.08); color: var(--ub-maroon); }
     .ub-login-btn {
       background: var(--ub-maroon);
       color: white !important;
       border: none;
       border-radius: 999px;
-      padding: 0.45rem 1.2rem;
-      font-size: 0.85rem;
+      padding: 0.42rem 1.2rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
       font-family: 'DM Sans', sans-serif;
       transition: background 0.2s;
+      margin-left: 0.4rem;
     }
     .ub-login-btn:hover { background: var(--ub-maroon-dark); }
 
-    /* Body area */
+    /* ── BODY ── */
     .login-body {
       flex: 1;
       position: relative;
@@ -115,77 +126,104 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2rem 1rem;
+      padding: 2.5rem 1rem;
     }
 
-    /* Welcome */
-    #loginWelcome { text-align: center; width: 100%; max-width: 520px; }
+    /* ── FROSTED GLASS WELCOME PANEL ── */
+    #loginWelcome {
+      text-align: center;
+      width: 100%;
+      max-width: 540px;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.85);
+      border-radius: 24px;
+      padding: 2.8rem 2.4rem 2.4rem;
+      box-shadow:
+        0 8px 32px rgba(123,15,16,0.10),
+        0 2px 8px rgba(0,0,0,0.06);
+    }
+    .welcome-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--ub-maroon);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+    }
     .welcome-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.9rem, 6vw, 3rem);
+      font-size: clamp(1.8rem, 5.5vw, 2.8rem);
       font-weight: 900;
       color: #1a1209;
       line-height: 1.15;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.9rem;
     }
     .welcome-title span { color: var(--ub-maroon); }
     .welcome-desc {
-      font-size: 0.97rem;
-      color: #000000;
-      max-width: 440px;
+      font-size: 0.93rem;
+      color: #3a2e25;
+      max-width: 420px;
       margin: 0 auto 1.8rem;
-      line-height: 1.7;
+      line-height: 1.75;
     }
-    .welcome-btns {
-      display: flex;
-      gap: 0.7rem;
-      justify-content: center;
-      flex-wrap: wrap;
+    .welcome-divider {
+      width: 48px;
+      height: 3px;
+      background: var(--ub-gold);
+      border-radius: 2px;
+      margin: 0 auto 1.8rem;
     }
     .btn-welcome-primary {
       background: var(--ub-maroon);
       color: white;
       border: none;
       border-radius: 999px;
-      padding: 0.7rem 2rem;
+      padding: 0.75rem 2.2rem;
       font-size: 0.95rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       font-family: 'DM Sans', sans-serif;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 14px rgba(123,15,16,0.25);
     }
-    .btn-welcome-primary:hover { background: var(--ub-maroon-dark); }
-    .btn-welcome-outline {
-      background: transparent;
-      color: var(--ub-maroon);
-      border: 1.5px solid rgba(123,15,16,0.4);
-      border-radius: 999px;
-      padding: 0.7rem 2rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      transition: all 0.2s;
-      text-decoration: none;
+    .btn-welcome-primary:hover {
+      background: var(--ub-maroon-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(123,15,16,0.30);
     }
-    .btn-welcome-outline:hover { background: var(--ub-maroon); color: white; }
+    .welcome-trust {
+      margin-top: 1.4rem;
+      font-size: 0.72rem;
+      color: #7a6e65;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
 
-    /* Login Card */
+    /* ── LOGIN CARD ── */
     #loginCard {
       display: none;
       width: 100%;
       max-width: 440px;
       background: white;
-      border-radius: 18px;
-      box-shadow: 0 8px 48px rgba(0,0,0,0.12);
-      padding: 2rem 2rem;
+      border-radius: 20px;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.14);
+      padding: 2rem;
       position: relative;
     }
-    #loginCard.show {
-      display: block;
-    }
+    #loginCard.show { display: block; }
     @media (max-width: 480px) {
       #loginCard { padding: 1.5rem 1.2rem; border-radius: 14px; }
+      #loginWelcome { padding: 2rem 1.4rem; border-radius: 18px; }
     }
     .card-close-btn {
       position: absolute;
@@ -200,17 +238,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: background 0.15s;
     }
     .card-close-btn:hover { background: #e0d8cf; color: #1a1209; }
     .card-title {
       font-weight: 800;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       color: #1a1209;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.2rem;
       text-align: center;
     }
     .card-sub {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: #7a6e65;
       text-align: center;
       margin-bottom: 0.5rem;
@@ -221,89 +260,16 @@
       border-radius: 2px;
       margin: 0 auto 1.4rem;
     }
-    .field-label {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #7a6e65;
-      margin-bottom: 0.35rem;
-    }
-    .field-group {
-      display: flex;
-      border: 1.5px solid #e0d8cf;
-      border-radius: 10px;
-      overflow: hidden;
-      transition: border-color 0.2s;
-    }
-    .field-group:focus-within { border-color: var(--ub-maroon); }
-    .field-group input {
-      flex: 1;
-      border: none;
-      outline: none;
-      padding: 0.72rem 0.9rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.92rem;
-      background: white;
-      color: #1a1209;
-    }
-    .field-group span {
-      display: flex;
-      align-items: center;
-      padding: 0 0.85rem;
-      background: white;
-      color: #7a6e65;
-      cursor: pointer;
-      font-size: 0.95rem;
-    }
-    .row-check {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 0.6rem 0 1rem;
-      font-size: 0.8rem;
-    }
-    .row-check label { color: #7a6e65; cursor: pointer; }
-    .row-check a { color: var(--ub-maroon); font-weight: 600; text-decoration: none; }
-    .btn-signin {
-      width: 100%;
-      background: var(--ub-maroon);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 0.82rem;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      margin-bottom: 0.5rem;
-      transition: background 0.2s;
-    }
-    .btn-signin:hover { background: var(--ub-maroon-dark); }
-    .or-divider {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      font-size: 0.8rem;
-      color: #7a6e65;
-      margin: 0.6rem 0;
-    }
-    .or-divider::before, .or-divider::after {
-      content: ''; flex: 1;
-      height: 1px;
-      background: #e0d8cf;
-    }
     .btn-sso {
       width: 100%;
       background: transparent;
       color: var(--ub-maroon);
-      border: 1.5px solid var(--ub-maroon);
-      border-radius: 10px;
-      padding: 0.75rem;
+      border: 2px solid var(--ub-maroon);
+      border-radius: 12px;
+      padding: 0.85rem;
       font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.9rem;
+      font-weight: 700;
+      font-size: 0.95rem;
       cursor: pointer;
       transition: all 0.2s;
       text-decoration: none;
@@ -311,20 +277,13 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
     .btn-sso:hover { background: var(--ub-maroon); color: white; }
-    .card-footer-note {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #7a6e65;
-      margin-top: 1rem;
-    }
-    .card-footer-note a { color: var(--ub-maroon); font-weight: 600; text-decoration: none; cursor: pointer; }
     .verified-note {
       text-align: center;
       font-size: 0.7rem;
       color: #9a8e85;
-      margin-top: 1rem;
       padding-top: 1rem;
       border-top: 1px solid #e0d8cf;
     }
@@ -340,75 +299,73 @@
       align-items: center;
       gap: 0.5rem;
     }
-    .alert-success {
-      background: #f0fdf4;
-      color: #166534;
-      border: 1px solid #bbf7d0;
-      border-radius: 8px;
-      padding: 0.6rem 0.9rem;
-      font-size: 0.82rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .input-error {
-      color: #991b1b;
-      margin-top: 0.25rem;
-      font-size: 0.8rem;
-      display: block;
-    }
 
-    /* Page footer strip */
+    /* ── FOOTER ── */
     .page-footer {
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: 0.85rem 1rem;
-      font-size: 0.72rem;
+      padding: 0.8rem 1rem;
+      font-size: 0.7rem;
       color: #9a8e85;
       border-top: 1px solid rgba(0,0,0,0.07);
-      background: rgba(245,243,239,0.7);
+      background: rgba(245,243,239,0.85);
+      backdrop-filter: blur(8px);
     }
 
-    /* Mobile nav collapse */
     @media (max-width: 600px) {
       .ub-nav-link { display: none; }
-    }
-    @media (max-width: 400px) {
-      .ub-brand-name { font-size: 0.88rem; }
     }
   </style>
 </head>
 <body>
 
 <div id="login-page">
-  
+
   <!-- NAVBAR -->
   <nav class="ub-topnav">
     <a class="ub-brand" href="/">
-      <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo"/>
-      <span class="ub-brand-name">University of Batangas</span>
+      <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo" style="max-width:28px;max-height:28px;"/>
+      <div class="ub-brand-text">
+        <span class="ub-brand-name">UBarter</span>
+        <span class="ub-brand-sub">University of Batangas</span>
+      </div>
     </a>
     <div class="ub-nav-links">
-      <a class="ub-nav-link" href="#">News</a>
-      <a class="ub-nav-link" href="#">LMS Onboarding Tutorial</a>
-      <a class="ub-nav-link" href="#">eBrahman</a>
-      <button class="ub-login-btn" onclick="openLoginCard()">Log In</button>
+      <a class="ub-nav-link" href="https://ubian.ub.edu.ph/portal_news/list" target="_blank" rel="noopener">
+        <i class="bi bi-newspaper me-1"></i>News
+      </a>
+      <a class="ub-nav-link" href="https://wakelet.com/wake/OH5RDsBHZBIosbovORo16" target="_blank" rel="noopener">
+        <i class="bi bi-play-circle me-1"></i>LMS Onboarding Tutorial
+      </a>
+      <a class="ub-nav-link" href="https://ebrahman.ub.edu.ph/" target="_blank" rel="noopener">
+        <i class="bi bi-mortarboard me-1"></i>eBrahman
+      </a>
+      <button class="ub-login-btn" onclick="openLoginCard()">
+        <i class="bi bi-box-arrow-in-right me-1"></i>Log In
+      </button>
     </div>
   </nav>
 
   <!-- BODY -->
   <div class="login-body">
 
-    <!-- WELCOME SECTION -->
+    <!-- FROSTED GLASS WELCOME PANEL -->
     <div id="loginWelcome">
+      <div class="welcome-eyebrow">
+        <i class="bi bi-shield-check-fill"></i> UB Community Only
+      </div>
       <div class="welcome-title">Welcome to <span>UBarter</span></div>
+      <div class="welcome-divider"></div>
       <p class="welcome-desc">
         A peer-to-peer exchange platform exclusively for the University of Batangas community. Trade, exchange, and connect with fellow students.
       </p>
-      <div class="welcome-btns">
-        <button class="btn-welcome-primary" onclick="openLoginCard()">Sign In</button>
+      <button class="btn-welcome-primary" onclick="openLoginCard()">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+      </button>
+      <div class="welcome-trust">
+        <i class="bi bi-lock-fill" style="color:var(--ub-maroon);"></i>
+        Secured · UBmail verified accounts only
       </div>
     </div>
 
@@ -419,10 +376,9 @@
       </button>
 
       <div class="card-title">Sign in to UBarter</div>
-      <div class="card-sub">University of Batangas · Peer-to-Peer Exchange Platform</div>
+      <div class="card-sub">University of Batangas · Peer-to-Peer Exchange</div>
       <div class="gold-bar"></div>
 
-      <!-- Display Validation Errors -->
       @if ($errors->any())
         @foreach ($errors->all() as $error)
           <div class="alert-error">
@@ -432,14 +388,12 @@
         @endforeach
       @endif
 
-      <div style="margin-bottom: 2rem; text-align: center;">
-        <p class="text-gray-600" style="font-size: 0.9rem; line-height: 1.6;">
-          Sign in to your UBarter account using your UB email to get started with the peer-to-peer exchange platform.
-        </p>
-      </div>
+      <p style="text-align:center; font-size:0.88rem; color:#5a4e45; margin-bottom:1.6rem; line-height:1.6;">
+        Use your <strong>UB email</strong> to sign in and access the campus barter platform.
+      </p>
 
-      <a href="{{ route('auth.google') }}" class="btn-sso" style="margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 1rem; padding: 0.9rem;">
-        <i class="bi bi-key-fill"></i> Continue with UB MAIL
+      <a href="{{ route('auth.google') }}" class="btn-sso">
+        <i class="bi bi-envelope-fill"></i> Continue with UB MAIL
       </a>
 
       <div class="verified-note">
@@ -460,35 +414,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 <script>
 function openLoginCard() {
-    const welcome = document.getElementById('loginWelcome');
-    if (welcome) welcome.style.display = 'none';
+    document.getElementById('loginWelcome').style.display = 'none';
     document.getElementById('loginCard').classList.add('show');
 }
-
 function closeLoginCard() {
     document.getElementById('loginCard').classList.remove('show');
-    const welcome = document.getElementById('loginWelcome');
-    if (welcome) welcome.style.display = 'block';
+    document.getElementById('loginWelcome').style.display = '';
 }
-
-function togglePass() {
-  const pass = document.getElementById('loginPass');
-  const icon = document.getElementById('passIcon');
-  if (pass.type === 'password') {
-    pass.type = 'text';
-    icon.className = 'bi bi-eye-slash';
-  } else {
-    pass.type = 'password';
-    icon.className = 'bi bi-eye';
-  }
-}
-
-// Auto-open card if there are validation errors
 document.addEventListener('DOMContentLoaded', function() {
-  const loginCard = document.getElementById('loginCard');
-  if (loginCard.classList.contains('show')) {
-    openLoginCard();
-  }
+    if (document.getElementById('loginCard').classList.contains('show')) {
+        openLoginCard();
+    }
 });
 </script>
 </body>

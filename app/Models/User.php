@@ -24,6 +24,11 @@ class User extends Authenticatable
         'password',
         'google_id',
         'google_email',
+        'avatar_url',
+        'bio',
+        'phone',
+        'rating',
+        'trades_count',
     ];
 
     /**
@@ -79,6 +84,30 @@ class User extends Authenticatable
     public function reviewsReceived()
     {
         return $this->hasMany(Review::class, 'reviewee_id');
+    }
+
+    /**
+     * Get reviews received (alias for API)
+     */
+    public function receivedReviews()
+    {
+        return $this->hasMany(Review::class, 'reviewee_id');
+    }
+
+    /**
+     * Get trades initiated by this user
+     */
+    public function initiatedTrades()
+    {
+        return $this->hasMany(Trade::class, 'initiator_id');
+    }
+
+    /**
+     * Get trades received by this user
+     */
+    public function receivedTrades()
+    {
+        return $this->hasMany(Trade::class, 'receiver_id');
     }
 
     /**
