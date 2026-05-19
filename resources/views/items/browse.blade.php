@@ -60,19 +60,19 @@
     }
 </style>
 
-<div class="w-full px-4 md:px-8 py-6 bg-gradient-to-b from-gray-50 to-white min-h-screen">
+<div class="w-full px-4 md:px-6 py-6 max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="mb-8">
-        <h1 class="text-5xl font-bold text-gray-900 mb-2">Browse & Barter</h1>
-        <p class="text-gray-600 text-lg">Discover available items from your UB community. Scroll, filter, and find what you need!</p>
+    <div class="mb-5">
+        <h1 class="text-2xl font-bold text-gray-900">Browse & Barter</h1>
+        <p class="text-gray-500 text-sm mt-1">Discover available items from your UB community.</p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-5">
         <!-- Filters Sidebar -->
         <div class="lg:col-span-1">
-            <div class="bg-white rounded-lg shadow-md p-6 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto">
-                <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                    <i class="fas fa-filter mr-2 text-[#7b0f10]"></i> Filters
+            <div class="bg-white rounded-xl shadow-sm p-5 sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto">
+                <h2 class="text-base font-bold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-filter mr-2 text-[#7b0f10] text-sm"></i> Filters
                 </h2>
 
                 <form action="{{ route('items.browse') }}" method="GET" class="space-y-6">

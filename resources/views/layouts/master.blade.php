@@ -6,18 +6,14 @@
     <title>@yield('title') - UBarter 2.0</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-50" style="overflow-x: hidden; color: #1a1209; margin: 0; padding: 0;">
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            color: #1a1209;
-            margin: 0;
-            padding: 0;
-        }
+        html { scroll-behavior: smooth; }
+        body { color: #1a1209; margin: 0; padding: 0; overflow-x: hidden; }
+        /* Smooth sidebar transitions on mobile */
+        #mobile-sidebar { transition: transform 0.25s ease; }
     </style>
+</head>
+<body class="bg-gray-50 antialiased">
     <!-- Navigation -->
     @include('components.navbar')
 
@@ -27,16 +23,8 @@
     @endif
 
     <!-- Main Content -->
-    <main class="overflow-y-auto min-h-screen bg-gray-50 {{ auth()->check() ? 'md:ml-64' : '' }}" style="margin-top: 4rem;">
+    <main class="min-h-screen bg-gray-50 {{ auth()->check() ? 'md:ml-60' : '' }}" style="padding-top: 4rem;">
         @yield('content')
     </main>
-
-    <!-- Mobile Menu Toggle Script -->
-    <script>
-        function toggleMobileMenu() {
-            const sidebar = document.getElementById('mobile-sidebar');
-            sidebar.classList.toggle('hidden');
-        }
-    </script>
 </body>
 </html>

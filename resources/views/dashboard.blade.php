@@ -1,176 +1,109 @@
 @extends('layouts.master')
 
-@section('title', 'UBarter 2.0 Dashboard')
+@section('title', 'Dashboard')
 
 @section('content')
-<style>
-    :root {
-        --ub-maroon: #7b0f10;
-        --ub-maroon-dark: #5a0a0b;
-        --ub-gold: #f5c518;
-        --ub-gold-light: #fce8a6;
-        --ub-cream: #f5f3ef;
-    }
-    
-    .ub-gradient-maroon-gold {
-        background: linear-gradient(135deg, var(--ub-maroon) 0%, #9b1a1b 100%);
-    }
-    
-    .ub-btn-gold {
-        background: var(--ub-gold);
-        color: var(--ub-maroon);
-        border: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    
-    .ub-btn-gold:hover {
-        background: #f5c518;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(245, 197, 24, 0.3);
-    }
-    
-    .ub-btn-maroon {
-        background: var(--ub-maroon);
-        color: white;
-        border: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    
-    .ub-btn-maroon:hover {
-        background: var(--ub-maroon-dark);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(123, 15, 16, 0.3);
-    }
-    
-    .ub-card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
-        color: #1a1209;
-    }
-    
-    .ub-card:hover {
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    }
-</style>
+<div class="px-4 md:px-6 py-6 max-w-7xl mx-auto">
 
-<div class="w-full px-4 md:px-8 py-6 bg-gradient-to-b from-gray-50 to-white min-h-screen">
     <!-- Header Section -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
         <div>
-            <h1 class="text-6xl font-bold text-gray-900 tracking-tight mb-3">
+            <h1 class="text-3xl font-bold text-gray-900">
                 Mabuhay, <span class="text-[#7b0f10]">{{ auth()->user()->name }}</span>! 🎓
             </h1>
-            <div class="flex items-center mt-4 space-x-4">
-                <span class="bg-[#7b0f10] text-white text-xs px-4 py-1.5 rounded-full font-bold uppercase tracking-wide">UB MAIN</span>
-                <span class="text-green-600 flex items-center text-sm font-semibold">
-                    <i class="fas fa-check-circle mr-2"></i> UBmail Verified
+            <div class="flex items-center mt-2 space-x-3">
+                <span class="bg-[#7b0f10] text-white text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wide">UB MAIN</span>
+                <span class="text-green-600 flex items-center text-xs font-semibold">
+                    <i class="fas fa-check-circle mr-1.5"></i> UBmail Verified
                 </span>
             </div>
         </div>
-        <div class="flex flex-wrap gap-4">
-            <a href="{{ route('items.browse') }}" class="bg-white border-2 border-[#7b0f10] text-[#7b0f10] px-8 py-3 rounded-lg text-sm font-bold hover:bg-[#7b0f10] hover:text-white transition shadow-sm">
-                <i class="fas fa-shopping-cart mr-2"></i> Browse Items
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ route('items.browse') }}" class="inline-flex items-center px-4 py-2 bg-white border-2 border-[#7b0f10] text-[#7b0f10] rounded-lg text-sm font-bold hover:bg-[#7b0f10] hover:text-white transition shadow-sm">
+                <i class="fas fa-shopping-bag mr-2"></i> Browse
             </a>
-            <a href="{{ route('trade-history') }}" class="bg-white border-2 border-[#7b0f10] text-[#7b0f10] px-8 py-3 rounded-lg text-sm font-bold hover:bg-[#7b0f10] hover:text-white transition shadow-sm">
-                <i class="fas fa-history mr-2"></i> Trade History
+            <a href="{{ route('trade-history') }}" class="inline-flex items-center px-4 py-2 bg-white border-2 border-[#7b0f10] text-[#7b0f10] rounded-lg text-sm font-bold hover:bg-[#7b0f10] hover:text-white transition shadow-sm">
+                <i class="fas fa-history mr-2"></i> Trades
             </a>
-            <a href="{{ route('items.create') }}" class="ub-btn-gold px-8 py-3 rounded-lg text-sm font-bold shadow-md">
+            <a href="{{ route('items.create') }}" class="inline-flex items-center px-4 py-2 bg-[#f5c518] text-[#7b0f10] rounded-lg text-sm font-bold shadow-sm hover:bg-[#e6b800] transition">
                 <i class="fas fa-plus mr-2"></i> Post Item
             </a>
         </div>
     </div>
 
-    <!-- Stats Grid - Full Width -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-        <!-- Eco Impact Card -->
-        <div class="ub-card bg-gradient-to-br from-green-500 to-green-600 text-white p-8">
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <!-- Eco Impact -->
+        <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-xl p-5 shadow-sm">
             <div class="flex justify-between items-start">
-                <div class="flex-1">
-                    <p class="opacity-80 text-xs font-bold uppercase tracking-widest">Eco Impact</p>
-                    <p class="text-5xl font-bold mt-4">14.5 kg</p>
-                    <p class="text-sm mt-3 opacity-90">Waste diverted from campus landfills</p>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-widest opacity-80">Eco Impact</p>
+                    <p class="text-3xl font-bold mt-2">14.5 kg</p>
+                    <p class="text-xs mt-1.5 opacity-90">Waste diverted from landfills</p>
                 </div>
-                <div class="bg-white/20 p-5 rounded-2xl backdrop-blur-sm flex-shrink-0">
-                    <i class="fas fa-leaf text-4xl"></i>
+                <div class="bg-white/20 p-3 rounded-xl">
+                    <i class="fas fa-leaf text-2xl"></i>
                 </div>
             </div>
-            <div class="mt-6 pt-6 border-t border-white/20 flex justify-between text-xs opacity-75">
+            <div class="mt-4 pt-3 border-t border-white/20 flex justify-between text-xs opacity-75">
                 <span><strong>+2.3 kg</strong> this week</span>
                 <span>Rank: <strong>#12</strong></span>
             </div>
         </div>
 
-        <!-- Trust Score Card -->
-        <div class="ub-card bg-white p-8 border-l-4 border-[#f5c518]">
-            <p class="text-gray-600 text-xs font-bold uppercase tracking-widest">Trust Score</p>
-            <p class="text-5xl font-bold text-[#7b0f10] mt-4">4.9<span class="text-2xl text-gray-400">/5.0</span></p>
-            <div class="flex items-center mt-4">
-                <div class="flex text-[#f5c518] space-x-1">
-                    <i class="fas fa-star text-2xl"></i>
-                    <i class="fas fa-star text-2xl"></i>
-                    <i class="fas fa-star text-2xl"></i>
-                    <i class="fas fa-star text-2xl"></i>
-                    <i class="fas fa-star text-2xl"></i>
+        <!-- Trust Score -->
+        <div class="bg-white rounded-xl p-5 border-l-4 border-[#f5c518] shadow-sm">
+            <p class="text-gray-500 text-xs font-bold uppercase tracking-widest">Trust Score</p>
+            <p class="text-3xl font-bold text-[#7b0f10] mt-2">4.9<span class="text-lg text-gray-400">/5.0</span></p>
+            <div class="flex items-center mt-2">
+                <div class="flex text-[#f5c518] space-x-0.5">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                 </div>
-                <span class="text-gray-500 text-xs ml-4 font-semibold">(24 reviews)</span>
+                <span class="text-gray-500 text-xs ml-2">(24 reviews)</span>
             </div>
         </div>
 
-        <!-- Active Proposals Card -->
-        <div class="ub-card bg-white p-8 border-l-4 border-[#7b0f10]">
-            <p class="text-gray-600 text-xs font-bold uppercase tracking-widest">Active Proposals</p>
-            <p class="text-5xl font-bold text-[#7b0f10] mt-4">3</p>
-            <p class="text-[#7b0f10] text-xs font-bold mt-4 hover:underline cursor-pointer">
+        <!-- Active Proposals -->
+        <div class="bg-white rounded-xl p-5 border-l-4 border-[#7b0f10] shadow-sm">
+            <p class="text-gray-500 text-xs font-bold uppercase tracking-widest">Active Proposals</p>
+            <p class="text-3xl font-bold text-[#7b0f10] mt-2">3</p>
+            <a href="{{ route('chat.index') }}" class="text-[#7b0f10] text-xs font-bold mt-2 inline-block hover:underline">
                 View Chat Requests →
-            </p>
+            </a>
         </div>
     </div>
 
-    <!-- Smart Matches Section - Full Width -->
-    <div class="ub-card bg-gradient-to-r from-[#f5c518]/10 to-[#7b0f10]/5 border-l-4 border-[#f5c518] p-8 mb-8">
-        <div class="flex items-center justify-between mb-8">
-            <h2 class="text-3xl font-bold text-[#7b0f10] flex items-center">
-                <i class="fas fa-wand-magic-sparkles mr-3 text-[#f5c518] text-4xl"></i> Smart Matches for You
+    <!-- Smart Matches -->
+    <div class="bg-gradient-to-r from-[#f5c518]/10 to-[#7b0f10]/5 border border-[#f5c518]/40 rounded-xl p-5 mb-6">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold text-[#7b0f10] flex items-center">
+                <i class="fas fa-wand-magic-sparkles mr-2 text-[#f5c518]"></i> Smart Matches for You
             </h2>
-            <span class="text-xs font-bold text-[#f5c518] bg-[#7b0f10] px-4 py-2 rounded-full text-white">BETA</span>
+            <span class="text-xs font-bold bg-[#7b0f10] text-white px-2.5 py-1 rounded-full">BETA</span>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg border-2 border-[#f5c518] shadow-sm hover:shadow-lg transition">
-                <div class="aspect-video bg-gray-200 rounded-lg mb-4 bg-cover" style="background-image: url('https://via.placeholder.com/300x150')"></div>
-                <p class="text-lg font-bold text-gray-900 mb-2">Drawing Board (A3)</p>
-                <p class="text-sm text-gray-600 mb-4">Matches your wishlist item!</p>
-                <button class="text-sm font-bold text-[#7b0f10] hover:text-[#f5c518] transition">
-                    Propose Barter →
-                </button>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            @foreach([
+                ['Drawing Board (A3)', 'Matches your wishlist item!', 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=150&fit=crop'],
+                ['Laptop Stand', 'Great for your setup!', 'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=300&h=150&fit=crop'],
+                ['USB Hub (7-port)', 'Perfect match for your needs!', 'https://images.unsplash.com/photo-1625895197185-efcec01cffe0?w=300&h=150&fit=crop'],
+            ] as $match)
+            <div class="bg-white rounded-lg border border-[#f5c518]/50 p-4 hover:shadow-md transition">
+                <div class="aspect-video bg-gray-100 rounded-lg mb-3 overflow-hidden">
+                    <img src="{{ $match[2] }}" class="w-full h-full object-cover" alt="{{ $match[0] }}">
+                </div>
+                <p class="font-bold text-gray-900 text-sm mb-1">{{ $match[0] }}</p>
+                <p class="text-xs text-gray-500 mb-3">{{ $match[1] }}</p>
+                <button class="text-xs font-bold text-[#7b0f10] hover:text-[#f5c518] transition">Propose Barter →</button>
             </div>
-            <div class="bg-white p-6 rounded-lg border-2 border-[#f5c518] shadow-sm hover:shadow-lg transition">
-                <div class="aspect-video bg-gray-200 rounded-lg mb-4 bg-cover" style="background-image: url('https://via.placeholder.com/300x150')"></div>
-                <p class="text-lg font-bold text-gray-900 mb-2">Laptop Stand</p>
-                <p class="text-sm text-gray-600 mb-4">Great for your setup!</p>
-                <button class="text-sm font-bold text-[#7b0f10] hover:text-[#f5c518] transition">
-                    Propose Barter →
-                </button>
-            </div>
-            <div class="bg-white p-6 rounded-lg border-2 border-[#f5c518] shadow-sm hover:shadow-lg transition">
-                <div class="aspect-video bg-gray-200 rounded-lg mb-4 bg-cover" style="background-image: url('https://via.placeholder.com/300x150')"></div>
-                <p class="text-lg font-bold text-gray-900 mb-2">USB Hub (7-port)</p>
-                <p class="text-sm text-gray-600 mb-4">Perfect match for your needs!</p>
-                <button class="text-sm font-bold text-[#7b0f10] hover:text-[#f5c518] transition">
-                    Propose Barter →
-                </button>
-            </div>
+            @endforeach
         </div>
     </div>
 
-    <!-- Campus Marketplace - Full Width -->
-    <div class="ub-card overflow-hidden mb-8">
-        <div class="p-8 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-gray-50 to-white">
-            <h2 class="text-3xl font-bold text-gray-900">Campus Marketplace</h2>
-            <select class="text-sm border border-[#7b0f10] bg-white text-[#7b0f10] px-4 py-2 rounded-lg font-medium focus:ring-2 focus:ring-[#f5c518]">
+    <!-- Campus Marketplace -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
+        <div class="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
+            <h2 class="text-lg font-bold text-gray-900">Campus Marketplace</h2>
+            <select class="text-sm border border-gray-200 bg-white text-gray-700 px-3 py-1.5 rounded-lg focus:ring-2 focus:ring-[#f5c518] focus:outline-none">
                 <option>All Departments</option>
                 <option>Engineering</option>
                 <option>ICT</option>
@@ -178,330 +111,145 @@
                 <option>Business</option>
             </select>
         </div>
-        <div class="divide-y divide-gray-100">
-            <!-- Marketplace Item -->
-            <div class="p-8 flex items-start gap-6 hover:bg-[#f5c518]/5 transition cursor-pointer group">
-                <img src="https://via.placeholder.com/100" class="w-24 h-24 rounded-lg object-cover shadow-sm group-hover:shadow-md transition flex-shrink-0">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="bg-[#7b0f10]/10 text-[#7b0f10] text-xs px-3 py-1 rounded-full font-bold uppercase">ICT</span>
-                        <span class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Donation</span>
+        <div class="divide-y divide-gray-50">
+            <div class="px-5 py-4 flex items-center gap-4 hover:bg-gray-50 transition cursor-pointer group">
+                <img src="https://images.unsplash.com/photo-1553406830-ef2513450d76?w=80&h=80&fit=crop" class="w-16 h-16 rounded-lg object-cover shadow-sm flex-shrink-0" alt="Arduino Uno Starter Kit">
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="bg-[#7b0f10]/10 text-[#7b0f10] text-xs px-2 py-0.5 rounded-full font-bold">ICT</span>
+                        <span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full font-bold">Donation</span>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-1">Arduino Uno Starter Kit</h3>
-                    <p class="text-sm text-gray-600">Posted by Noelito • 2 mins ago</p>
+                    <h3 class="font-bold text-gray-900 text-sm truncate">Arduino Uno Starter Kit</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Posted by Noelito • 2 mins ago</p>
                 </div>
-                <button class="p-3 text-gray-400 hover:text-[#f5c518] transition">
-                    <i class="far fa-heart text-2xl"></i>
+                <button class="p-2 text-gray-300 hover:text-red-400 transition flex-shrink-0">
+                    <i class="far fa-heart text-lg"></i>
                 </button>
             </div>
-            
-            <!-- Another Item -->
-            <div class="p-8 flex items-start gap-6 hover:bg-[#f5c518]/5 transition cursor-pointer group">
-                <img src="https://via.placeholder.com/100" class="w-24 h-24 rounded-lg object-cover shadow-sm group-hover:shadow-md transition flex-shrink-0">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-3">
-                        <span class="bg-[#7b0f10]/10 text-[#7b0f10] text-xs px-3 py-1 rounded-full font-bold uppercase">Nursing</span>
-                        <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Trade</span>
+            <div class="px-5 py-4 flex items-center gap-4 hover:bg-gray-50 transition cursor-pointer group">
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=80&h=80&fit=crop" class="w-16 h-16 rounded-lg object-cover shadow-sm flex-shrink-0" alt="Nursing Textbook">
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="bg-[#7b0f10]/10 text-[#7b0f10] text-xs px-2 py-0.5 rounded-full font-bold">Nursing</span>
+                        <span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full font-bold">Trade</span>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-1">Nursing Textbook (2023)</h3>
-                    <p class="text-sm text-gray-600">Posted by Maria Santos • 1 hour ago</p>
+                    <h3 class="font-bold text-gray-900 text-sm truncate">Nursing Textbook (2023)</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Posted by Maria Santos • 1 hour ago</p>
                 </div>
-                <button class="p-3 text-gray-400 hover:text-[#f5c518] transition">
-                    <i class="far fa-heart text-2xl"></i>
+                <button class="p-2 text-gray-300 hover:text-red-400 transition flex-shrink-0">
+                    <i class="far fa-heart text-lg"></i>
                 </button>
             </div>
         </div>
-        <div class="p-6 text-center border-t border-gray-100 bg-gray-50">
-            <a href="#" class="text-sm font-bold text-[#7b0f10] hover:text-[#f5c518] transition">
-                View All Items →
-            </a>
+        <div class="px-5 py-3 border-t border-gray-100 bg-gray-50 text-center">
+            <a href="{{ route('items.browse') }}" class="text-sm font-bold text-[#7b0f10] hover:underline">View All Items →</a>
         </div>
     </div>
 
-    <!-- Bottom Section: 2 Cards Side by Side -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <!-- Bottom Row: Quote + Eco Leaders -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
         <!-- UBarter Quote -->
-        <div class="ub-card bg-gradient-to-br from-[#7b0f10] to-[#5a0a0b] text-white p-8">
-            <h3 class="font-bold text-2xl mb-4 italic">"It's better if UBarter."</h3>
-            <p class="text-base leading-relaxed opacity-90 mb-6">
-                Remember: Always meet in well-lit campus areas like the <strong>UB Lounge</strong> or <strong>Student Center</strong> for safety! Trust is built on transparency.
+        <div class="bg-gradient-to-br from-[#7b0f10] to-[#5a0a0b] text-white rounded-xl p-5">
+            <h3 class="font-bold text-lg mb-2 italic">"It's better if UBarter."</h3>
+            <p class="text-sm leading-relaxed opacity-90 mb-4">
+                Always meet in well-lit campus areas like the <strong>UB Lounge</strong> or <strong>Student Center</strong> for safety. Trust is built on transparency.
             </p>
-            <div class="pt-6 border-t border-white/20 flex items-center space-x-2">
-                <i class="fas fa-shield-alt text-[#f5c518] text-lg"></i>
-                <span class="text-sm">Safety verified by UB Admin</span>
+            <div class="pt-4 border-t border-white/20 flex items-center space-x-2 text-xs">
+                <i class="fas fa-shield-alt text-[#f5c518]"></i>
+                <span>Safety verified by UB Admin</span>
             </div>
         </div>
 
-        <!-- Sustainability Leaderboard Preview -->
-        <div class="ub-card p-8">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="font-bold text-[#7b0f10] text-2xl flex items-center">
-                    <i class="fas fa-leaf mr-3 text-green-600 text-3xl"></i> Eco Leaders
+        <!-- Eco Leaders -->
+        <div class="bg-white rounded-xl p-5 shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-[#7b0f10] text-base flex items-center">
+                    <i class="fas fa-leaf mr-2 text-green-600"></i> Eco Leaders
                 </h3>
-                <span class="text-[#f5c518] text-xs font-bold bg-[#7b0f10]/10 px-3 py-1 rounded-full">This Week</span>
+                <span class="text-[#f5c518] text-xs font-bold bg-[#7b0f10]/10 px-2.5 py-1 rounded-full">This Week</span>
             </div>
-            <div class="space-y-4">
-                <!-- Rank 1 -->
-                <div class="flex items-center justify-between p-4 bg-gradient-to-r from-[#f5c518]/10 to-transparent rounded-lg">
-                    <div class="flex items-center gap-4">
-                        <span class="w-10 h-10 bg-[#f5c518] text-[#7b0f10] rounded-full flex items-center justify-center font-bold text-lg">🥇</span>
+            <div class="space-y-2">
+                @foreach([['🥇', 'Alex Chen', 'ECE', '28.5 kg', 'from-[#f5c518]/10'], ['🥈', 'Maria Santos', 'BSN', '24.0 kg', 'from-gray-50'], ['🥉', 'James Reyes', 'IT', '22.3 kg', 'from-gray-50']] as $leader)
+                <div class="flex items-center justify-between px-3 py-2 bg-gradient-to-r {{ $leader[4] }} to-transparent rounded-lg">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl">{{ $leader[0] }}</span>
                         <div>
-                            <p class="font-bold text-base text-gray-900">Alex Chen</p>
-                            <p class="text-xs text-gray-600">ECE • 28.5 kg saved</p>
+                            <p class="font-bold text-sm text-gray-900">{{ $leader[1] }}</p>
+                            <p class="text-xs text-gray-500">{{ $leader[2] }} • {{ $leader[3] }} saved</p>
                         </div>
                     </div>
-                    <span class="text-[#f5c518] font-bold text-base">+8.2 kg</span>
                 </div>
-                
-                <!-- Rank 2 -->
-                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div class="flex items-center gap-4">
-                        <span class="text-2xl">🥈</span>
-                        <div>
-                            <p class="font-bold text-base text-gray-900">Maria Santos</p>
-                            <p class="text-xs text-gray-600">BSN • 24.0 kg saved</p>
-                        </div>
-                    </div>
-                    <span class="text-gray-600 font-bold text-base">+5.1 kg</span>
-                </div>
-                
-                <!-- Rank 3 -->
-                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div class="flex items-center gap-4">
-                        <span class="text-2xl">🥉</span>
-                        <div>
-                            <p class="font-bold text-base text-gray-900">James Reyes</p>
-                            <p class="text-xs text-gray-600">IT • 22.3 kg saved</p>
-                        </div>
-                    </div>
-                    <span class="text-gray-600 font-bold text-base">+3.9 kg</span>
-                </div>
+                @endforeach
             </div>
-            <div class="mt-6 pt-6 border-t border-gray-100">
-                <a href="{{ route('sustainability-leaderboard') }}" class="w-full py-3 text-center text-sm font-bold text-[#7b0f10] border border-[#7b0f10] rounded-lg hover:bg-[#7b0f10] hover:text-white transition">
+            <div class="mt-4 pt-3 border-t border-gray-100">
+                <a href="{{ route('sustainability-leaderboard') }}" class="block w-full py-2 text-center text-sm font-bold text-[#7b0f10] border border-[#7b0f10] rounded-lg hover:bg-[#7b0f10] hover:text-white transition">
                     View Full Leaderboard
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Barter & Donation Browse Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <!-- Barter Module - Amazon Style -->
-        <div class="ub-card overflow-hidden flex flex-col">
-            <div class="p-6 border-b border-gray-100 bg-gradient-to-r from-[#7b0f10] to-[#9b1a1b] sticky top-0 z-10">
-                <h2 class="text-2xl font-bold text-white flex items-center">
-                    <i class="fas fa-exchange-alt mr-3 text-[#f5c518]"></i> Barter Items
+    <!-- Barter & Donation Browse -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-3xl">
+        <!-- Barter Module -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-3 bg-gradient-to-r from-[#7b0f10] to-[#9b1a1b]">
+                <h2 class="text-base font-bold text-white flex items-center">
+                    <i class="fas fa-exchange-alt mr-2 text-[#f5c518]"></i> Barter Items
                 </h2>
-                <p class="text-white/80 text-sm mt-1">Scroll to browse items for trading</p>
+                <p class="text-white/70 text-xs mt-0.5">Items available for trading</p>
             </div>
-            <div class="flex-1 overflow-y-auto p-6" style="max-height: 600px;">
-                <div class="grid grid-cols-2 gap-4">
-                    <!-- Product Card 1 -->
-                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Mechanical Keyboard RGB</h3>
-                            <p class="text-xs text-gray-600 mt-1">Good condition</p>
-                            <p class="text-xs text-gray-500 mt-2">Alex Chen • 3h ago</p>
-                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
-                                Propose Trade
-                            </button>
-                        </div>
+            <div class="p-4 grid grid-cols-2 gap-3">
+                @foreach([
+                    ['Mechanical Keyboard RGB', 'Good condition', 'Alex Chen', '3h ago', 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=200&h=100&fit=crop'],
+                    ['Wireless Mouse Logitech', 'Like new', 'Maria Santos', '5h ago', 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=200&h=100&fit=crop'],
+                ] as $item)
+                <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-md transition cursor-pointer">
+                    <div class="relative">
+                        <img src="{{ $item[4] }}" class="w-full object-cover" style="height:80px;" alt="{{ $item[0] }}">
+                        <span class="absolute top-1.5 right-1.5 bg-[#7b0f10] text-white text-xs font-bold px-1.5 py-0.5 rounded" style="font-size:9px;">BARTER</span>
                     </div>
-
-                    <!-- Product Card 2 -->
-                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Wireless Mouse Logitech</h3>
-                            <p class="text-xs text-gray-600 mt-1">Like new condition</p>
-                            <p class="text-xs text-gray-500 mt-2">Maria Santos • 5h ago</p>
-                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
-                                Propose Trade
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 3 -->
-                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">USB-C Hub 7-Port</h3>
-                            <p class="text-xs text-gray-600 mt-1">Perfect condition</p>
-                            <p class="text-xs text-gray-500 mt-2">James Reyes • 1d ago</p>
-                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
-                                Propose Trade
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 4 -->
-                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Portable Speaker</h3>
-                            <p class="text-xs text-gray-600 mt-1">Excellent condition</p>
-                            <p class="text-xs text-gray-500 mt-2">David Kim • 2d ago</p>
-                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
-                                Propose Trade
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 5 -->
-                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Webcam HD 1080p</h3>
-                            <p class="text-xs text-gray-600 mt-1">Good condition</p>
-                            <p class="text-xs text-gray-500 mt-2">Lisa Wong • 3d ago</p>
-                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
-                                Propose Trade
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 6 -->
-                    <div class="border border-gray-200 rounded-lg overflow-hidden hover:border-[#f5c518] hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-gray-300 group-hover:bg-gray-400 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-[#7b0f10] text-white text-xs font-bold px-2 py-1 rounded">BARTER</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Phone Stand Adjustable</h3>
-                            <p class="text-xs text-gray-600 mt-1">Like new</p>
-                            <p class="text-xs text-gray-500 mt-2">Ryan Cruz • 4d ago</p>
-                            <button class="w-full mt-3 bg-[#7b0f10] text-white text-xs font-bold py-2 rounded hover:bg-[#5a0a0b] transition">
-                                Propose Trade
-                            </button>
-                        </div>
+                    <div class="p-2">
+                        <h3 class="font-bold text-xs text-gray-900 line-clamp-1">{{ $item[0] }}</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">{{ $item[1] }}</p>
+                        <p class="text-xs text-gray-400 mt-0.5">{{ $item[2] }} • {{ $item[3] }}</p>
+                        <button class="w-full mt-2 text-white text-xs font-bold py-1.5 rounded transition" style="background-color:#7b0f10;font-size:10px;" onmouseover="this.style.backgroundColor='#5a0a0b'" onmouseout="this.style.backgroundColor='#7b0f10'">
+                            Propose Trade
+                        </button>
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
 
-        <!-- Donation Module - Amazon Style -->
-        <div class="ub-card overflow-hidden flex flex-col">
-            <div class="p-6 border-b border-gray-100 bg-gradient-to-r from-green-600 to-green-700 sticky top-0 z-10">
-                <h2 class="text-2xl font-bold text-white flex items-center">
-                    <i class="fas fa-gift mr-3"></i> Free Donations
+        <!-- Donation Module -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-3 bg-gradient-to-r from-green-600 to-green-700">
+                <h2 class="text-base font-bold text-white flex items-center">
+                    <i class="fas fa-gift mr-2"></i> Free Donations
                 </h2>
-                <p class="text-white/80 text-sm mt-1">Scroll to find items for free</p>
+                <p class="text-white/70 text-xs mt-0.5">Items available for free</p>
             </div>
-            <div class="flex-1 overflow-y-auto p-6" style="max-height: 600px;">
-                <div class="grid grid-cols-2 gap-4">
-                    <!-- Product Card 1 -->
-                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Canvas Backpack</h3>
-                            <p class="text-xs text-gray-600 mt-1">Excellent condition</p>
-                            <p class="text-xs text-gray-500 mt-2">Sarah Lee • 2h ago</p>
-                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
-                                Claim Item
-                            </button>
-                        </div>
+            <div class="p-4 grid grid-cols-2 gap-3">
+                @foreach([
+                    ['Canvas Backpack', 'Excellent condition', 'Sarah Lee', '2h ago', 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=200&h=100&fit=crop'],
+                    ['LED Desk Lamp', 'Bright & adjustable', 'John Doe', '4h ago', 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=200&h=100&fit=crop'],
+                ] as $item)
+                <div class="border border-green-100 rounded-lg overflow-hidden hover:border-green-400 hover:shadow-md transition cursor-pointer">
+                    <div class="relative">
+                        <img src="{{ $item[4] }}" class="w-full object-cover" style="height:80px;" alt="{{ $item[0] }}">
+                        <span class="absolute top-1.5 right-1.5 bg-green-600 text-white text-xs font-bold px-1.5 py-0.5 rounded" style="font-size:9px;">FREE</span>
                     </div>
-
-                    <!-- Product Card 2 -->
-                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">LED Desk Lamp</h3>
-                            <p class="text-xs text-gray-600 mt-1">Bright & adjustable</p>
-                            <p class="text-xs text-gray-500 mt-2">John Doe • 4h ago</p>
-                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
-                                Claim Item
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 3 -->
-                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Calculus Study Notes</h3>
-                            <p class="text-xs text-gray-600 mt-1">Handwritten & organized</p>
-                            <p class="text-xs text-gray-500 mt-2">Emma Watson • 6h ago</p>
-                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
-                                Claim Item
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 4 -->
-                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Water Bottle Tumbler</h3>
-                            <p class="text-xs text-gray-600 mt-1">Stainless steel</p>
-                            <p class="text-xs text-gray-500 mt-2">Michael Torres • 1d ago</p>
-                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
-                                Claim Item
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 5 -->
-                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Desk Organizer Set</h3>
-                            <p class="text-xs text-gray-600 mt-1">Bamboo material</p>
-                            <p class="text-xs text-gray-500 mt-2">Jessica Park • 2d ago</p>
-                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
-                                Claim Item
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Product Card 6 -->
-                    <div class="border border-green-200 rounded-lg overflow-hidden hover:border-green-500 hover:shadow-lg transition group cursor-pointer">
-                        <div class="w-full h-40 bg-green-200 group-hover:bg-green-300 transition relative">
-                            <img src="https://via.placeholder.com/200x160" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">FREE</span>
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-bold text-sm text-gray-900 line-clamp-2">Earbuds & Charging Case</h3>
-                            <p class="text-xs text-gray-600 mt-1">Fully functional</p>
-                            <p class="text-xs text-gray-500 mt-2">Chris Martinez • 3d ago</p>
-                            <button class="w-full mt-3 bg-green-600 text-white text-xs font-bold py-2 rounded hover:bg-green-700 transition">
-                                Claim Item
-                            </button>
-                        </div>
+                    <div class="p-2">
+                        <h3 class="font-bold text-xs text-gray-900 line-clamp-1">{{ $item[0] }}</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">{{ $item[1] }}</p>
+                        <p class="text-xs text-gray-400 mt-0.5">{{ $item[2] }} • {{ $item[3] }}</p>
+                        <button class="w-full mt-2 bg-green-600 text-white text-xs font-bold py-1.5 rounded hover:bg-green-700 transition" style="font-size:10px;">
+                            Claim Item
+                        </button>
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
     </div>

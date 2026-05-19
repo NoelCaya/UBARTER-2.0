@@ -10,21 +10,21 @@
     }
 </style>
 
-<div class="flex h-screen bg-gray-50 pt-16">
+<div class="flex bg-gray-50" style="height: calc(100vh - 4rem);">
     <!-- Chat Sidebar -->
-    <div class="w-80 bg-white border-r border-gray-200 flex flex-col">
+    <div class="w-72 bg-white border-r border-gray-100 flex flex-col flex-shrink-0">
         <!-- Search -->
-        <div class="p-4 border-b border-gray-200">
+        <div class="p-3 border-b border-gray-100">
             <input type="text" placeholder="Search conversations..."
-                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7b0f10] text-sm">
+                   class="w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm transition">
         </div>
 
         <!-- Conversations List -->
         <div class="flex-1 overflow-y-auto">
             <!-- Mark all as read -->
-            <div class="px-4 py-2 flex justify-between items-center border-b border-gray-100">
-                <p class="text-xs font-semibold text-[#7b0f10]">CONVERSATIONS</p>
-                <button class="text-xs text-[#7b0f10] hover:text-[#5a0a0b] font-medium">Mark all read</button>
+            <div class="px-3 py-2 flex justify-between items-center border-b border-gray-50">
+                <p class="text-xs font-bold text-[#7b0f10] uppercase tracking-wider">Conversations</p>
+                <button class="text-xs text-[#7b0f10] hover:text-[#5a0a0b] font-semibold">Mark all read</button>
             </div>
 
             <!-- Conversation Items -->
