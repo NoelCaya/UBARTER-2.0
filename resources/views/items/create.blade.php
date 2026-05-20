@@ -3,185 +3,183 @@
 @section('title', 'Post a New Item')
 
 @section('content')
-<div class="px-4 md:px-6 py-6 max-w-4xl mx-auto">
-    <!-- Header -->
-    <div class="mb-6">
+<div class="px-4 md:px-6 py-6 max-w-3xl mx-auto">
+
+    <div class="mb-5">
         <h1 class="text-2xl font-bold text-gray-900">Post a New Item</h1>
         <p class="text-gray-500 mt-1 text-sm">Share an item with the UB community.</p>
     </div>
 
-    <form class="space-y-5">
-        <!-- Progress Bar -->
-        <div class="bg-white rounded-xl shadow-sm p-5">
-            <div class="flex items-center mb-3">
-                <div class="flex items-center justify-center w-9 h-9 bg-[#7b0f10] text-white rounded-full font-bold text-sm flex-shrink-0">1</div>
-                <div class="h-1 bg-[#7b0f10] flex-grow mx-3"></div>
-                <div class="flex items-center justify-center w-9 h-9 bg-[#7b0f10]/20 text-[#7b0f10] rounded-full font-bold text-sm flex-shrink-0">2</div>
-                <div class="h-1 bg-gray-200 flex-grow mx-3"></div>
-                <div class="flex items-center justify-center w-9 h-9 bg-gray-200 text-gray-500 rounded-full font-bold text-sm flex-shrink-0">3</div>
-            </div>
-            <div class="flex justify-between text-xs font-semibold">
-                <span class="text-[#7b0f10]">Basic Info</span>
-                <span class="text-[#7b0f10]/60">Details</span>
-                <span class="text-gray-400">Preview & Publish</span>
-            </div>
+    {{-- Success / Error messages --}}
+    @if(session('success'))
+        <div style="background:#dcfce7;border:1px solid #bbf7d0;color:#166534;padding:10px 16px;border-radius:10px;font-size:0.82rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
         </div>
+    @endif
+    @if($errors->any())
+        <div style="background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:10px 16px;border-radius:10px;font-size:0.82rem;margin-bottom:16px;">
+            <p class="font-bold mb-1"><i class="fas fa-exclamation-circle mr-1"></i> Please fix the following errors:</p>
+            <ul style="list-style:disc;padding-left:18px;">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-        <!-- Step 1: Basic Information -->
-        <div class="bg-white rounded-xl shadow-sm p-6">
-            <h2 class="text-lg font-bold text-gray-900 mb-5">Item Information</h2>
+    <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <div class="bg-white rounded-xl shadow-sm p-6 space-y-5">
 
             <!-- Item Title -->
-            <div class="mb-5">
-                <label for="title" class="block text-sm font-semibold text-gray-700 mb-1.5">Item Title *</label>
-                <input type="text" id="title" name="title" placeholder="e.g., Advanced Calculus Textbook - 3rd Edition"
-                       class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm" required>
-                <p class="text-xs text-gray-400 mt-1">Be specific and clear about what you're posting</p>
+            <div>
+                <label for="title" class="block text-sm font-semibold text-gray-700 mb-1.5">Item Title <span class="text-red-500">*</span></label>
+                <input type="text" id="title" name="title" value="{{ old('title') }}"
+                       placeholder="e.g., Advanced Calculus Textbook - 3rd Edition"
+                       class="w-full px-4 py-2.5 rounded-lg border {{ $errors->has('title') ? 'border-red-400' : 'border-gray-300' }} focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm" required>
             </div>
 
             <!-- Description -->
-            <div class="mb-5">
-                <label for="description" class="block text-sm font-semibold text-gray-700 mb-1.5">Description *</label>
-                <textarea id="description" name="description" rows="5" placeholder="Describe the item in detail. Include condition, any damages, usage history, etc."
-                          class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm resize-none"
-                          required></textarea>
+            <div>
+                <label for="description" class="block text-sm font-semibold text-gray-700 mb-1.5">Description <span class="text-red-500">*</span></label>
+                <textarea id="description" name="description" rows="4"
+                          placeholder="Describe the item — condition, usage history, any damages, etc."
+                          class="w-full px-4 py-2.5 rounded-lg border {{ $errors->has('description') ? 'border-red-400' : 'border-gray-300' }} focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm resize-none" required>{{ old('description') }}</textarea>
             </div>
 
-            <!-- Category Selection -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+            <!-- Category & Condition -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="category" class="block text-sm font-semibold text-gray-700 mb-1.5">Category *</label>
-                    <select id="category" name="category" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm" required>
+                    <label for="category" class="block text-sm font-semibold text-gray-700 mb-1.5">Category <span class="text-red-500">*</span></label>
+                    <select id="category" name="category"
+                            class="w-full px-4 py-2.5 rounded-lg border {{ $errors->has('category') ? 'border-red-400' : 'border-gray-300' }} focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm" required>
                         <option value="">Select a category</option>
-                        <option value="books">Books & Textbooks</option>
-                        <option value="uniforms">Uniforms & Apparel</option>
-                        <option value="lab">Lab Supplies & Equipment</option>
-                        <option value="electronics">Electronics & Gadgets</option>
-                        <option value="furniture">Furniture</option>
-                        <option value="art">Art & Craft Supplies</option>
-                        <option value="sports">Sports Equipment</option>
-                        <option value="other">Other</option>
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat }}" {{ old('category') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div>
-                    <label for="subcategory" class="block text-sm font-semibold text-gray-700 mb-1.5">Subcategory</label>
-                    <select id="subcategory" name="subcategory" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm">
-                        <option value="">Select a subcategory</option>
-                        <option value="textbooks">Textbooks</option>
-                        <option value="fiction">Fiction & Literature</option>
-                        <option value="reference">Reference Books</option>
+                    <label for="condition" class="block text-sm font-semibold text-gray-700 mb-1.5">Condition <span class="text-red-500">*</span></label>
+                    <select id="condition" name="condition"
+                            class="w-full px-4 py-2.5 rounded-lg border {{ $errors->has('condition') ? 'border-red-400' : 'border-gray-300' }} focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm" required>
+                        <option value="">Select condition</option>
+                        @foreach($conditions as $cond)
+                            <option value="{{ $cond }}" {{ old('condition') == $cond ? 'selected' : '' }}>{{ $cond }}</option>
+                        @endforeach
                     </select>
-                </div>
-            </div>
-
-            <!-- Condition -->
-            <div class="mb-5">
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Item Condition *</label>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <label class="border-2 border-gray-200 rounded-lg p-3.5 cursor-pointer hover:border-[#7b0f10] transition has-[:checked]:border-[#7b0f10] has-[:checked]:bg-[#7b0f10]/5">
-                        <input type="radio" name="condition" value="new" class="w-4 h-4 accent-[#7b0f10]" required>
-                        <span class="block font-semibold text-gray-900 mt-1.5 text-sm">Brand New</span>
-                        <span class="text-xs text-gray-500">Never used, original packaging</span>
-                    </label>
-                    <label class="border-2 border-gray-200 rounded-lg p-3.5 cursor-pointer hover:border-[#7b0f10] transition has-[:checked]:border-[#7b0f10] has-[:checked]:bg-[#7b0f10]/5">
-                        <input type="radio" name="condition" value="slightly-used" class="w-4 h-4 accent-[#7b0f10]">
-                        <span class="block font-semibold text-gray-900 mt-1.5 text-sm">Slightly Used</span>
-                        <span class="text-xs text-gray-500">Used a few times, excellent condition</span>
-                    </label>
-                    <label class="border-2 border-gray-200 rounded-lg p-3.5 cursor-pointer hover:border-[#7b0f10] transition has-[:checked]:border-[#7b0f10] has-[:checked]:bg-[#7b0f10]/5">
-                        <input type="radio" name="condition" value="used" class="w-4 h-4 accent-[#7b0f10]">
-                        <span class="block font-semibold text-gray-900 mt-1.5 text-sm">Used</span>
-                        <span class="text-xs text-gray-500">Regular wear, fully functional</span>
-                    </label>
                 </div>
             </div>
 
             <!-- Item Type -->
-            <div class="mb-5">
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Item Type *</label>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <label class="border-2 border-[#7b0f10] bg-[#7b0f10]/5 rounded-lg p-3.5 cursor-pointer transition">
-                        <input type="radio" name="type" value="barter" class="w-4 h-4 accent-[#7b0f10]" checked required>
-                        <span class="block font-semibold text-gray-900 mt-1.5 text-sm">
-                            <i class="fas fa-exchange-alt mr-1.5 text-[#7b0f10]"></i>Barter
-                        </span>
-                        <span class="text-xs text-gray-500">I want to trade for other items</span>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Item Type <span class="text-red-500">*</span></label>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="flex items-start gap-3 border-2 rounded-xl p-4 cursor-pointer transition"
+                           id="label-barter"
+                           style="border-color:#7b0f10; background:rgba(123,15,16,0.04);">
+                        <input type="radio" name="item_type" value="Barter" class="mt-0.5 accent-[#7b0f10]"
+                               {{ old('item_type', 'Barter') == 'Barter' ? 'checked' : '' }} required>
+                        <div>
+                            <p class="font-bold text-sm text-gray-900"><i class="fas fa-exchange-alt mr-1 text-[#7b0f10]"></i> Barter</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Trade for another item</p>
+                        </div>
                     </label>
-                    <label class="border-2 border-gray-200 rounded-lg p-3.5 cursor-pointer hover:border-green-500 transition has-[:checked]:border-green-500 has-[:checked]:bg-green-50">
-                        <input type="radio" name="type" value="donation" class="w-4 h-4 accent-green-600">
-                        <span class="block font-semibold text-gray-900 mt-1.5 text-sm">
-                            <i class="fas fa-gift mr-1.5 text-green-600"></i>Donation
-                        </span>
-                        <span class="text-xs text-gray-500">I want to give this item away</span>
+                    <label class="flex items-start gap-3 border-2 border-gray-200 rounded-xl p-4 cursor-pointer transition"
+                           id="label-donation">
+                        <input type="radio" name="item_type" value="Donation" class="mt-0.5 accent-green-600"
+                               {{ old('item_type') == 'Donation' ? 'checked' : '' }}>
+                        <div>
+                            <p class="font-bold text-sm text-gray-900"><i class="fas fa-gift mr-1 text-green-600"></i> Donation</p>
+                            <p class="text-xs text-gray-500 mt-0.5">Give this item away for free</p>
+                        </div>
                     </label>
                 </div>
             </div>
 
-            <!-- What I'm Looking For (Barter Only) -->
-            <div id="barter-section" class="mb-5 pb-5 border-b border-gray-100">
-                <label for="looking-for" class="block text-sm font-semibold text-gray-700 mb-1.5">
-                    What are you looking for in exchange? *
+            <!-- Looking For (Barter only) -->
+            <div id="barter-section">
+                <label for="looking_for" class="block text-sm font-semibold text-gray-700 mb-1.5">
+                    What are you looking for in exchange?
                 </label>
-                <textarea id="looking-for" name="looking_for" rows="3" placeholder="e.g., Programming books, Lab equipment, Electronics, etc."
-                          class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm resize-none"></textarea>
+                <textarea id="looking_for" name="looking_for" rows="2"
+                          placeholder="e.g., Programming books, Lab equipment, Electronics..."
+                          class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm resize-none">{{ old('looking_for') }}</textarea>
             </div>
 
             <!-- Image Upload -->
-            <div class="mb-5">
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Item Photos *</label>
-                <div class="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center hover:border-[#7b0f10] transition cursor-pointer bg-gray-50 hover:bg-[#7b0f10]/5" onclick="document.getElementById('images').click()">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Item Photo</label>
+                <div class="border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-[#7b0f10] transition cursor-pointer bg-gray-50"
+                     onclick="document.getElementById('image').click()">
                     <i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2 block"></i>
-                    <p class="text-gray-700 font-semibold text-sm mb-0.5">Drag and drop your images here</p>
-                    <p class="text-xs text-gray-400">or click to browse · PNG, JPG up to 10MB</p>
-                    <input type="file" id="images" name="images" multiple accept="image/*" class="hidden">
+                    <p class="text-gray-600 font-semibold text-sm">Click to upload a photo</p>
+                    <p class="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
+                    <input type="file" id="image" name="image" accept="image/*" class="hidden"
+                           onchange="previewImage(this)">
                 </div>
-                <p class="text-xs text-gray-400 mt-1.5">Add at least 1 photo. The first photo will be the main image.</p>
+                <!-- Preview -->
+                <div id="image-preview" class="hidden mt-3">
+                    <img id="preview-img" src="" alt="Preview" class="h-40 rounded-lg object-cover border border-gray-200">
+                    <p class="text-xs text-gray-500 mt-1" id="preview-name"></p>
+                </div>
+                <p class="text-xs text-gray-400 mt-1.5">Optional — if no photo is uploaded, a placeholder will be used.</p>
             </div>
 
-            <!-- Location & Delivery -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-                <div>
-                    <label for="location" class="block text-sm font-semibold text-gray-700 mb-1.5">Item Location *</label>
-                    <input type="text" id="location" name="location" placeholder="e.g., College of Engineering Building"
-                           class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm" required>
-                </div>
-                <div>
-                    <label for="delivery" class="block text-sm font-semibold text-gray-700 mb-1.5">Delivery Option *</label>
-                    <select id="delivery" name="delivery" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm" required>
-                        <option value="">Select option</option>
-                        <option value="pickup">Pickup Only</option>
-                        <option value="delivery">Delivery Only</option>
-                        <option value="both">Either (Pickup or Delivery)</option>
-                    </select>
-                </div>
+            <!-- Submit -->
+            <div class="flex gap-3 pt-2 border-t border-gray-100">
+                <a href="{{ route('items.browse') }}"
+                   class="px-5 py-2.5 border border-gray-300 text-gray-600 font-semibold rounded-lg hover:bg-gray-50 transition text-sm">
+                    Cancel
+                </a>
+                <button type="submit"
+                        class="flex-1 py-2.5 text-white font-bold rounded-lg transition text-sm flex items-center justify-center gap-2"
+                        style="background-color:#7b0f10;"
+                        onmouseover="this.style.backgroundColor='#5a0a0b'"
+                        onmouseout="this.style.backgroundColor='#7b0f10'">
+                    <i class="fas fa-paper-plane text-xs"></i> Post Item
+                </button>
             </div>
 
-            <!-- Navigation Buttons -->
-            <div class="flex justify-between pt-5 border-t border-gray-100">
-                <button type="button" class="px-5 py-2.5 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition text-sm">
-                    Save as Draft
-                </button>
-                <button type="button" class="px-5 py-2.5 text-white font-semibold rounded-lg transition text-sm flex items-center gap-2" style="background-color: #7b0f10;" onmouseover="this.style.backgroundColor='#5a0a0b'" onmouseout="this.style.backgroundColor='#7b0f10'">
-                    Continue to Next Step <i class="fas fa-arrow-right text-xs"></i>
-                </button>
-            </div>
         </div>
     </form>
 </div>
 
 <script>
-    document.querySelectorAll('input[name="type"]').forEach(radio => {
+    // Toggle barter section
+    document.querySelectorAll('input[name="item_type"]').forEach(radio => {
         radio.addEventListener('change', function() {
             const barterSection = document.getElementById('barter-section');
-            const lookingFor = document.getElementById('looking-for');
-            if (this.value === 'barter') {
+            const labelBarter = document.getElementById('label-barter');
+            const labelDonation = document.getElementById('label-donation');
+            if (this.value === 'Barter') {
                 barterSection.style.display = 'block';
-                lookingFor.required = true;
+                labelBarter.style.borderColor = '#7b0f10';
+                labelBarter.style.background = 'rgba(123,15,16,0.04)';
+                labelDonation.style.borderColor = '#e5e7eb';
+                labelDonation.style.background = '';
             } else {
                 barterSection.style.display = 'none';
-                lookingFor.required = false;
+                labelDonation.style.borderColor = '#16a34a';
+                labelDonation.style.background = 'rgba(22,163,74,0.04)';
+                labelBarter.style.borderColor = '#e5e7eb';
+                labelBarter.style.background = '';
             }
         });
     });
+
+    // Image preview
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview-img').src = e.target.result;
+                document.getElementById('preview-name').textContent = input.files[0].name;
+                document.getElementById('image-preview').classList.remove('hidden');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
 @endsection

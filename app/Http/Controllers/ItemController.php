@@ -117,21 +117,46 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title'       => 'required|string|max:255',
             'description' => 'required|string|max:1000',
-            'category' => 'required|string',
-            'condition' => 'required|in:New,Slightly Used,Used',
-            'item_type' => 'required|in:Barter,Donation',
-            'image_url' => 'nullable|url',
+            'category'    => 'required|string',
+            'condition'   => 'required|in:New,Slightly Used,Used',
+            'item_type'   => 'required|in:Barter,Donation',
+            'looking_for' => 'nullable|string|max:500',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
-        $validated['user_id'] = auth()->id();
-        $validated['status'] = 'Active';
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('items', 'public');
+            $validated['image_url'] = '/storage/' . $path;
+        } else {
+            // Default placeholder based on category
+            $placeholders = [
+                'Books & Textbooks'    => 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=400&fit=crop',
+                'Electronics'          => 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=400&fit=crop',
+                'Uniforms & Apparel'   => 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&h=400&fit=crop',
+                'Lab Supplies'         => 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=400&h=400&fit=crop',
+                'Furniture'            => 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=400&fit=crop',
+                'Art & Craft Supplies' => 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=400&fit=crop',
+                'Office Supplies'      => 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&h=400&fit=crop',
+                'Sports Equipment'     => 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&h=400&fit=crop',
+            ];
+            $validated['image_url'] = $placeholders[$validated['category']]
+                ?? 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop';
+        }
+
+        unset($validated['image']); // remove file from validated array
+
+        $validated['user_id']   = auth()->id();
+        $validated['status']    = 'Active';
         $validated['posted_at'] = now();
+        $validated['seller_rating'] = 5.0;
 
         Item::create($validated);
 
-        return redirect()->route('items.browse')->with('success', 'Item posted successfully!');
+        return redirect()->route('items.browse')
+            ->with('success', 'Your item has been posted successfully!');
     }
 
     /**

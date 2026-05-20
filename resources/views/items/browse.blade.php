@@ -119,6 +119,12 @@
         <p class="text-gray-500 text-xs mt-0.5">Discover items from your UB community</p>
     </div>
 
+    @if(session('success'))
+        <div style="background:#dcfce7;border:1px solid #bbf7d0;color:#166534;padding:10px 16px;border-radius:10px;font-size:0.82rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
+        </div>
+    @endif
+
     <div class="flex gap-5">
         <!-- Filters Sidebar -->
         <div class="hidden lg:block w-44 flex-shrink-0">
@@ -287,9 +293,12 @@
                                     {{ $item->item_type }}
                                 </span>
                                 <!-- Wishlist -->
-                                <button class="card-wishlist-btn" onclick="event.preventDefault();">
-                                    <i class="far fa-heart"></i>
-                                </button>
+                                <form action="{{ route('wishlist.add', $item) }}" method="POST" style="position:absolute;top:6px;right:6px;">
+                                    @csrf
+                                    <button type="submit" class="card-wishlist-btn" onclick="event.stopPropagation();" title="Add to Wishlist">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                </form>
                                 <!-- Views -->
                                 <span class="card-views"><i class="fas fa-eye mr-0.5"></i>{{ $item->views }}</span>
                                 <!-- Condition -->
