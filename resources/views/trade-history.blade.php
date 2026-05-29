@@ -1,277 +1,281 @@
 @extends('layouts.master')
 
-@section('title', 'Trade History - UBarter 2.0')
+@section('title', 'Trade History')
 
 @section('content')
-<style>
-    .status-badge {
-        display: inline-block;
-        padding: 0.25rem 0.6rem;
-        border-radius: 999px;
-        font-size: 0.7rem;
-        font-weight: 700;
-    }
-    .status-completed { background: #d1fae5; color: #065f46; }
-    .status-pending   { background: #fef3c7; color: #92400e; }
-    .status-cancelled { background: #fee2e2; color: #991b1b; }
-</style>
+<div style="max-width:960px;margin:0 auto;padding:24px 16px;">
 
-<div class="px-4 md:px-6 py-6 max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="mb-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900 flex items-center">
-                    <i class="fas fa-history mr-2.5 text-[#7b0f10]"></i>Trade History
-                </h1>
-                <p class="text-gray-500 text-sm mt-1">Track all your barter exchanges and transactions</p>
-            </div>
-            <div class="flex gap-2">
-                <form id="exportForm" method="POST" action="{{ route('trade-history.export') }}">
-                    @csrf
-                    <button type="submit" class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-bold border-2 border-[#7b0f10] text-[#7b0f10] hover:bg-[#7b0f10] hover:text-white transition">
-                        <i class="fas fa-download mr-2"></i> Export
-                    </button>
-                </form>
-                <button class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-bold bg-[#7b0f10] text-white hover:bg-[#5a0a0b] transition">
-                    <i class="fas fa-plus mr-2"></i> New Trade
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <div>
+            <h1 style="font-size:1.4rem;font-weight:800;color:#1a1209;margin:0;display:flex;align-items:center;gap:8px;">
+                <i class="fas fa-exchange-alt" style="color:#7b0f10;"></i> Trades & Requests
+            </h1>
+            <p style="font-size:0.78rem;color:#9ca3af;margin:3px 0 0;">Manage your barter proposals</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <form method="POST" action="{{ route('trade-history.export') }}">
+                @csrf
+                <button type="submit" style="background:#fff;border:1.5px solid #7b0f10;color:#7b0f10;border-radius:8px;padding:7px 14px;font-size:0.78rem;font-weight:700;cursor:pointer;"
+                        onmouseover="this.style.background='#7b0f10';this.style.color='white'" onmouseout="this.style.background='#fff';this.style.color='#7b0f10'">
+                    <i class="fas fa-download mr-1"></i> Export
                 </button>
+            </form>
+            <a href="{{ route('items.browse') }}" style="background:#7b0f10;color:#fff;border-radius:8px;padding:7px 14px;font-size:0.78rem;font-weight:700;text-decoration:none;"
+               onmouseover="this.style.background='#5a0a0b'" onmouseout="this.style.background='#7b0f10'">
+                <i class="fas fa-search mr-1"></i> Find Items to Trade
+            </a>
+        </div>
+    </div>
+
+    @if(session('success'))
+        <div style="background:#dcfce7;border:1px solid #bbf7d0;color:#166534;padding:10px 16px;border-radius:10px;font-size:0.82rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div style="background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:10px 16px;border-radius:10px;font-size:0.82rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+        </div>
+    @endif
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">
+        <div style="background:#fff;border-radius:12px;padding:14px;border-left:4px solid #16a34a;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+            <p style="font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#9ca3af;margin:0;">Completed</p>
+            <p style="font-size:1.5rem;font-weight:800;color:#16a34a;margin:3px 0 0;">{{ $stats['completed'] }}</p>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:14px;border-left:4px solid #f59e0b;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+            <p style="font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#9ca3af;margin:0;">Pending</p>
+            <p style="font-size:1.5rem;font-weight:800;color:#f59e0b;margin:3px 0 0;">{{ $stats['pending'] }}</p>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:14px;border-left:4px solid #7b0f10;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+            <p style="font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#9ca3af;margin:0;">Total</p>
+            <p style="font-size:1.5rem;font-weight:800;color:#7b0f10;margin:3px 0 0;">{{ $stats['total'] }}</p>
+        </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div style="display:flex;gap:4px;margin-bottom:16px;background:#f3f4f6;padding:4px;border-radius:10px;width:fit-content;">
+        @foreach(['all'=>'All','Pending'=>'Pending','Accepted'=>'Accepted','Completed'=>'Completed','Rejected'=>'Rejected','Cancelled'=>'Cancelled'] as $val=>$label)
+        <a href="{{ route('trade-history', ['status'=>$val]) }}"
+           style="padding:5px 12px;border-radius:7px;font-size:0.72rem;font-weight:700;text-decoration:none;transition:all 0.15s;
+                  {{ $status===$val ? 'background:#7b0f10;color:#fff;' : 'color:#6b7280;' }}">
+            {{ $label }}
+        </a>
+        @endforeach
+    </div>
+
+    <!-- Trade Cards -->
+    @if($trades->count() > 0)
+    <div style="display:flex;flex-direction:column;gap:12px;">
+        @foreach($trades as $trade)
+        @php $isInitiator = $trade->initiator_id === auth()->id(); @endphp
+
+        <div style="background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,0.08);overflow:hidden;
+                    {{ $trade->status==='Pending' && !$isInitiator ? 'border:2px solid #f59e0b;' : 'border:1px solid #f3f4f6;' }}">
+
+            {{-- Incoming proposal banner --}}
+            @if($trade->status === 'Pending' && !$isInitiator)
+            <div style="background:#fef9c3;padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #fde68a;">
+                <i class="fas fa-bell" style="color:#f59e0b;font-size:0.85rem;"></i>
+                <p style="font-size:0.78rem;font-weight:700;color:#92400e;margin:0;">
+                    <strong>{{ $trade->initiator->name }}</strong> wants to trade with you — action required!
+                </p>
             </div>
-        </div>
-    </div>
+            @endif
 
-    <!-- Stats Overview -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
-        <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-green-500">
-            <p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Completed Trades</p>
-            <p class="text-3xl font-bold text-green-600 mt-1.5">24</p>
-            <p class="text-xs text-gray-400 mt-1">100% success rate</p>
-        </div>
+            <div style="padding:16px;">
+                {{-- Trade Exchange Visual --}}
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
 
-        <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-[#f5c518]">
-            <p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Items Given</p>
-            <p class="text-3xl font-bold text-[#f5c518] mt-1.5">32</p>
-            <p class="text-xs text-gray-400 mt-1">Total items shared</p>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-blue-500">
-            <p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Items Received</p>
-            <p class="text-3xl font-bold text-blue-500 mt-1.5">28</p>
-            <p class="text-xs text-gray-400 mt-1">Total items obtained</p>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-[#7b0f10]">
-            <p class="text-xs font-bold text-gray-500 uppercase tracking-wide">Waste Diverted</p>
-            <p class="text-3xl font-bold text-[#7b0f10] mt-1.5">42.3 kg</p>
-            <p class="text-xs text-gray-400 mt-1">Environmental impact</p>
-        </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="bg-white rounded-xl shadow-sm p-4 mb-5">
-        <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-            <input type="text" placeholder="Search trades..."
-                   class="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 focus:border-[#7b0f10] text-sm">
-            <select class="px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 text-sm">
-                <option>All Status</option>
-                <option>Completed</option>
-                <option>Pending</option>
-                <option>Cancelled</option>
-            </select>
-            <select class="px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#7b0f10]/30 text-sm">
-                <option>All Time</option>
-                <option>This Month</option>
-                <option>Last 3 Months</option>
-                <option>This Year</option>
-            </select>
-        </div>
-    </div>
-
-    <!-- Trade History Tabs -->
-    <div class="mb-4 border-b border-gray-200">
-        <div class="flex gap-6">
-            <button class="pb-3 px-1 border-b-2 border-[#7b0f10] text-[#7b0f10] font-bold text-sm">All Trades (24)</button>
-            <button class="pb-3 px-1 border-b-2 border-transparent text-gray-500 font-semibold text-sm hover:text-[#7b0f10] transition">Sent (12)</button>
-            <button class="pb-3 px-1 border-b-2 border-transparent text-gray-500 font-semibold text-sm hover:text-[#7b0f10] transition">Received (12)</button>
-        </div>
-    </div>
-
-    <!-- Trade Records -->
-    <div class="space-y-3">
-        <!-- Completed Trade -->
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition">
-            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center text-base flex-shrink-0">✓</div>
-                        <div>
-                            <h3 class="font-bold text-gray-900 text-sm">Arduino Uno Kit → Biology Textbook</h3>
-                            <p class="text-xs text-gray-500">Traded with Maria Santos · ECE Dept</p>
+                    {{-- Initiator's item --}}
+                    <div style="flex:1;min-width:140px;background:#f9fafb;border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px;border:1px solid #f3f4f6;">
+                        <img src="{{ $trade->initiatorItem->image_url ?? 'https://via.placeholder.com/48' }}"
+                             style="width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#e5e7eb;"
+                             alt="{{ $trade->initiatorItem->title ?? 'Item' }}">
+                        <div style="min-width:0;">
+                            <p style="font-size:0.65rem;color:#9ca3af;margin:0;font-weight:600;">
+                                {{ $isInitiator ? 'YOUR OFFER' : $trade->initiator->name . "'s OFFER" }}
+                            </p>
+                            <p style="font-size:0.8rem;font-weight:700;color:#1a1209;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;">
+                                {{ $trade->initiatorItem->title ?? 'Deleted item' }}
+                            </p>
+                            <p style="font-size:0.65rem;color:#9ca3af;margin:1px 0 0;">{{ $trade->initiatorItem->condition ?? '' }}</p>
                         </div>
                     </div>
-                    <div class="flex flex-wrap gap-1.5 text-xs">
-                        <span class="status-badge status-completed">Completed</span>
-                        <span class="bg-[#7b0f10]/10 text-[#7b0f10] px-2 py-0.5 rounded-full font-bold">2.3 kg saved</span>
-                        <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">Both Verified</span>
-                    </div>
-                </div>
-                <div class="text-right flex-shrink-0">
-                    <p class="text-xs text-gray-400">May 4, 2026</p>
-                    <p class="text-base font-bold text-[#7b0f10] mt-0.5">Equal Exchange</p>
-                    <button class="mt-2 text-xs text-[#7b0f10] font-bold hover:underline">View Details →</button>
-                </div>
-            </div>
-        </div>
 
-        <!-- Pending Trade -->
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition border-l-4 border-[#f5c518]">
-            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center text-base flex-shrink-0">⏳</div>
-                        <div>
-                            <h3 class="font-bold text-gray-900 text-sm">Graphing Calculator → Chemistry Lab Manual</h3>
-                            <p class="text-xs text-gray-500">Trading with James Reyes · ME Dept</p>
+                    {{-- Exchange arrow --}}
+                    <div style="flex-shrink:0;text-align:center;">
+                        <div style="background:#7b0f10;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;">
+                            <i class="fas fa-exchange-alt" style="font-size:0.75rem;"></i>
+                        </div>
+                        <p style="font-size:0.6rem;color:#9ca3af;margin:3px 0 0;font-weight:600;">BARTER</p>
+                    </div>
+
+                    {{-- Receiver's item --}}
+                    <div style="flex:1;min-width:140px;background:#f9fafb;border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px;border:1px solid #f3f4f6;">
+                        <img src="{{ $trade->receiverItem->image_url ?? 'https://via.placeholder.com/48' }}"
+                             style="width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#e5e7eb;"
+                             alt="{{ $trade->receiverItem->title ?? 'Item' }}">
+                        <div style="min-width:0;">
+                            <p style="font-size:0.65rem;color:#9ca3af;margin:0;font-weight:600;">
+                                {{ !$isInitiator ? 'YOUR ITEM' : $trade->receiver->name . "'s ITEM" }}
+                            </p>
+                            <p style="font-size:0.8rem;font-weight:700;color:#1a1209;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;">
+                                {{ $trade->receiverItem->title ?? 'Deleted item' }}
+                            </p>
+                            <p style="font-size:0.65rem;color:#9ca3af;margin:1px 0 0;">{{ $trade->receiverItem->condition ?? '' }}</p>
                         </div>
                     </div>
-                    <div class="flex flex-wrap gap-1.5 text-xs">
-                        <span class="status-badge status-pending">Pending Confirmation</span>
-                        <span class="bg-[#7b0f10]/10 text-[#7b0f10] px-2 py-0.5 rounded-full font-bold">Est. 1.8 kg save</span>
-                        <span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-bold">Waiting for approval</span>
-                    </div>
                 </div>
-                <div class="text-right flex-shrink-0">
-                    <p class="text-xs text-gray-400">May 3, 2026</p>
-                    <p class="text-base font-bold text-[#7b0f10] mt-0.5">Pending Approval</p>
-                    <button class="mt-2 text-xs text-[#7b0f10] font-bold hover:underline">View Details →</button>
-                </div>
-            </div>
-        </div>
 
-        <!-- Completed Trade 2 -->
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition">
-            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center text-base flex-shrink-0">✓</div>
-                        <div>
-                            <h3 class="font-bold text-gray-900 text-sm">Nursing Textbook Set → Drawing Materials</h3>
-                            <p class="text-xs text-gray-500">Traded with Sofia Garcia · CAS Dept</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap gap-1.5 text-xs">
-                        <span class="status-badge status-completed">Completed</span>
-                        <span class="bg-[#7b0f10]/10 text-[#7b0f10] px-2 py-0.5 rounded-full font-bold">3.2 kg saved</span>
-                        <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">5 ⭐ Reviews</span>
-                    </div>
-                </div>
-                <div class="text-right flex-shrink-0">
-                    <p class="text-xs text-gray-400">May 1, 2026</p>
-                    <p class="text-base font-bold text-[#7b0f10] mt-0.5">Equal Exchange</p>
-                    <button class="mt-2 text-xs text-[#7b0f10] font-bold hover:underline">View Details →</button>
-                </div>
-            </div>
-        </div>
+                {{-- Meta row --}}
+                <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                        {{-- Status --}}
+                        @php
+                            $statusStyle = [
+                                'Pending'   => 'background:#fef9c3;color:#92400e;',
+                                'Accepted'  => 'background:#dbeafe;color:#1d4ed8;',
+                                'Completed' => 'background:#dcfce7;color:#166534;',
+                                'Rejected'  => 'background:#fee2e2;color:#991b1b;',
+                                'Cancelled' => 'background:#f3f4f6;color:#6b7280;',
+                            ][$trade->status] ?? 'background:#f3f4f6;color:#6b7280;';
+                        @endphp
+                        <span style="font-size:0.68rem;font-weight:700;padding:3px 10px;border-radius:999px;{{ $statusStyle }}">
+                            {{ $trade->status }}
+                        </span>
 
-        <!-- Cancelled Trade -->
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition opacity-60">
-            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center text-base flex-shrink-0">✕</div>
-                        <div>
-                            <h3 class="font-bold text-gray-900 text-sm line-through">Laptop Bag → Phone Accessories</h3>
-                            <p class="text-xs text-gray-500">Was trading with John Dela Cruz · ME Dept</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap gap-1.5 text-xs">
-                        <span class="status-badge status-cancelled">Cancelled</span>
-                        <span class="bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Buyer withdrew</span>
-                    </div>
-                </div>
-                <div class="text-right flex-shrink-0">
-                    <p class="text-xs text-gray-400">April 28, 2026</p>
-                    <p class="text-base font-bold text-gray-400 mt-0.5">Cancelled</p>
-                    <button class="mt-2 text-xs text-gray-400 font-bold hover:underline">View Details →</button>
-                </div>
-            </div>
-        </div>
+                        {{-- Direction --}}
+                        <span style="font-size:0.68rem;color:#9ca3af;">
+                            @if($isInitiator)
+                                <i class="fas fa-arrow-right" style="color:#7b0f10;font-size:0.6rem;"></i> You proposed to {{ $trade->receiver->name }}
+                            @else
+                                <i class="fas fa-arrow-left" style="color:#16a34a;font-size:0.6rem;"></i> Proposal from {{ $trade->initiator->name }}
+                            @endif
+                        </span>
 
-        <!-- Completed Trade 3 -->
-        <div class="bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition">
-            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                <div class="flex-1">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center text-base flex-shrink-0">✓</div>
-                        <div>
-                            <h3 class="font-bold text-gray-900 text-sm">USB Flash Drives (5x) → Programming Books</h3>
-                            <p class="text-xs text-gray-500">Traded with Alex Chen · ECE Dept</p>
-                        </div>
+                        {{-- Message --}}
+                        @if($trade->message)
+                        <span style="font-size:0.65rem;color:#6b7280;background:#f9fafb;padding:2px 8px;border-radius:999px;border:1px solid #e5e7eb;">
+                            "{{ Str::limit($trade->message, 50) }}"
+                        </span>
+                        @endif
+
+                        <span style="font-size:0.65rem;color:#d1d5db;">{{ $trade->created_at->format('M d, Y') }}</span>
                     </div>
-                    <div class="flex flex-wrap gap-1.5 text-xs">
-                        <span class="status-badge status-completed">Completed</span>
-                        <span class="bg-[#7b0f10]/10 text-[#7b0f10] px-2 py-0.5 rounded-full font-bold">1.5 kg saved</span>
-                        <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">5 ⭐ Reviews</span>
+
+                    {{-- Action Buttons --}}
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+
+                        {{-- RECEIVER: Accept or Reject pending trade --}}
+                        @if($trade->status === 'Pending' && !$isInitiator)
+                            <form action="{{ route('trades.accept', $trade) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit"
+                                        style="background:#16a34a;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:0.78rem;font-weight:700;cursor:pointer;"
+                                        onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='#16a34a'">
+                                    <i class="fas fa-check mr-1"></i> Accept Trade
+                                </button>
+                            </form>
+                            <form action="{{ route('trades.reject', $trade) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit"
+                                        style="background:#fee2e2;color:#991b1b;border:none;border-radius:8px;padding:7px 16px;font-size:0.78rem;font-weight:700;cursor:pointer;"
+                                        onmouseover="this.style.background='#dc2626';this.style.color='white'" onmouseout="this.style.background='#fee2e2';this.style.color='#991b1b'">
+                                    <i class="fas fa-times mr-1"></i> Reject
+                                </button>
+                            </form>
+                        @endif
+
+                        {{-- BOTH: Mark complete when accepted --}}
+                        @if($trade->status === 'Accepted')
+                            <div style="background:#dbeafe;border-radius:8px;padding:6px 12px;font-size:0.72rem;color:#1d4ed8;font-weight:600;display:flex;align-items:center;gap:5px;">
+                                <i class="fas fa-handshake"></i> Trade accepted — arrange the exchange!
+                            </div>
+                            <form action="{{ route('trades.complete', $trade) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit"
+                                        style="background:#7b0f10;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:0.78rem;font-weight:700;cursor:pointer;"
+                                        onmouseover="this.style.background='#5a0a0b'" onmouseout="this.style.background='#7b0f10'">
+                                    <i class="fas fa-handshake mr-1"></i> Mark as Completed
+                                </button>
+                            </form>
+                        @endif
+
+                        {{-- INITIATOR: Cancel pending trade --}}
+                        @if($trade->status === 'Pending' && $isInitiator)
+                            <form action="{{ route('trades.cancel', $trade) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit"
+                                        style="background:#f3f4f6;color:#6b7280;border:none;border-radius:8px;padding:7px 14px;font-size:0.72rem;font-weight:600;cursor:pointer;"
+                                        onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'"
+                                        onclick="return confirm('Cancel this trade proposal?')">
+                                    Cancel Proposal
+                                </button>
+                            </form>
+                        @endif
+
+                        {{-- Chat with partner --}}
+                        @php $partnerId = $isInitiator ? $trade->receiver_id : $trade->initiator_id; @endphp
+                        <a href="{{ route('chat.show', $partnerId) }}"
+                           style="background:#f3f4f6;color:#374151;border-radius:8px;padding:7px 12px;font-size:0.72rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:4px;"
+                           onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+                            <i class="fas fa-comments" style="font-size:0.65rem;"></i> Chat
+                        </a>
                     </div>
-                </div>
-                <div class="text-right flex-shrink-0">
-                    <p class="text-xs text-gray-400">April 25, 2026</p>
-                    <p class="text-base font-bold text-[#7b0f10] mt-0.5">Equal Exchange</p>
-                    <button class="mt-2 text-xs text-[#7b0f10] font-bold hover:underline">View Details →</button>
                 </div>
             </div>
         </div>
+        @endforeach
     </div>
 
-    <!-- Load More -->
-    <div class="mt-6 text-center">
-        <button class="px-6 py-2.5 border-2 border-[#7b0f10] text-[#7b0f10] font-bold rounded-lg hover:bg-[#7b0f10] hover:text-white transition text-sm">
-            Load More Trades
-        </button>
-    </div>
+    @if($trades->hasPages())
+        <div style="margin-top:20px;display:flex;justify-content:center;">
+            {{ $trades->appends(request()->query())->links() }}
+        </div>
+    @endif
 
-    <!-- Trade Statistics -->
-    <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <!-- Monthly Activity -->
-        <div class="bg-white rounded-xl shadow-sm p-5">
-            <h3 class="text-base font-bold text-[#7b0f10] mb-4 flex items-center">
-                <i class="fas fa-chart-bar mr-2"></i> Monthly Activity
-            </h3>
-            <div class="space-y-3">
-                @foreach([['April 2026', '8 trades', '100%'], ['May 2026', '6 trades (so far)', '75%'], ['March 2026', '5 trades', '62%']] as $month)
+    @else
+    <div style="background:#fff;border-radius:14px;padding:48px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+        <i class="fas fa-exchange-alt" style="font-size:2.5rem;color:#e5e7eb;margin-bottom:12px;display:block;"></i>
+        <h3 style="font-size:1rem;font-weight:700;color:#1a1209;margin:0 0 6px;">No trades yet</h3>
+        <p style="font-size:0.82rem;color:#9ca3af;margin:0 0 16px;">Browse items and click "Propose Barter" to start trading!</p>
+        <a href="{{ route('items.browse') }}"
+           style="background:#7b0f10;color:#fff;border-radius:8px;padding:9px 20px;font-size:0.82rem;font-weight:700;text-decoration:none;">
+            Browse Items
+        </a>
+    </div>
+    @endif
+
+</div>
+
+{{-- How it works guide (shown when no trades) --}}
+@if($trades->count() === 0)
+<div style="max-width:960px;margin:0 auto 24px;padding:0 16px;">
+    <div style="background:linear-gradient(135deg,rgba(123,15,16,0.04),rgba(245,197,24,0.06));border:1px solid rgba(123,15,16,0.1);border-radius:14px;padding:20px 24px;">
+        <h3 style="font-size:0.9rem;font-weight:800;color:#7b0f10;margin:0 0 14px;display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-info-circle"></i> How Bartering Works
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+            @foreach([
+                ['1','fas fa-search','Browse Items','Find a Barter item you want from the marketplace'],
+                ['2','fas fa-exchange-alt','Propose Trade','Select one of your items to offer in exchange'],
+                ['3','fas fa-check','Receiver Accepts','The other user reviews and accepts or rejects your offer'],
+                ['4','fas fa-handshake','Exchange & Complete','Meet up, exchange items, then mark the trade as complete'],
+            ] as $step)
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:24px;height:24px;border-radius:50%;background:#7b0f10;color:#fff;font-size:0.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">{{ $step[0] }}</div>
                 <div>
-                    <div class="flex justify-between mb-1">
-                        <span class="text-xs font-semibold text-gray-700">{{ $month[0] }}</span>
-                        <span class="text-xs font-bold text-[#7b0f10]">{{ $month[1] }}</span>
-                    </div>
-                    <div class="bg-gray-100 rounded-full h-1.5">
-                        <div class="bg-gradient-to-r from-[#7b0f10] to-[#f5c518] h-1.5 rounded-full" style="width: {{ $month[2] }}"></div>
-                    </div>
+                    <p style="font-size:0.78rem;font-weight:700;color:#1a1209;margin:0;"><i class="fas {{ $step[1] }}" style="color:#7b0f10;margin-right:4px;font-size:0.7rem;"></i>{{ $step[2] }}</p>
+                    <p style="font-size:0.68rem;color:#9ca3af;margin:2px 0 0;line-height:1.4;">{{ $step[3] }}</p>
                 </div>
-                @endforeach
             </div>
-        </div>
-
-        <!-- Trade Partners -->
-        <div class="bg-white rounded-xl shadow-sm p-5">
-            <h3 class="text-base font-bold text-[#7b0f10] mb-4 flex items-center">
-                <i class="fas fa-users mr-2"></i> Frequent Trade Partners
-            </h3>
-            <div class="space-y-2">
-                @foreach([['Alex Chen', '4 trades'], ['Maria Santos', '3 trades'], ['Sofia Garcia', '2 trades']] as $partner)
-                <div class="flex items-center justify-between p-2.5 bg-gray-50 rounded-lg">
-                    <div class="flex items-center gap-3">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode($partner[0]) }}&background=7b0f10&color=fff" alt="{{ $partner[0] }}" class="w-9 h-9 rounded-full">
-                        <div>
-                            <p class="font-semibold text-gray-900 text-sm">{{ $partner[0] }}</p>
-                            <p class="text-xs text-gray-500">{{ $partner[1] }}</p>
-                        </div>
-                    </div>
-                    <span class="text-[#f5c518] font-bold text-sm">5 ⭐</span>
-                </div>
-                @endforeach
-            </div>
+            @endforeach
         </div>
     </div>
 </div>
+@endif
+
 @endsection

@@ -34,16 +34,16 @@
         transition: background 0.15s;
     }
     .fb-user-row:hover { background: #f3f4f6; color: #1a1209; text-decoration: none; }
-    .fb-user-row img { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; }
-    .fb-user-row span { font-size: 0.9rem; font-weight: 700; }
+    .fb-user-row img { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; }
+    .fb-user-row span { font-size: 0.82rem; font-weight: 700; }
 
     /* Nav links */
     .fb-nav-link {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 10px 10px;
-        border-radius: 10px;
+        gap: 10px;
+        padding: 7px 10px;
+        border-radius: 8px;
         text-decoration: none;
         color: #1a1209;
         transition: background 0.15s;
@@ -54,15 +54,15 @@
     .fb-nav-link.active .fb-icon { background: #7b0f10; color: #fff; }
 
     .fb-icon {
-        width: 36px;
-        height: 36px;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
         background: #f3f4f6;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        font-size: 1rem;
+        font-size: 0.78rem;
         color: #374151;
         transition: background 0.15s, color 0.15s;
     }
@@ -72,7 +72,7 @@
     }
 
     .fb-label {
-        font-size: 0.88rem;
+        font-size: 0.8rem;
         font-weight: 600;
         flex: 1;
     }
@@ -104,18 +104,18 @@
 
     /* Footer */
     .fb-sidebar-footer {
-        padding: 10px 12px;
+        padding: 8px 10px;
         border-top: 1px solid #e5e7eb;
         background: #fff;
     }
     .fb-footer-user {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
     }
-    .fb-footer-user img { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; }
-    .fb-footer-name { font-size: 0.78rem; font-weight: 700; color: #1a1209; }
-    .fb-footer-email { font-size: 0.68rem; color: #9ca3af; }
+    .fb-footer-user img { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; }
+    .fb-footer-name { font-size: 0.72rem; font-weight: 700; color: #1a1209; }
+    .fb-footer-email { font-size: 0.62rem; color: #9ca3af; }
 
     /* Mobile hidden */
     @media (max-width: 767px) {
@@ -150,6 +150,11 @@
         <a href="{{ route('items.create') }}" class="fb-nav-link {{ request()->routeIs('items.create') ? 'active' : '' }}">
             <span class="fb-icon"><i class="fas fa-plus-circle"></i></span>
             <span class="fb-label">Post Item</span>
+        </a>
+
+        <a href="{{ route('items.my-items') }}" class="fb-nav-link {{ request()->routeIs('items.my-items') ? 'active' : '' }}">
+            <span class="fb-icon"><i class="fas fa-box"></i></span>
+            <span class="fb-label">My Items</span>
         </a>
 
         <a href="{{ route('trade-history') }}" class="fb-nav-link {{ request()->routeIs('trade-history') ? 'active' : '' }}">
@@ -195,15 +200,15 @@
         @if(auth()->user() && auth()->user()->role === 'admin')
             <div class="fb-divider"></div>
             <p class="fb-section-label">Administration</p>
-            <a href="#" class="fb-nav-link">
-                <span class="fb-icon" style="background:#fee2e2; color:#dc2626;"><i class="fas fa-th-large"></i></span>
+            <a href="{{ route('admin.dashboard') }}" class="fb-nav-link {{ request()->routeIs('admin.*') ? 'active' : '' }}">
+                <span class="fb-icon" style="background:#fee2e2; color:#dc2626;"><i class="fas fa-shield-alt"></i></span>
                 <span class="fb-label">Admin Dashboard</span>
             </a>
-            <a href="#" class="fb-nav-link">
+            <a href="{{ route('admin.dashboard') }}" class="fb-nav-link">
                 <span class="fb-icon" style="background:#fee2e2; color:#dc2626;"><i class="fas fa-check-circle"></i></span>
                 <span class="fb-label">Approve Items</span>
             </a>
-            <a href="#" class="fb-nav-link">
+            <a href="{{ route('admin.users') }}" class="fb-nav-link">
                 <span class="fb-icon" style="background:#fee2e2; color:#dc2626;"><i class="fas fa-users"></i></span>
                 <span class="fb-label">Manage Users</span>
             </a>

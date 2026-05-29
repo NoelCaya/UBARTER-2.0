@@ -34,11 +34,11 @@
                     <div class="flex items-center space-x-3">
                         <div class="relative flex-shrink-0">
                             <img src="https://ui-avatars.com/api/?name={{ $conversation['avatar'] }}&background=7b0f10&color=fff" 
-                                 alt="{{ $conversation['name'] }}" class="w-12 h-12 rounded-full">
+                                 alt="{{ $conversation['name'] }}" class="w-8 h-8 rounded-full">
                             @if($conversation['online'])
-                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
+                                <span class="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full border-2 border-white"></span>
                             @else
-                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-gray-400 rounded-full border-2 border-white"></span>
+                                <span class="absolute bottom-0 right-0 w-2 h-2 bg-gray-400 rounded-full border-2 border-white"></span>
                             @endif
                         </div>
                         <div class="flex-1 min-w-0">

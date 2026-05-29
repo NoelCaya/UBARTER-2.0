@@ -5,7 +5,7 @@
             <!-- Logo -->
             <div class="flex items-center">
                 <a href="{{ auth()->check() ? route('dashboard') : route('login') }}" class="flex items-center space-x-2.5 hover:opacity-80 transition">
-                    <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo" class="w-7 h-7 object-contain rounded-full border-2 border-[#7b0f10]" style="max-width:28px;max-height:28px;">
+                    <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo" class="w-9 h-9 object-contain rounded-full border-2 border-[#7b0f10]" style="max-width:36px;max-height:36px;">
                     <div class="hidden sm:block leading-tight">
                         <span class="text-base font-bold text-[#7b0f10] block">UBarter</span>
                         <span class="text-xs text-gray-500 block">University of Batangas</span>

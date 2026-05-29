@@ -400,6 +400,57 @@
         <i class="bi bi-shield-check" style="color:var(--ub-maroon);"></i>
         Access restricted to verified UB community members
       </div>
+
+      <!-- Admin login toggle -->
+      <div style="margin-top:1.2rem;text-align:center;">
+        <button type="button" onclick="toggleAdminLogin()"
+                style="background:none;border:none;font-size:0.72rem;color:#9a8e85;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;">
+          <i class="bi bi-shield-lock" style="color:var(--ub-maroon);"></i> CES Admin Login
+        </button>
+      </div>
+
+      <!-- Admin email/password form (hidden by default) -->
+      <div id="adminLoginForm" style="display:none;margin-top:1rem;padding-top:1rem;border-top:1px solid #e0d8cf;">
+        <p style="font-size:0.72rem;font-weight:700;color:#7a6e65;text-align:center;margin-bottom:0.8rem;text-transform:uppercase;letter-spacing:0.06em;">
+          <i class="bi bi-shield-fill-check" style="color:var(--ub-maroon);"></i> Community Extension Services
+        </p>
+
+        @if ($errors->any())
+          @foreach ($errors->all() as $error)
+            <div class="alert-error" style="margin-bottom:0.6rem;">
+              <i class="bi bi-exclamation-circle-fill"></i> {{ $error }}
+            </div>
+          @endforeach
+        @endif
+
+        <form method="POST" action="{{ route('login') }}">
+          @csrf
+          <div style="margin-bottom:0.8rem;">
+            <label style="display:block;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7a6e65;margin-bottom:0.3rem;">Email</label>
+            <div class="field-group">
+              <input type="email" name="email" value="{{ old('email') }}"
+                     placeholder="ces.admin@ub.edu.ph"
+                     style="flex:1;border:none;outline:none;padding:0.65rem 0.9rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;background:white;color:#1a1209;"
+                     required autocomplete="email">
+            </div>
+          </div>
+          <div style="margin-bottom:0.8rem;">
+            <label style="display:block;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7a6e65;margin-bottom:0.3rem;">Password</label>
+            <div class="field-group">
+              <input type="password" name="password" id="adminPass"
+                     placeholder="••••••••"
+                     style="flex:1;border:none;outline:none;padding:0.65rem 0.9rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;background:white;color:#1a1209;"
+                     required autocomplete="current-password">
+              <span onclick="toggleAdminPass()" style="display:flex;align-items:center;padding:0 0.85rem;background:white;color:#7a6e65;cursor:pointer;">
+                <i class="bi bi-eye" id="adminPassIcon"></i>
+              </span>
+            </div>
+          </div>
+          <button type="submit" class="btn-signin" style="margin-top:0.4rem;">
+            <i class="bi bi-box-arrow-in-right" style="margin-right:6px;"></i> Sign In as Admin
+          </button>
+        </form>
+      </div>
     </div>
 
   </div>
@@ -421,10 +472,31 @@ function closeLoginCard() {
     document.getElementById('loginCard').classList.remove('show');
     document.getElementById('loginWelcome').style.display = '';
 }
+function toggleAdminLogin() {
+    var form = document.getElementById('adminLoginForm');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+function toggleAdminPass() {
+    var pass = document.getElementById('adminPass');
+    var icon = document.getElementById('adminPassIcon');
+    if (pass.type === 'password') {
+        pass.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        pass.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
 document.addEventListener('DOMContentLoaded', function() {
-    if (document.getElementById('loginCard').classList.contains('show')) {
+    var loginCard = document.getElementById('loginCard');
+    if (loginCard.classList.contains('show')) {
         openLoginCard();
     }
+    // Auto-open admin form if there were validation errors
+    @if($errors->any())
+        openLoginCard();
+        document.getElementById('adminLoginForm').style.display = 'block';
+    @endif
 });
 </script>
 </body>

@@ -8,6 +8,25 @@ use Illuminate\Http\Request;
 class ItemController extends Controller
 {
     /**
+     * Dashboard — shows real items from DB
+     */
+    public function dashboard()
+    {
+        $recentItems = Item::active()
+            ->with('user')
+            ->latest('posted_at')
+            ->take(12)
+            ->get();
+
+        $user = auth()->user();
+        $pendingTrades = \App\Models\Trade::where('receiver_id', $user->id)
+            ->where('status', 'Pending')
+            ->count();
+
+        return view('dashboard', compact('recentItems', 'pendingTrades'));
+    }
+
+    /**
      * Display browse page with filters
      */
     public function browse(Request $request)
@@ -89,9 +108,18 @@ class ItemController extends Controller
             ->take(5)
             ->get();
 
+        // Get the current user's active barter items to offer in a trade
+        $myItems = auth()->check()
+            ? Item::where('user_id', auth()->id())
+                  ->where('status', 'Active')
+                  ->where('item_type', 'Barter')
+                  ->get()
+            : collect();
+
         return view('items.show', [
-            'item' => $item,
+            'item'         => $item,
             'relatedItems' => $relatedItems,
+            'myItems'      => $myItems,
         ]);
     }
 
@@ -148,15 +176,112 @@ class ItemController extends Controller
 
         unset($validated['image']); // remove file from validated array
 
-        $validated['user_id']   = auth()->id();
-        $validated['status']    = 'Active';
-        $validated['posted_at'] = now();
+        $validated['user_id']       = auth()->id();
+        $validated['status']        = 'Pending';   // Admin must approve before going live
+        $validated['posted_at']     = now();
         $validated['seller_rating'] = 5.0;
 
         Item::create($validated);
 
         return redirect()->route('items.browse')
-            ->with('success', 'Your item has been posted successfully!');
+            ->with('success', 'Your item has been submitted for review. It will appear in the marketplace once approved by CES Admin.');
+    }
+
+    /**
+     * My Items — list the authenticated user's own posts
+     */
+    public function myItems()
+    {
+        $items = Item::where('user_id', auth()->id())
+                     ->whereNotIn('status', ['Archived'])
+                     ->latest('posted_at')
+                     ->paginate(20);
+
+        return view('items.my-items', compact('items'));
+    }
+
+    /**
+     * Edit form for an item the user owns
+     */
+    public function edit(Item $item)
+    {
+        if ($item->user_id !== auth()->id()) {
+            abort(403, 'You do not own this item.');
+        }
+
+        $categories = ['Books & Textbooks', 'Uniforms & Apparel', 'Lab Supplies', 'Electronics', 'Furniture', 'Art & Craft Supplies', 'Office Supplies', 'Sports Equipment', 'General'];
+        $conditions = ['New', 'Slightly Used', 'Used'];
+
+        return view('items.edit', compact('item', 'categories', 'conditions'));
+    }
+
+    /**
+     * Update an item
+     */
+    public function update(Request $request, Item $item)
+    {
+        if ($item->user_id !== auth()->id()) {
+            abort(403, 'You do not own this item.');
+        }
+
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'category'    => 'required|string',
+            'condition'   => 'required|in:New,Slightly Used,Used',
+            'looking_for' => 'nullable|string|max:500',
+            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+        ]);
+
+        // Handle new image upload
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('items', 'public');
+            $validated['image_url'] = '/storage/' . $path;
+        }
+
+        unset($validated['image']);
+
+        // Re-submit for approval if it was already active/pending
+        if (in_array($item->status, ['Active', 'Pending'])) {
+            $validated['status'] = 'Pending';
+        }
+
+        $item->update($validated);
+
+        return redirect()->route('items.my-items')
+            ->with('success', 'Item updated. It has been re-submitted for admin review.');
+    }
+
+    /**
+     * Cancel (archive) an item — soft-removes it from the marketplace
+     */
+    public function cancel(Item $item)
+    {
+        if ($item->user_id !== auth()->id()) {
+            abort(403, 'You do not own this item.');
+        }
+
+        \Illuminate\Support\Facades\DB::table('items')
+            ->where('id', $item->id)
+            ->update(['status' => 'Archived']);
+
+        return back()->with('success', "\"$item->title\" has been cancelled and removed from the marketplace.");
+    }
+
+    /**
+     * Permanently delete an item
+     */
+    public function destroy(Item $item)
+    {
+        if ($item->user_id !== auth()->id()) {
+            abort(403, 'You do not own this item.');
+        }
+
+        $title = $item->title;
+        $item->delete();
+
+        return redirect()->route('items.my-items')
+            ->with('success', "\"$title\" has been permanently deleted.");
     }
 
     /**
