@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('trades', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('initiator_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('initiator_item_id')->constrained('items')->onDelete('cascade');
-            $table->foreignId('receiver_item_id')->constrained('items')->onDelete('cascade');
+            $table->foreignId('initiator_id')->constrained('users')->onDelete('no action');
+            $table->foreignId('receiver_id')->constrained('users')->onDelete('no action');
+            $table->foreignId('initiator_item_id')->constrained('items')->onDelete('no action');
+            $table->foreignId('receiver_item_id')->constrained('items')->onDelete('no action');
             $table->enum('status', ['Pending', 'Accepted', 'Rejected', 'Completed', 'Cancelled'])->default('Pending');
             $table->text('message')->nullable();
             $table->timestamp('completed_at')->nullable();

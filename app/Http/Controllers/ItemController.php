@@ -188,6 +188,54 @@ class ItemController extends Controller
     }
 
     /**
+     * Donated Items — all active donation items (visible to all students + CES admin)
+     */
+    public function donatedItems(Request $request)
+    {
+        $query = Item::where('item_type', 'Donation')
+                     ->where('status', 'Active')
+                     ->with('user');
+
+        // Search
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Category filter
+        if ($request->category && $request->category !== 'all') {
+            $query->where('category', $request->category);
+        }
+
+        // Condition filter
+        if ($request->condition && $request->condition !== 'all') {
+            $query->where('condition', $request->condition);
+        }
+
+        // Sort
+        switch ($request->sort ?? 'newest') {
+            case 'most_viewed':
+                $query->mostViewed();
+                break;
+            case 'most_wishlisted':
+                $query->orderBy('wishlist_count', 'desc');
+                break;
+            default:
+                $query->newest();
+        }
+
+        $items      = $query->paginate(20)->appends($request->query());
+        $totalCount = Item::where('item_type', 'Donation')->where('status', 'Active')->count();
+        $categories = Item::where('item_type', 'Donation')->where('status', 'Active')
+                          ->distinct()->pluck('category')->sort()->values();
+        $conditions = ['New', 'Slightly Used', 'Used'];
+
+        return view('items.donated', compact('items', 'totalCount', 'categories', 'conditions'));
+    }
+
+    /**
      * My Items — list the authenticated user's own posts
      */
     public function myItems()

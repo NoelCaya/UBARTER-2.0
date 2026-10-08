@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
 
     // Items
     Route::get('/items/browse', [ItemController::class, 'browse'])->name('items.browse');
+    Route::get('/items/donated', [ItemController::class, 'donatedItems'])->name('items.donated');
     Route::get('/items/my-items', [ItemController::class, 'myItems'])->name('items.my-items');
     Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
     Route::post('/items', [ItemController::class, 'store'])->name('items.store');

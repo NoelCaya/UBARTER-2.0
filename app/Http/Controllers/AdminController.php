@@ -31,15 +31,23 @@ class AdminController extends Controller
         $pendingDonation = Item::where('status', 'Pending')->where('item_type', 'Donation')
                                ->with('user')->latest()->get();
         $activeItems     = Item::where('status', 'Active')->count();
-        $totalUsers      = User::where('role', 'user')->count();
+        $totalUsers      = User::count();
         $totalPending    = $pendingBarter->count() + $pendingDonation->count();
+
+        // Recent users for 8.1 Manage User Accounts panel (most recent 8)
+        $recentUsers = User::withCount('items')
+                           ->whereIn('role', ['user', 'suspended', 'admin'])
+                           ->latest()
+                           ->limit(8)
+                           ->get();
 
         return view('admin.dashboard', compact(
             'pendingBarter',
             'pendingDonation',
             'activeItems',
             'totalUsers',
-            'totalPending'
+            'totalPending',
+            'recentUsers'
         ));
     }
 

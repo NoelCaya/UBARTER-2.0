@@ -4,500 +4,502 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>UBarter 2.0 — University of Batangas</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
     :root {
       --ub-maroon: #7b0f10;
       --ub-maroon-dark: #5a0a0b;
+      --ub-maroon-light: rgba(123,15,16,0.08);
       --ub-gold: #f5c518;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'DM Sans', sans-serif; }
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
 
-    /* ── LOGIN PAGE ── */
-    #login-page {
+    /* ── PAGE SHELL ── */
+    .login-page {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: #f5f3ef;
-      background-image: url('{{ asset("images/university-bg.png") }}');
-      background-position: center bottom;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background: #fafafa;
       position: relative;
-      overflow: hidden;
     }
 
-    /* Subtle dark overlay to improve contrast without hiding the art */
-    #login-page::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(160deg,
-        rgba(245,243,239,0.82) 0%,
-        rgba(245,243,239,0.60) 40%,
-        rgba(30,10,10,0.25) 100%);
-      z-index: 0;
+    /* Geometric decorative blobs */
+    .bg-blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
       pointer-events: none;
+      z-index: 0;
+    }
+    .bg-blob-1 {
+      width: 600px; height: 600px;
+      background: rgba(123,15,16,0.07);
+      top: -200px; right: -150px;
+    }
+    .bg-blob-2 {
+      width: 400px; height: 400px;
+      background: rgba(245,197,24,0.08);
+      bottom: -100px; left: -100px;
     }
 
     /* ── NAVBAR ── */
-    .ub-topnav {
+    .ub-nav {
       position: relative;
       z-index: 10;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.95);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border-bottom: 2px solid var(--ub-maroon);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      padding: 0.55rem 1.4rem;
-      min-height: 58px;
+      padding: 0 1.5rem;
+      height: 3.75rem;
     }
     .ub-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      text-decoration: none;
-      color: #1a1209;
+      display: flex; align-items: center; gap: 0.6rem;
+      text-decoration: none; color: inherit;
     }
     .ub-brand img {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--ub-maroon);
-      flex-shrink: 0;
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 2px solid var(--ub-maroon); object-fit: cover;
     }
-    .ub-brand-text { line-height: 1.1; }
-    .ub-brand-name {
-      font-weight: 800;
-      font-size: 0.95rem;
-      color: var(--ub-maroon);
-      display: block;
-    }
-    .ub-brand-sub {
-      font-size: 0.68rem;
-      color: #888;
-      display: block;
-    }
-    .ub-nav-links {
-      display: flex;
-      align-items: center;
-      gap: 0.15rem;
-    }
+    .ub-brand-name { font-weight: 800; font-size: 1rem; color: var(--ub-maroon); display: block; line-height: 1.1; }
+    .ub-brand-sub  { font-size: 0.65rem; color: #888; display: block; }
+    .ub-nav-links  { display: flex; align-items: center; gap: 0.25rem; }
     .ub-nav-link {
-      padding: 0.38rem 0.75rem;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: #2a2015;
-      text-decoration: none;
-      border-radius: 6px;
-      white-space: nowrap;
+      padding: 0.35rem 0.75rem; font-size: 0.8rem; font-weight: 500;
+      color: #444; text-decoration: none; border-radius: 8px;
       transition: background 0.15s, color 0.15s;
     }
-    .ub-nav-link:hover { background: rgba(123,15,16,0.08); color: var(--ub-maroon); }
-    .ub-login-btn {
-      background: var(--ub-maroon);
-      color: white !important;
-      border: none;
-      border-radius: 999px;
-      padding: 0.42rem 1.2rem;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      font-family: 'DM Sans', sans-serif;
-      transition: background 0.2s;
-      margin-left: 0.4rem;
-    }
-    .ub-login-btn:hover { background: var(--ub-maroon-dark); }
+    .ub-nav-link:hover { background: var(--ub-maroon-light); color: var(--ub-maroon); }
+    @media (max-width: 600px) { .ub-nav-link { display: none; } }
 
-    /* ── BODY ── */
+    /* ── HERO / BODY ── */
     .login-body {
-      flex: 1;
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
       padding: 2.5rem 1rem;
     }
 
-    /* ── FROSTED GLASS WELCOME PANEL ── */
-    #loginWelcome {
-      text-align: center;
-      width: 100%;
-      max-width: 540px;
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255,255,255,0.85);
-      border-radius: 24px;
-      padding: 2.8rem 2.4rem 2.4rem;
-      box-shadow:
-        0 8px 32px rgba(123,15,16,0.10),
-        0 2px 8px rgba(0,0,0,0.06);
-    }
-    .welcome-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: var(--ub-maroon);
-      color: white;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.9rem;
-      border-radius: 999px;
-      margin-bottom: 1.2rem;
-    }
-    .welcome-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 5.5vw, 2.8rem);
-      font-weight: 900;
-      color: #1a1209;
-      line-height: 1.15;
-      margin-bottom: 0.9rem;
-    }
-    .welcome-title span { color: var(--ub-maroon); }
-    .welcome-desc {
-      font-size: 0.93rem;
-      color: #3a2e25;
-      max-width: 420px;
-      margin: 0 auto 1.8rem;
-      line-height: 1.75;
-    }
-    .welcome-divider {
-      width: 48px;
-      height: 3px;
-      background: var(--ub-gold);
-      border-radius: 2px;
-      margin: 0 auto 1.8rem;
-    }
-    .btn-welcome-primary {
-      background: var(--ub-maroon);
-      color: white;
-      border: none;
-      border-radius: 999px;
-      padding: 0.75rem 2.2rem;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 4px 14px rgba(123,15,16,0.25);
-    }
-    .btn-welcome-primary:hover {
-      background: var(--ub-maroon-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(123,15,16,0.30);
-    }
-    .welcome-trust {
-      margin-top: 1.4rem;
-      font-size: 0.72rem;
-      color: #7a6e65;
+    /* ── SPLIT CARD ── */
+    .login-card-wrap {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
+      width: 100%;
+      max-width: 900px;
+      min-height: 520px;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+      overflow: hidden;
     }
 
-    /* ── LOGIN CARD ── */
-    #loginCard {
-      display: none;
-      width: 100%;
-      max-width: 440px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 12px 48px rgba(0,0,0,0.14);
-      padding: 2rem;
+    /* Left brand panel */
+    .login-brand-panel {
+      flex: 1;
+      background: linear-gradient(145deg, var(--ub-maroon) 0%, #3d0607 100%);
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
       position: relative;
+      overflow: hidden;
     }
-    #loginCard.show { display: block; }
-    @media (max-width: 480px) {
-      #loginCard { padding: 1.5rem 1.2rem; border-radius: 14px; }
-      #loginWelcome { padding: 2rem 1.4rem; border-radius: 18px; }
-    }
-    .card-close-btn {
+    .login-brand-panel::before {
+      content: '';
       position: absolute;
-      top: 0.9rem; right: 0.9rem;
-      width: 30px; height: 30px;
-      background: #f4f1ec;
-      border: none;
-      border-radius: 7px;
-      cursor: pointer;
-      color: #6b5e52;
-      font-size: 0.95rem;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: rgba(245,197,24,0.12);
+      border-radius: 50%;
+    }
+    .login-brand-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 220px; height: 220px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .brand-logo-row {
+      display: flex; align-items: center; gap: 0.75rem;
+      position: relative; z-index: 1;
+    }
+    .brand-logo-row img {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 2.5px solid rgba(245,197,24,0.6);
+    }
+    .brand-logo-name  { font-size: 1.4rem; font-weight: 800; display: block; }
+    .brand-logo-sub   { font-size: 0.75rem; opacity: 0.7; display: block; }
+    .brand-headline {
+      position: relative; z-index: 1;
+    }
+    .brand-headline h1 {
+      font-size: 2rem; font-weight: 900; line-height: 1.2;
+      margin: 0 0 1rem;
+    }
+    .brand-headline h1 span { color: var(--ub-gold); }
+    .brand-headline p {
+      font-size: 0.875rem; opacity: 0.75; line-height: 1.7;
+      margin: 0 0 1.5rem;
+    }
+    .brand-pills {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      position: relative; z-index: 1;
+    }
+    .brand-pill {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.72rem; font-weight: 600;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .brand-trust {
+      position: relative; z-index: 1;
+      font-size: 0.7rem; opacity: 0.6;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    /* Right form panel */
+    .login-form-panel {
+      width: 380px;
+      padding: 2.75rem 2.25rem;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
-      transition: background 0.15s;
     }
-    .card-close-btn:hover { background: #e0d8cf; color: #1a1209; }
-    .card-title {
-      font-weight: 800;
-      font-size: 1.2rem;
-      color: #1a1209;
-      margin-bottom: 0.2rem;
-      text-align: center;
+    .form-eyebrow {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--ub-maroon);
+      display: flex; align-items: center; gap: 0.4rem;
+      margin-bottom: 0.75rem;
     }
-    .card-sub {
-      font-size: 0.76rem;
-      color: #7a6e65;
-      text-align: center;
-      margin-bottom: 0.5rem;
+    .form-title {
+      font-size: 1.6rem; font-weight: 800;
+      color: #1a1209; margin: 0 0 0.25rem;
     }
-    .gold-bar {
+    .form-sub {
+      font-size: 0.82rem; color: #6b7280; margin: 0 0 2rem;
+    }
+    .gold-accent {
       width: 36px; height: 3px;
-      background: var(--ub-gold);
-      border-radius: 2px;
-      margin: 0 auto 1.4rem;
+      background: var(--ub-gold); border-radius: 2px;
+      margin-bottom: 2rem;
     }
+
+    /* SSO Button */
     .btn-sso {
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
       width: 100%;
-      background: transparent;
-      color: var(--ub-maroon);
-      border: 2px solid var(--ub-maroon);
-      border-radius: 12px;
-      padding: 0.85rem;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
+      padding: 0.875rem 1.25rem;
+      background: var(--ub-maroon);
+      color: #fff;
+      border: none; border-radius: 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 16px rgba(123,15,16,0.25);
       margin-bottom: 1.5rem;
     }
-    .btn-sso:hover { background: var(--ub-maroon); color: white; }
-    .verified-note {
-      text-align: center;
-      font-size: 0.7rem;
-      color: #9a8e85;
-      padding-top: 1rem;
-      border-top: 1px solid #e0d8cf;
+    .btn-sso:hover {
+      background: var(--ub-maroon-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(123,15,16,0.35);
+      color: #fff; text-decoration: none;
     }
-    .alert-error {
-      background: #fef2f2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
+    .btn-sso:active { transform: translateY(0); }
+    .btn-sso .sso-icon {
+      width: 28px; height: 28px;
+      background: rgba(255,255,255,0.2);
       border-radius: 8px;
-      padding: 0.6rem 0.9rem;
-      font-size: 0.82rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; flex-shrink: 0;
+    }
+
+    /* Divider */
+    .or-divider {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .or-divider::before, .or-divider::after {
+      content: ''; flex: 1; height: 1px; background: #e5e7eb;
+    }
+    .or-divider span { font-size: 0.72rem; color: #9ca3af; font-weight: 600; white-space: nowrap; }
+
+    /* Admin toggle */
+    .admin-toggle-btn {
+      background: none; border: none;
+      font-size: 0.78rem; color: #9ca3af;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0; transition: color 0.15s;
+      width: 100%; justify-content: center;
+      text-decoration: underline; text-underline-offset: 2px;
+    }
+    .admin-toggle-btn:hover { color: var(--ub-maroon); }
+
+    /* Admin form */
+    .admin-form-section {
+      display: none;
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #f3f4f6;
+    }
+    .admin-form-section.open { display: block; }
+    .admin-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #6b7280;
+      display: block; margin-bottom: 0.4rem;
+    }
+    .admin-input-wrap {
+      position: relative; margin-bottom: 0.875rem;
+    }
+    .admin-input-icon {
+      position: absolute; left: 0.875rem; top: 50%;
+      transform: translateY(-50%); color: #9ca3af; font-size: 0.82rem;
+      pointer-events: none;
+    }
+    .admin-input {
+      width: 100%;
+      padding: 0.7rem 0.875rem 0.7rem 2.25rem;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem; color: #1a1209;
+      outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+      background: #fafafa;
+    }
+    .admin-input:focus {
+      border-color: var(--ub-maroon);
+      box-shadow: 0 0 0 3px rgba(123,15,16,0.08);
+      background: #fff;
+    }
+    .admin-pass-toggle {
+      position: absolute; right: 0.875rem; top: 50%;
+      transform: translateY(-50%); cursor: pointer;
+      color: #9ca3af; font-size: 0.82rem;
+      transition: color 0.15s;
+    }
+    .admin-pass-toggle:hover { color: var(--ub-maroon); }
+    .btn-admin-submit {
+      width: 100%;
+      padding: 0.75rem;
+      background: #374151; color: #fff;
+      border: none; border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem; font-weight: 700;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .btn-admin-submit:hover { background: #1f2937; }
+
+    /* Alert */
+    .alert-error {
+      background: #fef2f2; color: #991b1b;
+      border: 1px solid #fecaca; border-radius: 10px;
+      padding: 0.65rem 0.875rem; font-size: 0.8rem;
+      display: flex; align-items: flex-start; gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .alert-error i { flex-shrink: 0; margin-top: 2px; }
+
+    /* Trust note */
+    .trust-note {
+      text-align: center; font-size: 0.7rem; color: #9ca3af;
+      padding-top: 1.25rem; border-top: 1px solid #f3f4f6;
+      margin-top: 1.5rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
     }
 
     /* ── FOOTER ── */
     .page-footer {
-      position: relative;
-      z-index: 2;
+      position: relative; z-index: 2;
       text-align: center;
-      padding: 0.8rem 1rem;
-      font-size: 0.7rem;
-      color: #9a8e85;
-      border-top: 1px solid rgba(0,0,0,0.07);
-      background: rgba(245,243,239,0.85);
-      backdrop-filter: blur(8px);
+      padding: 0.875rem 1rem; font-size: 0.7rem; color: #9ca3af;
+      border-top: 1px solid #f3f4f6;
     }
 
-    @media (max-width: 600px) {
-      .ub-nav-link { display: none; }
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .login-brand-panel { display: none; }
+      .login-form-panel { width: 100%; padding: 2rem 1.5rem; }
+      .login-card-wrap { border-radius: 20px; }
+    }
+    @media (max-width: 420px) {
+      .login-card-wrap { border-radius: 16px; }
+      .login-form-panel { padding: 1.75rem 1.25rem; }
     }
   </style>
 </head>
 <body>
-
-<div id="login-page">
+<div class="login-page">
+  <!-- Background blobs -->
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
 
   <!-- NAVBAR -->
-  <nav class="ub-topnav">
+  <nav class="ub-nav">
     <a class="ub-brand" href="/">
-      <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo" style="max-width:28px;max-height:28px;"/>
-      <div class="ub-brand-text">
+      <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo"/>
+      <div>
         <span class="ub-brand-name">UBarter</span>
         <span class="ub-brand-sub">University of Batangas</span>
       </div>
     </a>
     <div class="ub-nav-links">
       <a class="ub-nav-link" href="https://ubian.ub.edu.ph/portal_news/list" target="_blank" rel="noopener">
-        <i class="bi bi-newspaper me-1"></i>News
-      </a>
-      <a class="ub-nav-link" href="https://wakelet.com/wake/OH5RDsBHZBIosbovORo16" target="_blank" rel="noopener">
-        <i class="bi bi-play-circle me-1"></i>LMS Onboarding Tutorial
+        <i class="fas fa-newspaper me-1"></i> News
       </a>
       <a class="ub-nav-link" href="https://ebrahman.ub.edu.ph/" target="_blank" rel="noopener">
-        <i class="bi bi-mortarboard me-1"></i>eBrahman
+        <i class="fas fa-graduation-cap me-1"></i> eBrahman
       </a>
-      <button class="ub-login-btn" onclick="openLoginCard()">
-        <i class="bi bi-box-arrow-in-right me-1"></i>Log In
-      </button>
     </div>
   </nav>
 
   <!-- BODY -->
   <div class="login-body">
+    <div class="login-card-wrap">
 
-    <!-- FROSTED GLASS WELCOME PANEL -->
-    <div id="loginWelcome">
-      <div class="welcome-eyebrow">
-        <i class="bi bi-shield-check-fill"></i> UB Community Only
-      </div>
-      <div class="welcome-title">Welcome to <span>UBarter</span></div>
-      <div class="welcome-divider"></div>
-      <p class="welcome-desc">
-        A peer-to-peer exchange platform exclusively for the University of Batangas community. Trade, exchange, and connect with fellow students.
-      </p>
-      <button class="btn-welcome-primary" onclick="openLoginCard()">
-        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
-      </button>
-      <div class="welcome-trust">
-        <i class="bi bi-lock-fill" style="color:var(--ub-maroon);"></i>
-        Secured · UBmail verified accounts only
-      </div>
-    </div>
-
-    <!-- LOGIN CARD -->
-    <div id="loginCard" @if ($errors->any()) class="show" @endif>
-      <button class="card-close-btn" onclick="closeLoginCard()">
-        <i class="bi bi-x-lg"></i>
-      </button>
-
-      <div class="card-title">Sign in to UBarter</div>
-      <div class="card-sub">University of Batangas · Peer-to-Peer Exchange</div>
-      <div class="gold-bar"></div>
-
-      @if ($errors->any())
-        @foreach ($errors->all() as $error)
-          <div class="alert-error">
-            <i class="bi bi-exclamation-circle-fill"></i>
-            {{ $error }}
+      <!-- LEFT: Brand panel -->
+      <div class="login-brand-panel">
+        <div class="brand-logo-row">
+          <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo"/>
+          <div>
+            <span class="brand-logo-name">UBarter</span>
+            <span class="brand-logo-sub">University of Batangas</span>
           </div>
-        @endforeach
-      @endif
+        </div>
 
-      <p style="text-align:center; font-size:0.88rem; color:#5a4e45; margin-bottom:1.6rem; line-height:1.6;">
-        Use your <strong>UB email</strong> to sign in and access the campus barter platform.
-      </p>
+        <div class="brand-headline">
+          <h1>Trade Smart,<br><span>Barter Better.</span></h1>
+          <p>A peer-to-peer exchange platform built exclusively for the UB community. Barter items, reduce waste, and connect with fellow students.</p>
+          <div class="brand-pills">
+            <span class="brand-pill"><i class="fas fa-exchange-alt"></i> Barter Items</span>
+            <span class="brand-pill"><i class="fas fa-hand-holding-heart"></i> Donate</span>
+            <span class="brand-pill"><i class="fas fa-leaf"></i> Eco-Friendly</span>
+            <span class="brand-pill"><i class="fas fa-shield-alt"></i> Verified UB Only</span>
+          </div>
+        </div>
 
-      <a href="{{ route('auth.google') }}" class="btn-sso">
-        <i class="bi bi-envelope-fill"></i> Continue with UB MAIL
-      </a>
-
-      <div class="verified-note">
-        <i class="bi bi-shield-check" style="color:var(--ub-maroon);"></i>
-        Access restricted to verified UB community members
+        <div class="brand-trust">
+          <i class="fas fa-lock"></i>
+          Secured &amp; UBmail-verified accounts only
+        </div>
       </div>
 
-      <!-- Admin login toggle -->
-      <div style="margin-top:1.2rem;text-align:center;">
-        <button type="button" onclick="toggleAdminLogin()"
-                style="background:none;border:none;font-size:0.72rem;color:#9a8e85;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif;">
-          <i class="bi bi-shield-lock" style="color:var(--ub-maroon);"></i> CES Admin Login
-        </button>
-      </div>
+      <!-- RIGHT: Form panel -->
+      <div class="login-form-panel">
+        <div class="form-eyebrow">
+          <i class="fas fa-shield-alt"></i> UB Community Access
+        </div>
+        <h2 class="form-title">Welcome back</h2>
+        <p class="form-sub">Sign in to access the campus barter platform.</p>
+        <div class="gold-accent"></div>
 
-      <!-- Admin email/password form (hidden by default) -->
-      <div id="adminLoginForm" style="display:none;margin-top:1rem;padding-top:1rem;border-top:1px solid #e0d8cf;">
-        <p style="font-size:0.72rem;font-weight:700;color:#7a6e65;text-align:center;margin-bottom:0.8rem;text-transform:uppercase;letter-spacing:0.06em;">
-          <i class="bi bi-shield-fill-check" style="color:var(--ub-maroon);"></i> Community Extension Services
-        </p>
-
-        @if ($errors->any())
+        @if ($errors->any() && !request()->has('_admin'))
           @foreach ($errors->all() as $error)
-            <div class="alert-error" style="margin-bottom:0.6rem;">
-              <i class="bi bi-exclamation-circle-fill"></i> {{ $error }}
+            <div class="alert-error">
+              <i class="fas fa-exclamation-circle"></i>
+              {{ $error }}
             </div>
           @endforeach
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
-          @csrf
-          <div style="margin-bottom:0.8rem;">
-            <label style="display:block;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7a6e65;margin-bottom:0.3rem;">Email</label>
-            <div class="field-group">
-              <input type="email" name="email" value="{{ old('email') }}"
-                     placeholder="ces.admin@ub.edu.ph"
-                     style="flex:1;border:none;outline:none;padding:0.65rem 0.9rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;background:white;color:#1a1209;"
-                     required autocomplete="email">
+        <!-- Google SSO -->
+        <a href="{{ route('auth.google') }}" class="btn-sso">
+          <span class="sso-icon"><i class="fas fa-envelope"></i></span>
+          Continue with UB Mail
+        </a>
+
+        <!-- Admin toggle -->
+        <div class="or-divider">
+          <span>CES Admin?</span>
+        </div>
+        <button type="button" class="admin-toggle-btn" onclick="toggleAdminLogin()">
+          <i class="fas fa-shield-lock" style="color:var(--ub-maroon);"></i>
+          Sign in with credentials
+        </button>
+
+        <!-- Admin form -->
+        <div id="adminLoginForm" class="admin-form-section @if($errors->any()) open @endif">
+          <p style="font-size:0.7rem;font-weight:700;color:#6b7280;text-align:center;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem;">
+            <i class="fas fa-shield-check" style="color:var(--ub-maroon);margin-right:4px;"></i>
+            Community Extension Services
+          </p>
+
+          @if ($errors->any())
+            @foreach ($errors->all() as $error)
+              <div class="alert-error" style="font-size:0.78rem;">
+                <i class="fas fa-exclamation-circle"></i> {{ $error }}
+              </div>
+            @endforeach
+          @endif
+
+          <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <div>
+              <label class="admin-label">Email</label>
+              <div class="admin-input-wrap">
+                <i class="fas fa-envelope admin-input-icon"></i>
+                <input type="email" name="email" value="{{ old('email') }}"
+                       placeholder="ces.admin@ub.edu.ph"
+                       class="admin-input" required autocomplete="email">
+              </div>
             </div>
-          </div>
-          <div style="margin-bottom:0.8rem;">
-            <label style="display:block;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7a6e65;margin-bottom:0.3rem;">Password</label>
-            <div class="field-group">
-              <input type="password" name="password" id="adminPass"
-                     placeholder="••••••••"
-                     style="flex:1;border:none;outline:none;padding:0.65rem 0.9rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;background:white;color:#1a1209;"
-                     required autocomplete="current-password">
-              <span onclick="toggleAdminPass()" style="display:flex;align-items:center;padding:0 0.85rem;background:white;color:#7a6e65;cursor:pointer;">
-                <i class="bi bi-eye" id="adminPassIcon"></i>
-              </span>
+            <div>
+              <label class="admin-label">Password</label>
+              <div class="admin-input-wrap" style="position:relative;">
+                <i class="fas fa-lock admin-input-icon"></i>
+                <input type="password" name="password" id="adminPass"
+                       placeholder="••••••••"
+                       class="admin-input" style="padding-right:2.5rem;"
+                       required autocomplete="current-password">
+                <span class="admin-pass-toggle" onclick="toggleAdminPass()">
+                  <i class="fas fa-eye" id="adminPassIcon"></i>
+                </span>
+              </div>
             </div>
-          </div>
-          <button type="submit" class="btn-signin" style="margin-top:0.4rem;">
-            <i class="bi bi-box-arrow-in-right" style="margin-right:6px;"></i> Sign In as Admin
-          </button>
-        </form>
+            <button type="submit" class="btn-admin-submit">
+              <i class="fas fa-sign-in-alt" style="margin-right:6px;"></i> Sign In as Admin
+            </button>
+          </form>
+        </div>
+
+        <div class="trust-note">
+          <i class="fas fa-shield-alt" style="color:var(--ub-maroon);"></i>
+          Access restricted to verified UB community members
+        </div>
       </div>
+
     </div>
-
   </div>
 
-  <!-- PAGE FOOTER -->
-  <div class="page-footer">
-    Built by students, for students — University of Batangas CICT · 2026 &nbsp;·&nbsp; ubarter.ub.edu.ph
-  </div>
-
+  <!-- FOOTER -->
+  <footer class="page-footer">
+    © {{ date('Y') }} UBarter · University of Batangas · All rights reserved
+  </footer>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 <script>
-function openLoginCard() {
-    document.getElementById('loginWelcome').style.display = 'none';
-    document.getElementById('loginCard').classList.add('show');
-}
-function closeLoginCard() {
-    document.getElementById('loginCard').classList.remove('show');
-    document.getElementById('loginWelcome').style.display = '';
-}
-function toggleAdminLogin() {
+  function toggleAdminLogin() {
     var form = document.getElementById('adminLoginForm');
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
-}
-function toggleAdminPass() {
-    var pass = document.getElementById('adminPass');
-    var icon = document.getElementById('adminPassIcon');
-    if (pass.type === 'password') {
-        pass.type = 'text';
-        icon.className = 'bi bi-eye-slash';
+    form.classList.toggle('open');
+  }
+  function toggleAdminPass() {
+    var input = document.getElementById('adminPass');
+    var icon  = document.getElementById('adminPassIcon');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'fas fa-eye-slash';
     } else {
-        pass.type = 'password';
-        icon.className = 'bi bi-eye';
+      input.type = 'password';
+      icon.className = 'fas fa-eye';
     }
-}
-document.addEventListener('DOMContentLoaded', function() {
-    var loginCard = document.getElementById('loginCard');
-    if (loginCard.classList.contains('show')) {
-        openLoginCard();
-    }
-    // Auto-open admin form if there were validation errors
-    @if($errors->any())
-        openLoginCard();
-        document.getElementById('adminLoginForm').style.display = 'block';
-    @endif
-});
+  }
 </script>
 </body>
 </html>
