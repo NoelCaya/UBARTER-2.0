@@ -1,0 +1,43 @@
+# nixpacks.toml — tells Railway how to build and run this Laravel app
+# Docs: https://nixpacks.com/docs/configuration/file
+
+[phases.setup]
+nixPkgs = [
+  "php83",
+  "php83Extensions.pdo",
+  "php83Extensions.pdo_sqlsrv",   # MS SQL Server PDO driver
+  "php83Extensions.sqlsrv",
+  "php83Extensions.mbstring",
+  "php83Extensions.tokenizer",
+  "php83Extensions.xml",
+  "php83Extensions.ctype",
+  "php83Extensions.fileinfo",
+  "php83Extensions.bcmath",
+  "php83Extensions.curl",
+  "php83Extensions.zip",
+  "php83Extensions.gd",
+  "php83Extensions.openssl",
+  "php83Extensions.intl",
+  "nodePackages.npm",
+  "nodePackages.nodejs",
+  "unixODBC",       # required by pdo_sqlsrv
+  "msodbcsql17",    # Microsoft ODBC Driver 17 for SQL Server
+]
+
+[phases.install]
+cmds = [
+  "composer install --no-dev --optimize-autoloader --no-interaction",
+  "npm ci",
+  "npm run build",
+]
+
+[phases.build]
+cmds = [
+  "php artisan config:cache",
+  "php artisan route:cache",
+  "php artisan view:cache",
+  "php artisan storage:link",
+]
+
+[start]
+cmd = "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
