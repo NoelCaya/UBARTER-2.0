@@ -1,0 +1,28 @@
+name: ubarter
+services:
+  - name: ubarter-web
+    type: web
+    git:
+      branch: main
+    build:
+      buildpack: heroku/php
+    run:
+      command: "php artisan migrate --force && heroku-php-apache2 public/"
+    ports:
+      - port: 8080
+        protocol: http
+    env:
+      - key: APP_NAME
+        value: UBARTER
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: LOG_LEVEL
+        value: error
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
