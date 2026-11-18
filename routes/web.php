@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     // Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
     Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send');
+    Route::get('/chat/poll', [ChatController::class, 'poll'])->name('chat.poll');
     Route::get('/chat/{userId}', [ChatController::class, 'show'])->name('chat.show');
 
     // Items
@@ -74,11 +75,13 @@ Route::middleware('auth')->group(function () {
 
     // Admin (role check inside controller)
     Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::post('/items/{item}/approve', [AdminController::class, 'approveItem'])->name('items.approve');
-        Route::post('/items/{item}/reject', [AdminController::class, 'rejectItem'])->name('items.reject');
-        Route::get('/users', [AdminController::class, 'users'])->name('users');
-        Route::post('/users/{user}/suspend', [AdminController::class, 'suspendUser'])->name('users.suspend');
+        Route::get('/dashboard',              [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/users',                  [AdminController::class, 'users'])->name('users');
+        Route::get('/donations',              [AdminController::class, 'donations'])->name('donations');
+        Route::get('/settings',               [AdminController::class, 'settings'])->name('settings');
+        Route::post('/items/{item}/approve',  [AdminController::class, 'approveItem'])->name('items.approve');
+        Route::post('/items/{item}/reject',   [AdminController::class, 'rejectItem'])->name('items.reject');
+        Route::post('/users/{user}/suspend',  [AdminController::class, 'suspendUser'])->name('users.suspend');
         Route::post('/users/{user}/reactivate', [AdminController::class, 'reactivateUser'])->name('users.reactivate');
     });
 });
