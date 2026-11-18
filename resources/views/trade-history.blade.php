@@ -217,6 +217,29 @@
                             </form>
                         @endif
 
+                        {{-- Leave Review button for completed trades --}}
+                        @if($trade->status === 'Completed')
+                          @php
+                            // The item the current user received (to review the other party)
+                            $reviewableItem = $isInitiator ? $trade->receiverItem : $trade->initiatorItem;
+                            $alreadyReviewed = $reviewableItem && \App\Models\Review::where('reviewer_id', auth()->id())
+                                ->where('item_id', $reviewableItem->id)
+                                ->where('trade_id', $trade->id)
+                                ->exists();
+                          @endphp
+                          @if($reviewableItem && !$alreadyReviewed)
+                            <a href="{{ route('reviews.create', $reviewableItem) }}?trade_id={{ $trade->id }}"
+                               style="background:#fef9c3;color:#92400e;border:1px solid #fde68a;border-radius:8px;padding:7px 14px;font-size:0.72rem;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:4px;"
+                               onmouseover="this.style.background='#f5c518';this.style.color='#1a1209'" onmouseout="this.style.background='#fef9c3';this.style.color='#92400e'">
+                              <i class="fas fa-star" style="font-size:0.65rem;"></i> Leave Review
+                            </a>
+                          @elseif($alreadyReviewed)
+                            <span style="background:#dcfce7;color:#166534;border-radius:8px;padding:7px 14px;font-size:0.72rem;font-weight:700;display:flex;align-items:center;gap:4px;">
+                              <i class="fas fa-check" style="font-size:0.65rem;"></i> Reviewed
+                            </span>
+                          @endif
+                        @endif
+
                         {{-- Chat with partner --}}
                         @php $partnerId = $isInitiator ? $trade->receiver_id : $trade->initiator_id; @endphp
                         <a href="{{ route('chat.show', $partnerId) }}"

@@ -247,19 +247,7 @@
   </div>
 
   {{-- ── STATS ROW ── --}}
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
-    <div style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border-radius:16px;padding:18px 20px;box-shadow:0 2px 8px rgba(22,163,74,0.2);">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div>
-          <p style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;opacity:0.8;margin:0 0 6px;">Eco Impact</p>
-          <p style="font-size:2rem;font-weight:900;margin:0;line-height:1;">14.5<span style="font-size:1rem;font-weight:700;opacity:0.8;margin-left:3px;">kg</span></p>
-          <p style="font-size:0.6rem;opacity:0.75;margin:5px 0 0;">CO₂ saved · Rank <strong>#12</strong></p>
-        </div>
-        <div style="background:rgba(255,255,255,0.2);width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <i class="fas fa-leaf" style="font-size:1.1rem;"></i>
-        </div>
-      </div>
-    </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px;">
     <div style="background:#fff;border-radius:16px;padding:18px 20px;border-left:4px solid #f5c518;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
       <p style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#9ca3af;margin:0 0 6px;">Trust Score</p>
       <p style="font-size:2rem;font-weight:900;color:#7b0f10;margin:0;line-height:1;">4.9<span style="font-size:1rem;font-weight:500;color:#9ca3af;">/5</span></p>
@@ -352,36 +340,9 @@
         </a>
       </div>
 
-      {{-- Eco Leaders --}}
-      <div style="background:#fff;border-radius:16px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.07);border:1px solid #f3f4f6;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-          <h3 style="font-size:0.85rem;font-weight:800;color:#1a1209;margin:0;display:flex;align-items:center;gap:5px;">
-            <i class="fas fa-leaf" style="color:#16a34a;font-size:0.75rem;"></i> Eco Leaders
-          </h3>
-          <span style="font-size:0.58rem;font-weight:700;padding:2px 8px;border-radius:999px;background:rgba(123,15,16,0.07);color:#7b0f10;">This Week</span>
-        </div>
-        @foreach([['🥇','Alex Chen','ECE','28.5 kg'],['🥈','Maria Santos','BSN','24.0 kg'],['🥉','James Reyes','IT','22.3 kg']] as $l)
-          <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:10px;margin-bottom:5px;background:{{ $loop->first ? 'rgba(245,197,24,0.08)' : '#fafafa' }};">
-            <span style="font-size:0.95rem;">{{ $l[0] }}</span>
-            <div style="flex:1;min-width:0;">
-              <p style="font-size:0.72rem;font-weight:700;color:#1a1209;margin:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{ $l[1] }}</p>
-              <p style="font-size:0.6rem;color:#9ca3af;margin:1px 0 0;">{{ $l[2] }}</p>
-            </div>
-            <span style="font-size:0.68rem;font-weight:700;color:#16a34a;flex-shrink:0;">{{ $l[3] }}</span>
-          </div>
-        @endforeach
-        <div style="margin-top:10px;padding-top:10px;border-top:1px solid #f3f4f6;">
-          <a href="{{ route('sustainability-leaderboard') }}"
-             style="display:block;text-align:center;padding:7px;border:1.5px solid #d1fae5;border-radius:10px;font-size:0.72rem;font-weight:700;color:#16a34a;text-decoration:none;transition:all 0.15s;"
-             onmouseover="this.style.background='#16a34a';this.style.color='#fff'" onmouseout="this.style.background='';this.style.color='#16a34a'">
-            Full Leaderboard
-          </a>
-        </div>
-      </div>
 
-      {{-- Safety Banner --}}
       <div style="background:linear-gradient(135deg,#7b0f10,#3d0607);border-radius:16px;padding:16px;color:#fff;">
-        <p style="font-size:0.85rem;font-weight:800;font-style:italic;margin:0 0 8px;">"It's better if UBarter."</p>
+        <p style="font-size:0.85rem;font-weight:800;font-style:italic;margin:0 0 8px;">"It's better if UBARTER."</p>
         <p style="font-size:0.72rem;opacity:0.82;line-height:1.6;margin:0 0 12px;">Always meet in well-lit campus areas like the <strong>UB Lounge</strong> or <strong>Student Center</strong>.</p>
         <div style="padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;gap:6px;font-size:0.62rem;opacity:0.7;">
           <i class="fas fa-shield-alt" style="color:#f5c518;"></i> Safety verified by UB Admin
