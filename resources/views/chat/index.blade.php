@@ -173,11 +173,38 @@
   .no-chat-title { font-size:1.2rem; font-weight:700; color:#6b7280; margin:0 0 8px; }
   .no-chat-desc { font-size:0.9rem; color:#9ca3af; margin:0; line-height:1.5; }
 
+  /* ═══ RESPONSIVE ═══ */
   @media (max-width:768px) {
-    .chat-sidebar { width:100%; position:absolute; z-index:10; background:#fff; }
-    .chat-main { display:none; }
-    .chat-sidebar.mobile-hidden { display:none; }
-    .chat-main.mobile-show { display:flex; }
+    .chat-container {
+      position: relative;
+      height: calc(100vh - 4rem);
+    }
+    /* On mobile: sidebar takes full width, main is hidden by default */
+    .chat-sidebar {
+      width: 100%;
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      background: #fff;
+      transition: transform 0.25s ease;
+      transform: translateX(0);
+    }
+    .chat-main {
+      display: flex;
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      transition: transform 0.25s ease;
+      transform: translateX(100%); /* hidden off-screen to the right */
+    }
+    /* When a conversation is active on mobile, slide main in */
+    .chat-main.mobile-active {
+      transform: translateX(0);
+    }
+    /* When chat is open, slide sidebar out */
+    .chat-sidebar.mobile-hidden {
+      transform: translateX(-100%);
+    }
   }
 </style>
 
@@ -210,7 +237,8 @@
         @endphp
         <a href="{{ route('chat.show', $other->id) }}"
            class="conv-item {{ $isActive ? 'active' : '' }}"
-           data-name="{{ strtolower($other->name) }}">
+           data-name="{{ strtolower($other->name) }}"
+           onclick="if(window.innerWidth<=768){ showChatPanel(); }">
           <div class="conv-avatar">
             <img src="{{ $other->avatar_url ?? 'https://ui-avatars.com/api/?name='.urlencode($other->name).'&background=7b0f10&color=fff&bold=true' }}"
                  alt="{{ $other->name }}">
@@ -418,14 +446,35 @@ function filterConversations(query) {
 
 // ─── Mobile ──────────────────────────────────────────────────────────────────
 function showSidebar() {
-  document.getElementById('chatSidebar').classList.remove('mobile-hidden');
-  document.getElementById('chatMain').classList.remove('mobile-show');
+  if (window.innerWidth <= 768) {
+    document.getElementById('chatSidebar').classList.remove('mobile-hidden');
+    document.getElementById('chatMain').classList.remove('mobile-active');
+  }
 }
+
+function showChatPanel() {
+  if (window.innerWidth <= 768) {
+    document.getElementById('chatSidebar').classList.add('mobile-hidden');
+    document.getElementById('chatMain').classList.add('mobile-active');
+  }
+}
+
+// On mobile, if a conversation is active, show chat panel immediately
+document.addEventListener('DOMContentLoaded', function() {
+  if (CONVERSATION_ID && window.innerWidth <= 768) {
+    showChatPanel();
+  }
+});
 
 // ─── Auto scroll & textarea resize ───────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   const area = document.getElementById('messagesArea');
   if (area) area.scrollTop = area.scrollHeight;
+
+  // On mobile with active conversation, show chat panel
+  if (CONVERSATION_ID && window.innerWidth <= 768) {
+    showChatPanel();
+  }
 
   const textarea = document.getElementById('messageInput');
   if (textarea) {
