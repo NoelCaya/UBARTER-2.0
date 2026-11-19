@@ -13,6 +13,10 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+Route::get('/offline', function () {
+    return response()->file(public_path('offline.html'));
+});
+
 Route::get('/dashboard', [ItemController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
