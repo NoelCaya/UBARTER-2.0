@@ -87,7 +87,7 @@ class TradeController extends Controller
             $receiverItem->user_id,
             'new_trade',
             'New Trade Proposal',
-            "{$user->name} wants to trade "{$initiatorItem->title}" for your "{$receiverItem->title}"",
+            sprintf('%s wants to trade "%s" for your "%s"', $user->name, $initiatorItem->title, $receiverItem->title),
             route('trade-history'),
             $user->id
         );
@@ -112,7 +112,7 @@ class TradeController extends Controller
             $trade->initiator_id,
             'trade_accepted',
             'Trade Accepted!',
-            auth()->user()->name . " accepted your trade proposal for "{$trade->receiverItem->title}"",
+            sprintf('%s accepted your trade proposal for "%s"', auth()->user()->name, $trade->receiverItem->title),
             route('trade-history'),
             auth()->id()
         );
@@ -136,7 +136,7 @@ class TradeController extends Controller
             $trade->initiator_id,
             'trade_rejected',
             'Trade Rejected',
-            auth()->user()->name . " declined your trade proposal for "{$trade->receiverItem->title}"",
+            sprintf('%s declined your trade proposal for "%s"', auth()->user()->name, $trade->receiverItem->title),
             route('trade-history'),
             auth()->id()
         );

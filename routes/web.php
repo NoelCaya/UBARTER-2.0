@@ -80,7 +80,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/traders', [ReputationController::class, 'index'])->name('reputation.index');
     Route::get('/traders/{user}', [ReputationController::class, 'show'])->name('reputation.show');
 
-    // Wishlist toggle (add or remove in one request)
+    // Wishlist page and actions
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
     Route::post('/wishlist/toggle/{item}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
     Route::post('/wishlist/add/{item}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/{item}', [WishlistController::class, 'remove'])->name('wishlist.remove');
