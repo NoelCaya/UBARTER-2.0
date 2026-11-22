@@ -14,13 +14,15 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = auth()->user()->reviewsReceived()
+        $user = auth()->user();
+
+        $reviews = Review::where('reviewee_id', $user->id)
             ->with('reviewer', 'item')
             ->latest()
             ->paginate(12);
 
-        $averageRating = auth()->user()->reviewsReceived()->avg('rating') ?? 0;
-        $totalReviews  = auth()->user()->reviewsReceived()->count();
+        $averageRating = Review::where('reviewee_id', $user->id)->avg('rating') ?? 0;
+        $totalReviews  = Review::where('reviewee_id', $user->id)->count();
 
         return view('user.reviews', compact('reviews', 'averageRating', 'totalReviews'));
     }

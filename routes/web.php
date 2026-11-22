@@ -7,6 +7,9 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReputationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -65,8 +68,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
     Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
 
-    // Wishlist
-    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
+    // Notifications
+    Route::get('/notifications/poll', [NotificationController::class, 'poll'])->name('notifications.poll');
+    Route::post('/notifications/{notification}/read', [NotificationController::class, 'markRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.read-all');
+
+    // Reports
+    Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+
+    // Reputation wall
+    Route::get('/traders', [ReputationController::class, 'index'])->name('reputation.index');
+    Route::get('/traders/{user}', [ReputationController::class, 'show'])->name('reputation.show');
+
+    // Wishlist toggle (add or remove in one request)
+    Route::post('/wishlist/toggle/{item}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
     Route::post('/wishlist/add/{item}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/{item}', [WishlistController::class, 'remove'])->name('wishlist.remove');
     Route::get('/wishlist/check/{item}', [WishlistController::class, 'check'])->name('wishlist.check');
@@ -87,6 +102,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/items/{item}/reject',   [AdminController::class, 'rejectItem'])->name('items.reject');
         Route::post('/users/{user}/suspend',  [AdminController::class, 'suspendUser'])->name('users.suspend');
         Route::post('/users/{user}/reactivate', [AdminController::class, 'reactivateUser'])->name('users.reactivate');
+        Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
+        Route::post('/reports/{report}/resolve', [AdminController::class, 'resolveReport'])->name('reports.resolve');
+        Route::post('/reports/{report}/dismiss', [AdminController::class, 'dismissReport'])->name('reports.dismiss');
     });
 });
 

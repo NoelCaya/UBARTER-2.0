@@ -116,8 +116,9 @@
   .message-group { display:flex; margin-bottom:16px; align-items:flex-end; }
   .message-group.sent { justify-content:flex-end; }
   .message-bubble {
-    max-width:75%; padding:12px 16px; border-radius:18px;
-    font-size:0.85rem; line-height:1.4; position:relative;
+    max-width:70%; padding:10px 14px; border-radius:18px;
+    font-size:0.85rem; line-height:1.5; position:relative;
+    word-break:break-word; display:inline-block;
   }
   .message-group.received .message-bubble {
     background:#fff; color:#1a1209; border-bottom-left-radius:6px;
@@ -126,7 +127,7 @@
   .message-group.sent .message-bubble {
     background:#7b0f10; color:#fff; border-bottom-right-radius:6px;
   }
-  .message-time { font-size:0.7rem; opacity:0.7; margin-top:4px; text-align:center; }
+  .message-time { font-size:0.68rem; opacity:0.6; margin-top:3px; text-align:center; }
   .message-group.sent .message-time { text-align:right; }
 
   /* Input area */
@@ -284,6 +285,12 @@
             <p class="chat-user-status">{{ $otherUser->email }}</p>
           </div>
         </div>
+        {{-- Report button (#21) --}}
+        <button onclick="document.getElementById('reportModal').style.display='flex'"
+                style="background:#fef2f2;border:1px solid #fecaca;color:#dc2626;border-radius:8px;padding:6px 12px;font-size:0.72rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;"
+                title="Report this user">
+          <i class="fas fa-flag"></i> Report
+        </button>
       </div>
 
       {{-- Messages --}}
@@ -293,7 +300,7 @@
                data-message-id="{{ $message->id }}">
             <div>
               <div class="message-bubble">{{ $message->body }}</div>
-              <p class="message-time">{{ $message->created_at->format('g:i A') }}</p>
+              <p class="message-time">{{ $message->timestamp_pst ?? $message->created_at->timezone('Asia/Manila')->format('g:i A') }}</p>
             </div>
           </div>
         @endforeach
@@ -485,4 +492,51 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+{{-- ── Report User Modal (#21) ── --}}
+@if(isset($activeConversation) && isset($otherUser))
+<div id="reportModal"
+     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:18px;padding:28px;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
+    <h3 style="font-size:1rem;font-weight:800;color:#1a1209;margin:0 0 4px;">Report User</h3>
+    <p style="font-size:0.78rem;color:#9ca3af;margin:0 0 18px;">Report <strong>{{ $otherUser->name }}</strong> to CES Admin. Only submit genuine reports.</p>
+    <form action="{{ route('reports.store') }}" method="POST">
+      @csrf
+      <input type="hidden" name="reported_user_id" value="{{ $otherUser->id }}">
+      <input type="hidden" name="conversation_id"  value="{{ $activeConversation->id }}">
+
+      <div style="margin-bottom:14px;">
+        <label style="display:block;font-size:0.72rem;font-weight:700;color:#374151;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Reason <span style="color:#ef4444;">*</span></label>
+        <select name="reason" required
+                style="width:100%;padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:0.85rem;outline:none;background:#fff;"
+                onfocus="this.style.borderColor='#7b0f10'" onblur="this.style.borderColor='#e5e7eb'">
+          <option value="">— Select a reason —</option>
+          @foreach(['Fraudulous Behavior','Inappropriate Behavior','Verbal Abuse','Spam','Fake Item Listing','Scam Attempt','Other'] as $reason)
+            <option value="{{ $reason }}">{{ $reason }}</option>
+          @endforeach
+        </select>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <label style="display:block;font-size:0.72rem;font-weight:700;color:#374151;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Additional Details <span style="font-weight:400;color:#9ca3af;">(optional)</span></label>
+        <textarea name="details" rows="3" maxlength="1000"
+                  placeholder="Describe what happened…"
+                  style="width:100%;padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:0.85rem;outline:none;resize:none;"
+                  onfocus="this.style.borderColor='#7b0f10'" onblur="this.style.borderColor='#e5e7eb'"></textarea>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button type="button" onclick="document.getElementById('reportModal').style.display='none'"
+                style="background:#f3f4f6;color:#374151;font-size:0.82rem;font-weight:700;padding:9px 18px;border-radius:8px;border:none;cursor:pointer;">
+          Cancel
+        </button>
+        <button type="submit"
+                style="background:#dc2626;color:#fff;font-size:0.82rem;font-weight:700;padding:9px 18px;border-radius:8px;border:none;cursor:pointer;">
+          <i class="fas fa-flag" style="margin-right:4px;"></i> Submit Report
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+@endif
+
 @endsection

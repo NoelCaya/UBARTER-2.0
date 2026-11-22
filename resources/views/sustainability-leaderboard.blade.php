@@ -128,7 +128,7 @@
           <div style="width:38px;height:38px;background:rgba(255,255,255,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;">
             <i class="fas fa-leaf" style="font-size:1.1rem;"></i>
           </div>
-          <span style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;opacity:0.75;">UBarter Platform</span>
+          <span style="font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;opacity:0.75;">UBARTER Platform</span>
         </div>
         <h1 style="font-size:1.7rem;font-weight:900;margin:0 0 6px;line-height:1.1;">Eco Leaderboard 🌿</h1>
         <p style="font-size:0.82rem;opacity:0.8;margin:0;line-height:1.5;">See who's making the biggest environmental impact through campus bartering!</p>
@@ -148,7 +148,7 @@
     <div class="stat-card" style="border-top-color:#22c55e;">
       <p style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:#9ca3af;margin:0 0 6px;">Total Waste Diverted</p>
       <p style="font-size:1.8rem;font-weight:900;color:#166534;margin:0;line-height:1;">2,847<span style="font-size:1rem;font-weight:700;opacity:0.7;margin-left:3px;">kg</span></p>
-      <p style="font-size:0.65rem;color:#9ca3af;margin:4px 0 0;">Since UBarter launch</p>
+      <p style="font-size:0.65rem;color:#9ca3af;margin:4px 0 0;">Since UBARTER launch</p>
     </div>
     <div class="stat-card" style="border-top-color:#f5c518;">
       <p style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.09em;color:#9ca3af;margin:0 0 6px;">Active Participants</p>

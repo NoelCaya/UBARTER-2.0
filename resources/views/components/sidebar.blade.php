@@ -144,6 +144,10 @@
                 <span class="fb-icon" style="background:#fee2e2;color:#dc2626;"><i class="fas fa-cog"></i></span>
                 <span class="fb-label">Settings</span>
             </a>
+            <a href="{{ route('admin.reports') }}" class="fb-nav-link {{ request()->routeIs('admin.reports') ? 'active' : '' }}">
+                <span class="fb-icon" style="background:#fee2e2;color:#dc2626;"><i class="fas fa-flag"></i></span>
+                <span class="fb-label">User Reports</span>
+            </a>
 
         @else
             {{-- ══ USER NAV ══ --}}
@@ -181,11 +185,20 @@
             <a href="{{ route('chat.index') }}" class="fb-nav-link {{ request()->routeIs('chat.*') ? 'active' : '' }}">
                 <span class="fb-icon"><i class="fas fa-comments"></i></span>
                 <span class="fb-label">Messages</span>
-                <span class="fb-badge">3</span>
+                @php
+                    $unreadMsgCount = auth()->check()
+                        ? \App\Models\Message::whereHas('conversation', function($q){
+                            $q->where('user_one_id', auth()->id())->orWhere('user_two_id', auth()->id());
+                          })->where('sender_id', '!=', auth()->id())->whereNull('read_at')->count()
+                        : 0;
+                @endphp
+                @if($unreadMsgCount > 0)
+                    <span class="fb-badge">{{ $unreadMsgCount > 9 ? '9+' : $unreadMsgCount }}</span>
+                @endif
             </a>
-            <a href="{{ route('sustainability-leaderboard') }}" class="fb-nav-link {{ request()->routeIs('sustainability-leaderboard') ? 'active' : '' }}">
-                <span class="fb-icon" style="background:#dcfce7;color:#16a34a;"><i class="fas fa-leaf"></i></span>
-                <span class="fb-label">Eco Leaderboard</span>
+            <a href="{{ route('reputation.index') }}" class="fb-nav-link {{ request()->routeIs('reputation.*') ? 'active' : '' }}">
+                <span class="fb-icon" style="background:#ede9fe;color:#7c3aed;"><i class="fas fa-medal"></i></span>
+                <span class="fb-label">Active Traders</span>
             </a>
             <a href="{{ route('reviews') }}" class="fb-nav-link {{ request()->routeIs('reviews') ? 'active' : '' }}">
                 <span class="fb-icon" style="background:#fef9c3;color:#ca8a04;"><i class="fas fa-star"></i></span>

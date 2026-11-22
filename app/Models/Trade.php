@@ -14,6 +14,8 @@ class Trade extends Model
         'status',
         'message',
         'completed_at',
+        'initiator_confirmed',
+        'receiver_confirmed',
     ];
 
     protected $casts = [

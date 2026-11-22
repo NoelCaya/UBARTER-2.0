@@ -59,7 +59,8 @@ class ChatController extends Controller
         $messages = $activeConversation->messages()
             ->with('sender')
             ->orderBy('created_at')
-            ->get();
+            ->get()
+            ->each(fn($m) => $m->timestamp_pst = $m->created_at->timezone('Asia/Manila')->format('g:i A'));
 
         // All conversations for sidebar
         $conversations = Conversation::with(['userOne', 'userTwo', 'lastMessage'])
@@ -88,9 +89,14 @@ class ChatController extends Controller
         ]);
 
         $currentUser = Auth::user();
+
+        // Suspended users cannot message
+        if ($currentUser->isSuspended()) {
+            return response()->json(['error' => 'Your account is suspended. You cannot send messages.'], 403);
+        }
+
         $conversation = Conversation::findOrFail($validated['conversation_id']);
 
-        // Make sure the current user belongs to this conversation
         if ($conversation->user_one_id !== $currentUser->id &&
             $conversation->user_two_id !== $currentUser->id) {
             return response()->json(['error' => 'Unauthorized'], 403);
@@ -102,8 +108,21 @@ class ChatController extends Controller
             'body'            => $validated['body'],
         ]);
 
-        // Update last message timestamp
         $conversation->update(['last_message_at' => now()]);
+
+        // Notify the other participant
+        $otherId = $conversation->user_one_id === $currentUser->id
+            ? $conversation->user_two_id
+            : $conversation->user_one_id;
+
+        \App\Models\Notification::notify(
+            $otherId,
+            'message',
+            'New message from ' . $currentUser->name,
+            \Str::limit($validated['body'], 60),
+            route('chat.show', $currentUser->id),
+            $currentUser->id
+        );
 
         return response()->json([
             'success'   => true,
@@ -111,7 +130,7 @@ class ChatController extends Controller
                 'id'         => $message->id,
                 'body'       => $message->body,
                 'sender_id'  => $message->sender_id,
-                'timestamp'  => $message->created_at->format('g:i A'),
+                'timestamp'  => $message->created_at->timezone('Asia/Manila')->format('g:i A'),
                 'created_at' => $message->created_at->toISOString(),
             ],
         ]);
@@ -144,7 +163,7 @@ class ChatController extends Controller
                 'id'        => $m->id,
                 'body'      => $m->body,
                 'sender_id' => $m->sender_id,
-                'timestamp' => $m->created_at->format('g:i A'),
+                'timestamp' => $m->created_at->timezone('Asia/Manila')->format('g:i A'),
                 'created_at'=> $m->created_at->toISOString(),
             ]);
 

@@ -126,4 +126,28 @@ class User extends Authenticatable
     {
         return $this->reviewsReceived()->count();
     }
+
+    /**
+     * Check if user is suspended
+     */
+    public function isSuspended(): bool
+    {
+        return $this->role === 'suspended';
+    }
+
+    /**
+     * Get notifications for this user
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    /**
+     * Unread notification count
+     */
+    public function unreadNotificationsCount(): int
+    {
+        return $this->notifications()->whereNull('read_at')->count();
+    }
 }

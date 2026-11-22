@@ -31,67 +31,50 @@ class ItemController extends Controller
      */
     public function browse(Request $request)
     {
-        $query = Item::active();
+        $query = Item::active()->where('item_type', 'Barter');
 
-        // Apply filters
+        // All defined categories — always show even if empty (#10)
+        $allCategories = ['Books & Textbooks', 'Uniforms & Apparel', 'Lab Supplies', 'Electronics', 'Furniture', 'Art & Craft Supplies', 'Office Supplies', 'Sports Equipment', 'General'];
+
         if ($request->search) {
-            $query->where('title', 'like', '%' . $request->search . '%')
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
                   ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
         }
 
-        if ($request->category && $request->category != 'all') {
+        if ($request->category && $request->category !== 'all') {
             $query->where('category', $request->category);
         }
 
-        if ($request->type && $request->type != 'all') {
-            $query->where('item_type', $request->type);
-        }
-
-        if ($request->condition && $request->condition != 'all') {
+        if ($request->condition && $request->condition !== 'all') {
             $query->where('condition', $request->condition);
         }
 
-        // Apply sorting
         $sort = $request->sort ?? 'newest';
         switch ($sort) {
-            case 'newest':
-                $query->newest();
-                break;
-            case 'most_viewed':
-                $query->mostViewed();
-                break;
-            case 'highest_rated':
-                $query->highestRated();
-                break;
-            case 'most_wishlisted':
-                $query->orderBy('wishlist_count', 'desc');
-                break;
-            default:
-                $query->newest();
+            case 'most_viewed':     $query->mostViewed(); break;
+            case 'highest_rated':   $query->highestRated(); break;
+            case 'most_wishlisted': $query->orderBy('wishlist_count', 'desc'); break;
+            default:                $query->newest();
         }
 
-        // Paginate
-        $items = $query->with('user')->paginate(20);
-        $itemCount = Item::active()->count();
+        $items     = $query->with('user')->paginate(20);
+        $itemCount = Item::active()->where('item_type', 'Barter')->count();
 
-        // Get filter options
-        $categories = Item::distinct()->pluck('category')->sort();
         $conditions = ['New', 'Slightly Used', 'Used'];
-        $types = ['Barter', 'Donation'];
 
         return view('items.browse', [
-            'items' => $items,
-            'itemCount' => $itemCount,
-            'categories' => $categories,
-            'conditions' => $conditions,
-            'types' => $types,
+            'items'          => $items,
+            'itemCount'      => $itemCount,
+            'categories'     => $allCategories,
+            'conditions'     => $conditions,
             'currentFilters' => [
-                'type' => $request->type ?? 'all',
-                'category' => $request->category ?? 'all',
+                'category'  => $request->category ?? 'all',
                 'condition' => $request->condition ?? 'all',
-                'search' => $request->search ?? '',
-                'sort' => $sort,
-            ]
+                'search'    => $request->search ?? '',
+                'sort'      => $sort,
+            ],
         ]);
     }
 
@@ -317,7 +300,7 @@ class ItemController extends Controller
     }
 
     /**
-     * Permanently delete an item
+     * Permanently delete an item — safely remove related records first (#8)
      */
     public function destroy(Item $item)
     {
@@ -326,6 +309,11 @@ class ItemController extends Controller
         }
 
         $title = $item->title;
+
+        // Remove related wishlists and reviews before deleting
+        \App\Models\Wishlist::where('item_id', $item->id)->delete();
+        \App\Models\Review::where('item_id', $item->id)->update(['item_id' => null]);
+
         $item->delete();
 
         return redirect()->route('items.my-items')

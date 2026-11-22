@@ -189,20 +189,46 @@
                             </form>
                         @endif
 
-                        {{-- BOTH: Mark complete when accepted --}}
+                        {{-- BOTH: Mark complete when accepted — both must confirm (#18) --}}
                         @if($trade->status === 'Accepted')
-                            <div style="background:#dbeafe;border-radius:8px;padding:6px 12px;font-size:0.72rem;color:#1d4ed8;font-weight:600;display:flex;align-items:center;gap:5px;">
-                                <i class="fas fa-handshake"></i> Trade accepted — arrange the exchange!
+                          @php
+                            $isInitiator    = $trade->initiator_id === auth()->id();
+                            $myConfirmed    = $isInitiator ? $trade->initiator_confirmed : $trade->receiver_confirmed;
+                            $otherConfirmed = $isInitiator ? $trade->receiver_confirmed  : $trade->initiator_confirmed;
+                          @endphp
+                          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start;">
+                            <div style="background:#dbeafe;border-radius:8px;padding:5px 10px;font-size:0.68rem;color:#1d4ed8;font-weight:600;display:flex;align-items:center;gap:4px;">
+                              <i class="fas fa-handshake"></i>
+                              Accepted — arrange the exchange, then both confirm below
                             </div>
-                            <form action="{{ route('trades.complete', $trade) }}" method="POST" style="display:inline;">
-                                @csrf
-                                <button type="submit"
-                                        style="background:#7b0f10;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:0.78rem;font-weight:700;cursor:pointer;"
-                                        onmouseover="this.style.background='#5a0a0b'" onmouseout="this.style.background='#7b0f10'">
-                                    <i class="fas fa-handshake mr-1"></i> Mark as Completed
-                                </button>
-                            </form>
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                              @if(!$myConfirmed)
+                                <form action="{{ route('trades.complete', $trade) }}" method="POST" style="display:inline;">
+                                  @csrf
+                                  <button type="submit"
+                                          style="background:#7b0f10;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:0.72rem;font-weight:700;cursor:pointer;"
+                                          onmouseover="this.style.background='#5a0a0b'" onmouseout="this.style.background='#7b0f10'">
+                                    <i class="fas fa-check mr-1"></i> I Confirm Exchange Done
+                                  </button>
+                                </form>
+                              @else
+                                <span style="background:#dcfce7;color:#166534;border-radius:8px;padding:6px 12px;font-size:0.72rem;font-weight:700;display:flex;align-items:center;gap:4px;">
+                                  <i class="fas fa-check-circle"></i> You confirmed
+                                </span>
+                              @endif
+                              @if($otherConfirmed)
+                                <span style="background:#dcfce7;color:#166534;border-radius:8px;padding:6px 12px;font-size:0.72rem;font-weight:700;display:flex;align-items:center;gap:4px;">
+                                  <i class="fas fa-check-circle"></i> Other party confirmed
+                                </span>
+                              @else
+                                <span style="background:#fef9c3;color:#92400e;border-radius:8px;padding:6px 12px;font-size:0.72rem;font-weight:600;display:flex;align-items:center;gap:4px;">
+                                  <i class="fas fa-hourglass-half"></i> Waiting for other party
+                                </span>
+                              @endif
+                            </div>
+                          </div>
                         @endif
+
 
                         {{-- INITIATOR: Cancel pending trade --}}
                         @if($trade->status === 'Pending' && $isInitiator)

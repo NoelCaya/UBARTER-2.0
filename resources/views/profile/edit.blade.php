@@ -143,43 +143,8 @@
             </div>
         </div>
 
-        <!-- Right: Password + Danger Zone -->
+        <!-- Right: Quick Actions + Danger Zone -->
         <div style="display:flex;flex-direction:column;gap:16px;">
-
-            <!-- Update Password -->
-            <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-                <h2 style="font-size:0.95rem;font-weight:800;color:#1a1209;margin:0 0 4px;display:flex;align-items:center;gap:8px;">
-                    <i class="fas fa-lock" style="color:#7b0f10;font-size:0.85rem;"></i> Update Password
-                </h2>
-                <p style="font-size:0.75rem;color:#9ca3af;margin:0 0 16px;">Use a long, random password to stay secure.</p>
-
-                <form method="post" action="{{ route('password.update') }}">
-                    @csrf
-                    @method('put')
-
-                    @foreach([
-                        ['update_password_current_password','current_password','Current Password','current-password'],
-                        ['update_password_password','password','New Password','new-password'],
-                        ['update_password_password_confirmation','password_confirmation','Confirm Password','new-password'],
-                    ] as $f)
-                    <div style="margin-bottom:14px;">
-                        <label for="{{ $f[0] }}" style="display:block;font-size:0.75rem;font-weight:700;color:#374151;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.05em;">{{ $f[2] }}</label>
-                        <input type="password" id="{{ $f[0] }}" name="{{ $f[1] }}" autocomplete="{{ $f[3] }}"
-                               style="width:100%;padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:0.85rem;color:#1a1209;outline:none;box-sizing:border-box;transition:border-color 0.15s;"
-                               onfocus="this.style.borderColor='#7b0f10'" onblur="this.style.borderColor='#e5e7eb'">
-                        @error($f[1], 'updatePassword')
-                            <p style="color:#dc2626;font-size:0.72rem;margin:4px 0 0;">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    @endforeach
-
-                    <button type="submit"
-                            style="background:#7b0f10;color:#fff;font-size:0.82rem;font-weight:700;padding:9px 20px;border-radius:8px;border:none;cursor:pointer;transition:background 0.15s;"
-                            onmouseover="this.style.background='#5a0a0b'" onmouseout="this.style.background='#7b0f10'">
-                        Update Password
-                    </button>
-                </form>
-            </div>
 
             <!-- Quick Actions -->
             <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 1px 4px rgba(0,0,0,0.07);">

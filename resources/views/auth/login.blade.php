@@ -346,7 +346,7 @@
     <a class="ub-brand" href="/">
       <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo"/>
       <div>
-        <span class="ub-brand-name">UBarter</span>
+        <span class="ub-brand-name">UBARTER</span>
         <span class="ub-brand-sub">University of Batangas</span>
       </div>
     </a>
@@ -369,13 +369,13 @@
         <div class="brand-logo-row">
           <img src="{{ asset('images/ub-logo.png') }}" alt="UB Logo"/>
           <div>
-            <span class="brand-logo-name">UBarter</span>
+            <span class="brand-logo-name">UBARTER</span>
             <span class="brand-logo-sub">University of Batangas</span>
           </div>
         </div>
 
         <div class="brand-headline">
-          <h1>Trade Smart,<br><span>Barter Better.</span></h1>
+          <h1>It's better if<br><span>UBARTER.</span></h1>
           <p>A peer-to-peer exchange platform built exclusively for the UB community. Barter items, reduce waste, and connect with fellow students.</p>
           <div class="brand-pills">
             <span class="brand-pill"><i class="fas fa-exchange-alt"></i> Barter Items</span>
@@ -480,7 +480,7 @@
 
   <!-- FOOTER -->
   <footer class="page-footer">
-    © {{ date('Y') }} UBarter · University of Batangas · All rights reserved
+    © {{ date('Y') }} UBARTER · University of Batangas · All rights reserved
   </footer>
 </div>
 

@@ -100,13 +100,8 @@
         </span>
         <h1 style="font-size:1.5rem;font-weight:900;color:#1a1209;margin:0;">My Wishlist</h1>
       </div>
-      <p style="font-size:0.78rem;color:#9ca3af;margin:0 0 0 46px;">{{ $wishlistItems->total() }} items you're interested in</p>
+      <p style="font-size:0.78rem;color:#9ca3af;margin:0 0 0 46px;">{{ $wishlistItems->total() }} saved items</p>
     </div>
-    <a href="{{ route('items.browse') }}"
-       style="display:inline-flex;align-items:center;gap:7px;padding:10px 18px;background:#7b0f10;color:#fff;border-radius:12px;font-weight:700;font-size:0.85rem;text-decoration:none;transition:background 0.15s;"
-       onmouseover="this.style.background='#5a0a0b'" onmouseout="this.style.background='#7b0f10'">
-      <i class="fas fa-search"></i> Browse Items
-    </a>
   </div>
 
   @if($wishlistItems->count() > 0)
@@ -136,10 +131,10 @@
               <a href="{{ route('items.show', $wishlist->item) }}" class="btn-view">
                 View <i class="fas fa-arrow-right" style="font-size:0.65rem;"></i>
               </a>
-              <form action="{{ route('wishlist.remove', $wishlist->item) }}" method="POST">
-                @csrf @method('DELETE')
-                <button type="submit" class="btn-remove" title="Remove from wishlist">
-                  <i class="fas fa-heart"></i>
+              <form action="{{ route('wishlist.toggle', $wishlist->item) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn-remove" title="Remove from wishlist" style="background:#fef2f2;">
+                  <i class="fas fa-heart" style="color:#ef4444;"></i>
                 </button>
               </form>
             </div>

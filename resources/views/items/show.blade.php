@@ -231,9 +231,10 @@
               <i class="fas fa-exchange-alt" style="font-size:0.75rem;"></i> Propose Barter
             </button>
           @else
-            <button onclick="openClaimModal()" class="action-btn btn-success">
-              <i class="fas fa-gift" style="font-size:0.75rem;"></i> Claim Donation
-            </button>
+            {{-- #19: Only CES Admin assigns donation recipients, users cannot claim --}}
+            <div class="action-btn" style="background:#f9fafb;color:#6b7280;border:1.5px solid #e5e7eb;cursor:default;pointer-events:none;">
+              <i class="fas fa-info-circle" style="font-size:0.75rem;"></i> CES Admin Assigns Recipients
+            </div>
           @endif
 
           <a href="{{ route('chat.show', $item->user_id) }}" class="action-btn btn-outline">
@@ -242,14 +243,14 @@
 
           @php $inWishlist = \App\Models\Wishlist::where('user_id',auth()->id())->where('item_id',$item->id)->exists(); @endphp
           @if($inWishlist)
-            <form action="{{ route('wishlist.remove', $item) }}" method="POST" style="margin:0;">
-              @csrf @method('DELETE')
+            <form action="{{ route('wishlist.toggle', $item) }}" method="POST" style="margin:0;">
+              @csrf
               <button type="submit" class="action-btn btn-danger-outline">
-                <i class="fas fa-heart" style="font-size:0.75rem;"></i> Remove from Wishlist
+                <i class="fas fa-heart" style="font-size:0.75rem;"></i> Wishlisted ♥
               </button>
             </form>
           @else
-            <form action="{{ route('wishlist.add', $item) }}" method="POST" style="margin:0;">
+            <form action="{{ route('wishlist.toggle', $item) }}" method="POST" style="margin:0;">
               @csrf
               <button type="submit" class="action-btn btn-outline">
                 <i class="far fa-heart" style="font-size:0.75rem;"></i> Add to Wishlist
