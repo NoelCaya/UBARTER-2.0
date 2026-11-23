@@ -415,7 +415,7 @@
             <input type="checkbox" id="privacy-check" onchange="toggleSso(this)"
                    style="width:16px;height:16px;margin-top:2px;accent-color:var(--ub-maroon);flex-shrink:0;cursor:pointer;">
             <span style="font-size:0.72rem;color:#6b7280;line-height:1.5;">
-              I agree to the <strong style="color:#7b0f10;">UBARTER Data Privacy Policy</strong> and consent to the collection and processing of my UB account information for the purposes of this platform.
+              I agree to the <a href="{{ route('privacy-policy') }}" target="_blank" style="color:#7b0f10;font-weight:700;text-decoration:underline;">UBARTER Data Privacy Policy</a> and consent to the collection and processing of my UB account information for the purposes of this platform.
             </span>
           </label>
         </div>

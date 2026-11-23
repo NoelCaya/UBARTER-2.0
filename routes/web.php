@@ -21,6 +21,10 @@ Route::get('/offline', function () {
     return response()->file(public_path('offline.html'));
 });
 
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+})->name('privacy-policy');
+
 Route::get('/dashboard', [ItemController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
