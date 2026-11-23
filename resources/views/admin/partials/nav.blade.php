@@ -5,12 +5,17 @@
             ['admin.dashboard',  'fa-chart-bar',          'Overview'],
             ['admin.users',      'fa-users',               'User Management'],
             ['admin.donations',  'fa-hand-holding-heart',  'Donations'],
-            ['admin.donations.claims', 'fa-hand-paper',    'Claim Requests'],
-            ['admin.barters',    'fa-exchange-alt',        'Barter Monitor'],
             ['admin.reports',    'fa-flag',                'Reports'],
             ['admin.settings',   'fa-cog',                 'Settings'],
         ];
+        $navMsgUnread = auth()->check()
+            ? \App\Models\Message::whereHas('conversation', function($q){
+                $q->where('user_one_id', auth()->id())->orWhere('user_two_id', auth()->id());
+              })->where('sender_id', '!=', auth()->id())->whereNull('read_at')->count()
+            : 0;
+        $navMsgActive = request()->routeIs('chat.*');
     @endphp
+
     @foreach($adminNav as $nav)
         @php $active = request()->routeIs($nav[0]); @endphp
         <a href="{{ route($nav[0]) }}"
@@ -26,15 +31,7 @@
             {{ $nav[2] }}
         </a>
     @endforeach
-    {{-- Messages link with unread count --}}
-    @php
-        $navMsgUnread = auth()->check()
-            ? \App\Models\Message::whereHas('conversation', function($q){
-                $q->where('user_one_id', auth()->id())->orWhere('user_two_id', auth()->id());
-              })->where('sender_id', '!=', auth()->id())->whereNull('read_at')->count()
-            : 0;
-        $navMsgActive = request()->routeIs('chat.*');
-    @endphp
+
     <a href="{{ route('chat.index') }}"
        style="display:inline-flex;align-items:center;gap:7px;
               padding:12px 16px;white-space:nowrap;position:relative;

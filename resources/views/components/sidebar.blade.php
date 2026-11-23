@@ -140,6 +140,14 @@
                 <span class="fb-icon" style="background:#dcfce7;color:#16a34a;"><i class="fas fa-hand-holding-heart"></i></span>
                 <span class="fb-label">Donations</span>
             </a>
+            <a href="{{ route('admin.donations.claims') }}" class="fb-nav-link {{ request()->routeIs('admin.donations.claims') ? 'active' : '' }}">
+                <span class="fb-icon" style="background:#fef9c3;color:#b45309;"><i class="fas fa-hand-paper"></i></span>
+                <span class="fb-label">Claim Requests</span>
+            </a>
+            <a href="{{ route('admin.barters') }}" class="fb-nav-link {{ request()->routeIs('admin.barters') ? 'active' : '' }}">
+                <span class="fb-icon" style="background:#ede9fe;color:#7c3aed;"><i class="fas fa-exchange-alt"></i></span>
+                <span class="fb-label">Barter Monitor</span>
+            </a>
             <a href="{{ route('admin.settings') }}" class="fb-nav-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                 <span class="fb-icon" style="background:#fee2e2;color:#dc2626;"><i class="fas fa-cog"></i></span>
                 <span class="fb-label">Settings</span>

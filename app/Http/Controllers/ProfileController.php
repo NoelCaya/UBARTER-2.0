@@ -23,12 +23,12 @@ class ProfileController extends Controller
 
     /**
      * Update the user's profile information.
-     * Name is not editable — it is always derived from the UBmail address.
+     * Name is not editable by the user — it is managed by CES Admin.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // Only fill validated fields (email only — name is excluded from rules)
         $request->user()->fill($request->validated());
-        $request->user()->name = \App\Models\User::nameFromEmail($request->user()->email);
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
