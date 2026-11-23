@@ -98,6 +98,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard',              [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/users',                  [AdminController::class, 'users'])->name('users');
         Route::get('/donations',              [AdminController::class, 'donations'])->name('donations');
+        Route::get('/donations/export',       [AdminController::class, 'exportDonationsCsv'])->name('donations.export');
         Route::get('/settings',               [AdminController::class, 'settings'])->name('settings');
         Route::post('/items/{item}/approve',  [AdminController::class, 'approveItem'])->name('items.approve');
         Route::post('/items/{item}/reject',   [AdminController::class, 'rejectItem'])->name('items.reject');

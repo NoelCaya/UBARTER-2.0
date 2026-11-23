@@ -6,6 +6,7 @@ use App\Models\Item;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminController extends Controller
 {
@@ -69,29 +70,76 @@ class AdminController extends Controller
     }
 
     // ─── 9.0 Approve / Deny Donations ────────────────────────────────────────
-    public function donations()
+    public function donations(Request $request)
     {
         $this->requireAdmin();
 
-        $pendingDonation = Item::where('status', 'Pending')
-                               ->where('item_type', 'Donation')
-                               ->with('user')
-                               ->latest()
-                               ->get();
+        $filterStatus = $request->get('status', 'all');
 
-        $approvedDonations = Item::where('status', 'Active')
-                                 ->where('item_type', 'Donation')
-                                 ->count();
+        $allDonationsQuery = Item::where('item_type', 'Donation')->with('user');
 
-        $deniedDonations = Item::where('status', 'Archived')
-                               ->where('item_type', 'Donation')
-                               ->count();
+        if ($filterStatus !== 'all') {
+            $allDonationsQuery->where('status', ucfirst($filterStatus));
+        }
+
+        $allDonations = $allDonationsQuery->latest('posted_at')->paginate(25)->withQueryString();
+
+        $pendingCount  = Item::where('item_type', 'Donation')->where('status', 'Pending')->count();
+        $approvedCount = Item::where('item_type', 'Donation')->where('status', 'Active')->count();
+        $deniedCount   = Item::where('item_type', 'Donation')->where('status', 'Archived')->count();
+        $tradedCount   = Item::where('item_type', 'Donation')->where('status', 'Traded')->count();
+        $totalCount    = Item::where('item_type', 'Donation')->count();
 
         return view('admin.donations', compact(
-            'pendingDonation',
-            'approvedDonations',
-            'deniedDonations'
+            'allDonations',
+            'pendingCount',
+            'approvedCount',
+            'deniedCount',
+            'tradedCount',
+            'totalCount',
+            'filterStatus'
         ));
+    }
+
+    // ─── 9.1 Export Donations CSV ─────────────────────────────────────────────
+    public function exportDonationsCsv(Request $request): StreamedResponse
+    {
+        $this->requireAdmin();
+
+        $filterStatus = $request->get('status', 'all');
+
+        $query = Item::where('item_type', 'Donation')->with('user');
+
+        if ($filterStatus !== 'all') {
+            $query->where('status', ucfirst($filterStatus));
+        }
+
+        $donations = $query->latest('posted_at')->get();
+
+        $filename = 'donations_' . ($filterStatus !== 'all' ? $filterStatus . '_' : '') . now()->format('Ymd_His') . '.csv';
+
+        return response()->streamDownload(function () use ($donations) {
+            $handle = fopen('php://output', 'w');
+
+            fputcsv($handle, ['ID', 'Title', 'Category', 'Condition', 'Status', 'Donated By', 'Email', 'Submitted At']);
+
+            foreach ($donations as $item) {
+                fputcsv($handle, [
+                    $item->id,
+                    $item->title,
+                    $item->category,
+                    $item->condition,
+                    $item->status,
+                    $item->user->name ?? 'N/A',
+                    $item->user->email ?? 'N/A',
+                    $item->posted_at ? $item->posted_at->format('Y-m-d H:i:s') : '',
+                ]);
+            }
+
+            fclose($handle);
+        }, $filename, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 
     // ─── 8.3 Configure Dashboard & System Settings ───────────────────────────
