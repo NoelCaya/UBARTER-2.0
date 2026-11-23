@@ -6,8 +6,7 @@
     <i class="fas fa-flag" style="color:#dc2626;"></i> User Reports
   </h1>
   <p style="font-size:0.78rem;color:#9ca3af;margin:0 0 14px;">Review reports and follow up with users on open report tickets.</p>
-  @include('admin.partials.nav')
-
+  
   @if(session('success') || session('error'))
     <div style="background:{{ session('error') ? '#fef2f2' : '#dcfce7' }};color:{{ session('error') ? '#991b1b' : '#166534' }};padding:10px 16px;border-radius:10px;font-size:0.82rem;font-weight:600;margin-bottom:16px;">
       {{ session('error') ?? session('success') }}

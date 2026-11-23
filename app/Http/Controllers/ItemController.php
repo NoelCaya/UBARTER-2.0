@@ -143,14 +143,17 @@ class ItemController extends Controller
         unset($validated['image']); // remove file from validated array
 
         $validated['user_id']       = auth()->id();
-        $validated['status']        = 'Pending';   // Admin must approve before going live
+        // Barter items go live immediately; Donations require admin approval
+        $validated['status']        = $validated['item_type'] === 'Donation' ? 'Pending' : 'Active';
         $validated['posted_at']     = now();
         $validated['seller_rating'] = 5.0;
 
         Item::create($validated);
 
         return redirect()->route('items.browse')
-            ->with('success', 'Your item has been submitted for review. It will appear in the marketplace once approved by CES Admin.');
+            ->with('success', $validated['item_type'] === 'Donation'
+                ? 'Your donation has been submitted for review. It will appear once approved by UBARTER Admin.'
+                : 'Your item is now live on the marketplace!');
     }
 
     /**

@@ -21,8 +21,7 @@
     <h1 style="font-size:1.4rem;font-weight:900;color:#1a1209;margin:0 0 2px;">Admin Control Panel</h1>
   </div>
 
-  @include('admin.partials.nav')
-
+  
   <p style="font-size:0.78rem;color:#9ca3af;margin:0 0 16px;">
     Review pending barter listings, monitor active listings, and view completed exchanges.
   </p>

@@ -47,8 +47,7 @@ input:checked + .toggle-slider:before{transform:translateX(22px);}
     <h1 style="font-size:1.4rem;font-weight:900;color:#1a1209;margin:0 0 2px;">Admin Control Panel</h1>
   </div>
 
-  @include('admin.partials.nav')
-
+  
   @if(session('success'))
     <div style="background:#dcfce7;border:1px solid #bbf7d0;color:#166534;padding:10px 16px;border-radius:10px;font-size:0.82rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
       <i class="fas fa-check-circle"></i> {{ session('success') }}

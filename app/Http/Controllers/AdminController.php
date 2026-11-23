@@ -23,25 +23,55 @@ class AdminController extends Controller
     {
         $this->requireAdmin();
 
-        $pendingBarter   = Item::where('status', 'Pending')->where('item_type', 'Barter')->count();
-        $pendingDonation = Item::where('status', 'Pending')->where('item_type', 'Donation')->count();
-        $activeItems     = Item::where('status', 'Active')->count();
-        $totalUsers      = User::count();
-        $totalPending    = $pendingBarter + $pendingDonation;
+        // Items
+        $pendingDonation  = Item::where('status', 'Pending')->where('item_type', 'Donation')->count();
+        $activeBarters    = Item::where('status', 'Active')->where('item_type', 'Barter')->count();
+        $activeDonations  = Item::where('status', 'Active')->where('item_type', 'Donation')->count();
+        $activeItems      = $activeBarters + $activeDonations;
+        $totalItems       = Item::count();
 
-        // Recent activity feed (latest 5 pending items)
+        // Users
+        $totalUsers       = User::where('role', '!=', 'admin')->count();
+        $suspendedUsers   = User::where('role', 'suspended')->count();
+        $activeUsers      = $totalUsers - $suspendedUsers;
+
+        // Trades
+        $completedTrades  = \App\Models\Trade::where('status', 'Completed')->count();
+        $pendingTrades    = \App\Models\Trade::where('status', 'Pending')->count();
+        $totalTrades      = \App\Models\Trade::count();
+
+        // Donation claims
+        $pendingClaims    = \App\Models\DonationClaim::where('status', 'Pending')->count();
+        $approvedClaims   = \App\Models\DonationClaim::where('status', 'Approved')->count();
+
+        // Reports
+        $openReports      = \App\Models\Report::where('status', 'Pending')->count();
+        $resolvedReports  = \App\Models\Report::where('status', 'Resolved')->count();
+
+        // Recent activity — latest 5 pending donations
         $recentActivity = Item::where('status', 'Pending')
+                              ->where('item_type', 'Donation')
                               ->with('user')
                               ->latest()
                               ->limit(5)
                               ->get();
 
         return view('admin.dashboard', compact(
-            'pendingBarter',
             'pendingDonation',
+            'activeBarters',
+            'activeDonations',
             'activeItems',
+            'totalItems',
             'totalUsers',
-            'totalPending',
+            'activeUsers',
+            'suspendedUsers',
+            'completedTrades',
+            'pendingTrades',
+            'totalTrades',
+            'pendingClaims',
+            'approvedClaims',
+            'openReports',
+            'resolvedReports',
             'recentActivity'
         ));
     }
