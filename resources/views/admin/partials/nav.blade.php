@@ -5,6 +5,8 @@
             ['admin.dashboard',  'fa-chart-bar',          'Overview'],
             ['admin.users',      'fa-users',               'User Management'],
             ['admin.donations',  'fa-hand-holding-heart',  'Donations'],
+            ['admin.donations.claims', 'fa-hand-paper',    'Claim Requests'],
+            ['admin.barters',    'fa-exchange-alt',        'Barter Monitor'],
             ['admin.reports',    'fa-flag',                'Reports'],
             ['admin.settings',   'fa-cog',                 'Settings'],
         ];

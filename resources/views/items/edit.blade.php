@@ -82,13 +82,13 @@
 
             <!-- Replace Photo -->
             <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Replace Photo (optional)</label>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Item Photo <span style="color:#ef4444;">*</span></label>
                 <div class="border-2 border-dashed border-gray-200 rounded-xl p-5 text-center hover:border-[#7b0f10] transition cursor-pointer bg-gray-50"
                      onclick="document.getElementById('image').click()">
                     <i class="fas fa-cloud-upload-alt text-2xl text-gray-300 mb-1 block"></i>
                     <p class="text-gray-500 text-sm">Click to upload a new photo</p>
-                    <p class="text-xs text-gray-400 mt-0.5">PNG, JPG up to 5MB · Leave empty to keep current photo</p>
-                    <input type="file" id="image" name="image" accept="image/*" class="hidden"
+                    <p class="text-xs text-gray-400 mt-0.5">Upload a replacement photo, or keep the current photo.</p>
+                    <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden"
                            onchange="document.getElementById('newPhotoName').textContent = this.files[0]?.name || ''">
                 </div>
                 <p id="newPhotoName" style="font-size:0.72rem;color:#7b0f10;margin-top:4px;"></p>

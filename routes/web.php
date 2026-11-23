@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReputationController;
+use App\Http\Controllers\DonationClaimController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -75,6 +76,11 @@ Route::middleware('auth')->group(function () {
 
     // Reports
     Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+    Route::get('/reports/{report}/respond', [ReportController::class, 'respondForm'])->name('reports.respond.form');
+    Route::post('/reports/{report}/respond', [ReportController::class, 'respond'])->name('reports.respond');
+
+    // Donation claims (user side)
+    Route::post('/items/{item}/claim', [DonationClaimController::class, 'store'])->name('donations.claim');
 
     // Reputation wall
     Route::get('/traders', [ReputationController::class, 'index'])->name('reputation.index');
@@ -98,6 +104,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard',              [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/users',                  [AdminController::class, 'users'])->name('users');
         Route::get('/donations',              [AdminController::class, 'donations'])->name('donations');
+        Route::get('/barters',                [AdminController::class, 'barters'])->name('barters');
+        Route::get('/donation-claims',        [DonationClaimController::class, 'adminIndex'])->name('donations.claims');
+        Route::post('/donation-claims/{claim}/approve', [DonationClaimController::class, 'approve'])->name('donations.claims.approve');
+        Route::post('/donation-claims/{claim}/reject', [DonationClaimController::class, 'reject'])->name('donations.claims.reject');
         Route::get('/donations/export',       [AdminController::class, 'exportDonationsCsv'])->name('donations.export');
         Route::get('/settings',               [AdminController::class, 'settings'])->name('settings');
         Route::post('/items/{item}/approve',  [AdminController::class, 'approveItem'])->name('items.approve');

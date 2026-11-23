@@ -17,7 +17,7 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            // name is intentionally excluded — name is synced from UBmail and cannot be changed
             'email' => [
                 'required',
                 'string',

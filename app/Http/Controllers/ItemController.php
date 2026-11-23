@@ -134,28 +134,11 @@ class ItemController extends Controller
             'condition'   => 'required|in:New,Slightly Used,Used',
             'item_type'   => 'required|in:Barter,Donation',
             'looking_for' => 'nullable|string|max:500',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'image'       => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('items', 'public');
-            $validated['image_url'] = '/storage/' . $path;
-        } else {
-            // Default placeholder based on category
-            $placeholders = [
-                'Books & Textbooks'    => 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=400&fit=crop',
-                'Electronics'          => 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=400&fit=crop',
-                'Uniforms & Apparel'   => 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&h=400&fit=crop',
-                'Lab Supplies'         => 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=400&h=400&fit=crop',
-                'Furniture'            => 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=400&fit=crop',
-                'Art & Craft Supplies' => 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=400&fit=crop',
-                'Office Supplies'      => 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&h=400&fit=crop',
-                'Sports Equipment'     => 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&h=400&fit=crop',
-            ];
-            $validated['image_url'] = $placeholders[$validated['category']]
-                ?? 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop';
-        }
+        $path = $request->file('image')->store('items', 'public');
+        $validated['image_url'] = '/storage/' . $path;
 
         unset($validated['image']); // remove file from validated array
 
@@ -261,7 +244,9 @@ class ItemController extends Controller
             'category'    => 'required|string',
             'condition'   => 'required|in:New,Slightly Used,Used',
             'looking_for' => 'nullable|string|max:500',
-            'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'image'       => $item->image_url
+                ? 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120'
+                : 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
         // Handle new image upload

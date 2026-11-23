@@ -68,41 +68,16 @@
                 <h2 style="font-size:0.95rem;font-weight:800;color:#1a1209;margin:0 0 4px;display:flex;align-items:center;gap:8px;">
                     <i class="fas fa-user" style="color:#7b0f10;font-size:0.85rem;"></i> Profile Information
                 </h2>
-                <p style="font-size:0.75rem;color:#9ca3af;margin:0 0 16px;">Update your name and email address.</p>
+                <p style="font-size:0.75rem;color:#9ca3af;margin:0 0 16px;">Your profile name is based on your UBmail address and cannot be edited.</p>
 
-                <form id="send-verification" method="post" action="{{ route('verification.send') }}">@csrf</form>
-
-                <form method="post" action="{{ route('profile.update') }}">
-                    @csrf
-                    @method('patch')
-
-                    <div style="margin-bottom:14px;">
-                        <label for="name" style="display:block;font-size:0.75rem;font-weight:700;color:#374151;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.05em;">Full Name</label>
-                        <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" required autofocus
-                               style="width:100%;padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:0.85rem;color:#1a1209;outline:none;box-sizing:border-box;transition:border-color 0.15s;"
-                               onfocus="this.style.borderColor='#7b0f10'" onblur="this.style.borderColor='#e5e7eb'">
-                        @error('name')
-                            <p style="color:#dc2626;font-size:0.72rem;margin:4px 0 0;">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div style="margin-bottom:16px;">
-                        <label for="email" style="display:block;font-size:0.75rem;font-weight:700;color:#374151;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.05em;">Email Address</label>
-                        <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required
-                               style="width:100%;padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:0.85rem;color:#1a1209;background:#f9fafb;outline:none;box-sizing:border-box;"
-                               readonly>
-                        <p style="font-size:0.7rem;color:#9ca3af;margin:4px 0 0;">Managed through your UB account</p>
-                        @error('email')
-                            <p style="color:#dc2626;font-size:0.72rem;margin:4px 0 0;">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <button type="submit"
-                            style="background:#7b0f10;color:#fff;font-size:0.82rem;font-weight:700;padding:9px 20px;border-radius:8px;border:none;cursor:pointer;transition:background 0.15s;"
-                            onmouseover="this.style.background='#5a0a0b'" onmouseout="this.style.background='#7b0f10'">
-                        Save Changes
-                    </button>
-                </form>
+                <div style="margin-bottom:14px;">
+                    <p style="font-size:0.75rem;font-weight:700;color:#374151;margin:0 0 5px;text-transform:uppercase;letter-spacing:0.05em;">Name</p>
+                    <p style="font-size:0.85rem;color:#1a1209;margin:0;">{{ $user->name }}</p>
+                </div>
+                <div>
+                    <p style="font-size:0.75rem;font-weight:700;color:#374151;margin:0 0 5px;text-transform:uppercase;letter-spacing:0.05em;">UBmail</p>
+                    <p style="font-size:0.85rem;color:#1a1209;margin:0;">{{ $user->email }}</p>
+                </div>
             </div>
 
             <!-- About / Quick Info -->

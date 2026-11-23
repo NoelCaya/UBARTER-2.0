@@ -225,20 +225,51 @@
         </div>
 
         {{-- Action Buttons --}}
-        @if(auth()->id() !== $item->user_id)
+        @if(auth()->user()->role === 'admin')
+          <div style="text-align:center;padding:10px;background:#f9fafb;border-radius:10px;font-size:0.78rem;color:#6b7280;margin-bottom:8px;">
+            <i class="fas fa-eye" style="margin-right:4px;"></i> Read-only monitoring view
+          </div>
+        @elseif(auth()->id() !== $item->user_id)
           @if($item->item_type === 'Barter')
             <button onclick="openBarterModal()" class="action-btn btn-primary">
               <i class="fas fa-exchange-alt" style="font-size:0.75rem;"></i> Propose Barter
             </button>
           @else
-            {{-- #19: Only CES Admin assigns donation recipients, users cannot claim --}}
-            <div class="action-btn" style="background:#f9fafb;color:#6b7280;border:1.5px solid #e5e7eb;cursor:default;pointer-events:none;">
-              <i class="fas fa-info-circle" style="font-size:0.75rem;"></i> CES Admin Assigns Recipients
-            </div>
+            @php
+              $hasApprovedClaim = \App\Models\DonationClaim::where('item_id', $item->id)->where('status', 'Approved')->exists();
+              $myClaim = auth()->user()->donationClaims()->where('item_id', $item->id)->first();
+            @endphp
+            @if($item->status === 'Active' && !$hasApprovedClaim && !$myClaim)
+              <form action="{{ route('donations.claim', $item) }}" method="POST" style="margin-bottom:8px;">
+                @csrf
+                <label for="claim_message" style="display:block;font-size:0.72rem;font-weight:700;color:#374151;margin:0 0 5px;">Request this donation</label>
+                <textarea id="claim_message" name="claim_message" rows="2" maxlength="500" placeholder="Optional message for CES Admin"
+                          style="width:100%;padding:8px 10px;border:1px solid #e5e7eb;border-radius:8px;font-size:0.78rem;resize:vertical;margin-bottom:6px;"></textarea>
+                <button type="submit" class="action-btn btn-success">
+                  <i class="fas fa-hand-paper" style="font-size:0.75rem;"></i> Request to Claim
+                </button>
+              </form>
+            @elseif($hasApprovedClaim)
+              <div class="action-btn" style="background:#f9fafb;color:#6b7280;border:1.5px solid #e5e7eb;cursor:default;pointer-events:none;">
+                <i class="fas fa-info-circle" style="font-size:0.75rem;"></i>
+                Donation already assigned
+              </div>
+            @elseif($myClaim)
+              <div class="action-btn" style="background:#f9fafb;color:#6b7280;border:1.5px solid #e5e7eb;cursor:default;pointer-events:none;">
+                <i class="fas fa-info-circle" style="font-size:0.75rem;"></i>
+                Claim request {{ strtolower($myClaim->status) }}
+              </div>
+            @else
+              <div class="action-btn" style="background:#f9fafb;color:#6b7280;border:1.5px solid #e5e7eb;cursor:default;pointer-events:none;">
+                <i class="fas fa-info-circle" style="font-size:0.75rem;"></i>
+                Donation is not available
+              </div>
+            @endif
           @endif
 
           <a href="{{ route('chat.show', $item->user_id) }}" class="action-btn btn-outline">
-            <i class="fas fa-comments" style="font-size:0.75rem;"></i> Message Seller
+            <i class="fas fa-comments" style="font-size:0.75rem;"></i>
+            Message {{ $item->item_type === 'Barter' ? 'Trader' : 'Donor' }}
           </a>
 
           @php $inWishlist = \App\Models\Wishlist::where('user_id',auth()->id())->where('item_id',$item->id)->exists(); @endphp
@@ -350,39 +381,9 @@
   </div>
 </div>
 
-{{-- ══════ CLAIM MODAL ══════ --}}
-<div id="claimModal" class="modal-overlay" onclick="if(event.target===this)closeClaimModal()">
-  <div class="modal-box" style="max-width:420px;">
-    <div class="modal-header">
-      <h3 style="font-size:1rem;font-weight:800;color:#1a1209;margin:0;">Claim this Donation</h3>
-      <button class="modal-close" onclick="closeClaimModal()">✕</button>
-    </div>
-    <div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:0.78rem;color:#166534;">
-      <i class="fas fa-gift" style="margin-right:5px;"></i> Claiming: <strong>{{ $item->title }}</strong>
-    </div>
-    <p style="font-size:0.82rem;color:#4b5563;margin:0 0 10px;line-height:1.6;">This item is free. Contact the donor to arrange pickup.</p>
-    <p style="font-size:0.7rem;color:#9ca3af;margin:0 0 16px;display:flex;align-items:center;gap:5px;">
-      <i class="fas fa-shield-alt" style="color:#7b0f10;"></i> Always meet in well-lit campus areas.
-    </p>
-    <div style="display:flex;gap:8px;">
-      <button type="button" onclick="closeClaimModal()"
-              style="flex:1;background:#f3f4f6;color:#374151;font-size:0.82rem;font-weight:700;padding:9px;border-radius:8px;border:none;cursor:pointer;">
-        Cancel
-      </button>
-      <a href="{{ route('chat.show', $item->user_id) }}"
-         style="flex:2;background:#16a34a;color:#fff;font-size:0.82rem;font-weight:700;padding:9px;border-radius:8px;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;transition:background 0.15s;"
-         onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='#16a34a'">
-        <i class="fas fa-comments"></i> Contact Donor
-      </a>
-    </div>
-  </div>
-</div>
-
 <script>
 function openBarterModal()  { document.getElementById('barterModal').style.display  = 'flex'; }
 function closeBarterModal() { document.getElementById('barterModal').style.display  = 'none'; }
-function openClaimModal()   { document.getElementById('claimModal').style.display   = 'flex'; }
-function closeClaimModal()  { document.getElementById('claimModal').style.display   = 'none'; }
 
 function selectOffer(label) {
   document.querySelectorAll('.offer-label').forEach(el => el.classList.remove('selected'));

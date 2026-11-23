@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Report;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,17 +26,17 @@ class ReportController extends Controller
             return back()->with('error', 'You cannot report yourself.');
         }
 
-        // Prevent duplicate pending reports for the same user+conversation
+        // Keep only one unresolved report from a reporter against each user.
         $exists = Report::where('reporter_id', Auth::id())
             ->where('reported_user_id', $validated['reported_user_id'])
-            ->where('status', 'Pending')
+            ->whereIn('status', ['Pending', 'Reviewed'])
             ->exists();
 
         if ($exists) {
-            return back()->with('error', 'You already have a pending report against this user.');
+            return back()->with('error', 'You already have an unresolved report against this user.');
         }
 
-        Report::create([
+        $report = Report::create([
             'reporter_id'       => Auth::id(),
             'reported_user_id'  => $validated['reported_user_id'],
             'conversation_id'   => $validated['conversation_id'] ?? null,
@@ -45,6 +45,47 @@ class ReportController extends Controller
             'status'            => 'Pending',
         ]);
 
+        Notification::notify(
+            $report->reported_user_id,
+            'report_response',
+            'You have been reported',
+            'Please review the report and provide your response for CES Admin.',
+            route('reports.respond.form', $report)
+        );
+
         return back()->with('success', 'Report submitted. CES Admin will review it shortly.');
+    }
+
+    public function respondForm(Report $report)
+    {
+        abort_unless($report->reported_user_id === Auth::id(), 403);
+        abort_unless(in_array($report->status, ['Pending', 'Reviewed'], true), 404);
+
+        return view('reports.respond', compact('report'));
+    }
+
+    public function respond(Request $request, Report $report)
+    {
+        abort_unless($report->reported_user_id === Auth::id(), 403);
+        abort_unless(in_array($report->status, ['Pending', 'Reviewed'], true), 404);
+
+        $validated = $request->validate([
+            'reported_user_response' => 'required|string|max:2000',
+        ]);
+
+        $report->update([
+            'reported_user_response' => $validated['reported_user_response'],
+            'status' => 'Reviewed',
+        ]);
+
+        Notification::notify(
+            $report->reporter_id,
+            'report_response',
+            'Response received for your report',
+            'The reported user has submitted a response for CES Admin to review.',
+            route('chat.index')
+        );
+
+        return redirect()->route('chat.index')->with('success', 'Your response has been sent to CES Admin.');
     }
 }

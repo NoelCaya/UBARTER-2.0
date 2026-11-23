@@ -32,6 +32,13 @@ class User extends Authenticatable
         'role',
     ];
 
+    public static function nameFromEmail(string $email): string
+    {
+        $localPart = explode('@', $email, 2)[0];
+
+        return ucwords(str_replace(['.', '_', '-'], ' ', $localPart));
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -61,6 +68,11 @@ class User extends Authenticatable
     public function items()
     {
         return $this->hasMany(Item::class);
+    }
+
+    public function donationClaims()
+    {
+        return $this->hasMany(DonationClaim::class, 'claimant_id');
     }
 
     /**

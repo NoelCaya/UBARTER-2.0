@@ -48,7 +48,7 @@ class GoogleSocialiteController extends Controller
 
         // Create new user
         $user = User::create([
-            'name' => $googleUser->getName(),
+            'name' => User::nameFromEmail($googleUser->getEmail()),
             'email' => $googleUser->getEmail(),
             'google_id' => $googleUser->getId(),
             'google_email' => $googleUser->getEmail(),

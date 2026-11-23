@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Report extends Model
 {
     protected $fillable = [
-        'reporter_id', 'reported_user_id', 'conversation_id', 'reason', 'details', 'status',
+        'reporter_id', 'reported_user_id', 'conversation_id',
+        'reason', 'details', 'status', 'reported_user_response',
     ];
 
     public function reporter(): BelongsTo

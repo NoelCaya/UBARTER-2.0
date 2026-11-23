@@ -129,7 +129,7 @@ class ItemController extends Controller
             'category' => 'required|string',
             'condition' => 'required|in:New,Slightly Used,Used',
             'item_type' => 'required|in:Barter,Donation',
-            'image_url' => 'nullable|url',
+            'image_url' => 'required|url',
         ]);
 
         $validated['user_id'] = auth()->id();
@@ -164,7 +164,9 @@ class ItemController extends Controller
             'category' => 'sometimes|string',
             'condition' => 'sometimes|in:New,Slightly Used,Used',
             'item_type' => 'sometimes|in:Barter,Donation',
-            'image_url' => 'sometimes|nullable|url',
+            'image_url' => $item->image_url
+                ? 'sometimes|url'
+                : 'required|url',
             'status' => 'sometimes|in:Active,Pending,Traded,Archived',
         ]);
 

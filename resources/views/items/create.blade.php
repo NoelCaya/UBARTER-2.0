@@ -278,15 +278,14 @@
 
           {{-- Photo Upload --}}
           <div>
-            <label class="form-label">Item Photo
-              <span style="font-size:0.68rem;color:#9ca3af;font-weight:500;">(optional)</span>
-            </label>
+            <label class="form-label" for="image">Item Photo <span class="form-req">*</span></label>
 
             <div class="dropzone" onclick="document.getElementById('image').click()" id="upload-zone">
               <i class="fas fa-cloud-upload-alt dropzone-icon"></i>
               <p style="font-size:0.85rem;font-weight:700;color:#4b5563;margin:0 0 4px;">Click or drag &amp; drop</p>
               <p style="font-size:0.72rem;color:#9ca3af;margin:0;">PNG or JPG, up to 5 MB</p>
-              <input type="file" id="image" name="image" accept="image/*" class="hidden" style="display:none;" onchange="previewImage(this)">
+              <input type="file" id="image" name="image" accept="image/jpeg,image/png,image/gif,image/webp"
+                     style="position:absolute;width:1px;height:1px;opacity:0;" onchange="previewImage(this)" required>
             </div>
 
             {{-- Preview --}}
@@ -301,7 +300,7 @@
             </div>
             <p style="font-size:0.7rem;color:#9ca3af;margin:6px 0 0;">
               <i class="fas fa-info-circle" style="margin-right:3px;"></i>
-              A placeholder image will be used if none is uploaded.
+              A clear photo is required. JPEG, PNG, GIF or WebP up to 5 MB.
             </p>
           </div>
 

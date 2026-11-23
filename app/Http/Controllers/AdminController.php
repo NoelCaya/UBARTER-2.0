@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Trade;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -99,6 +100,24 @@ class AdminController extends Controller
             'totalCount',
             'filterStatus'
         ));
+    }
+
+    public function barters()
+    {
+        $this->requireAdmin();
+
+        $availableBarters = Item::where('item_type', 'Barter')
+            ->where('status', 'Active')
+            ->with('user')
+            ->latest('posted_at')
+            ->paginate(20, ['*'], 'available_page');
+
+        $completedBarters = Trade::where('status', 'Completed')
+            ->with(['initiator', 'receiver', 'initiatorItem', 'receiverItem'])
+            ->latest('completed_at')
+            ->paginate(20, ['*'], 'completed_page');
+
+        return view('admin.barters', compact('availableBarters', 'completedBarters'));
     }
 
     // ─── 9.1 Export Donations CSV ─────────────────────────────────────────────
@@ -226,16 +245,23 @@ class AdminController extends Controller
     {
         $this->requireAdmin();
 
+        $tab = $request->query('tab', 'reports') === 'tickets' ? 'tickets' : 'reports';
         $reports = \App\Models\Report::with(['reporter', 'reportedUser'])
+            ->when($tab === 'tickets', fn ($query) => $query->whereIn('status', ['Pending', 'Reviewed']))
             ->latest()
-            ->paginate(20);
+            ->paginate(20)
+            ->appends(['tab' => $tab]);
 
-        return view('admin.reports', compact('reports'));
+        return view('admin.reports', compact('reports', 'tab'));
     }
 
     public function resolveReport(\App\Models\Report $report)
     {
         $this->requireAdmin();
+        if (!in_array($report->status, ['Pending', 'Reviewed'], true)) {
+            return back()->with('error', 'This report has already been closed.');
+        }
+
         $report->update(['status' => 'Resolved']);
         return back()->with('success', 'Report marked as resolved.');
     }
@@ -243,6 +269,10 @@ class AdminController extends Controller
     public function dismissReport(\App\Models\Report $report)
     {
         $this->requireAdmin();
+        if (!in_array($report->status, ['Pending', 'Reviewed'], true)) {
+            return back()->with('error', 'This report has already been closed.');
+        }
+
         $report->update(['status' => 'Dismissed']);
         return back()->with('success', 'Report dismissed.');
     }
