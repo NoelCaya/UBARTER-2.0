@@ -148,6 +148,20 @@
                 <span class="fb-icon" style="background:#fee2e2;color:#dc2626;"><i class="fas fa-flag"></i></span>
                 <span class="fb-label">User Reports</span>
             </a>
+            <a href="{{ route('chat.index') }}" class="fb-nav-link {{ request()->routeIs('chat.*') ? 'active' : '' }}">
+                <span class="fb-icon" style="background:#eff6ff;color:#2563eb;"><i class="fas fa-comments"></i></span>
+                <span class="fb-label">Messages</span>
+                @php
+                    $adminUnread = auth()->check()
+                        ? \App\Models\Message::whereHas('conversation', function($q){
+                            $q->where('user_one_id', auth()->id())->orWhere('user_two_id', auth()->id());
+                          })->where('sender_id', '!=', auth()->id())->whereNull('read_at')->count()
+                        : 0;
+                @endphp
+                @if($adminUnread > 0)
+                    <span class="fb-badge">{{ $adminUnread > 9 ? '9+' : $adminUnread }}</span>
+                @endif
+            </a>
 
         @else
             {{-- ══ USER NAV ══ --}}

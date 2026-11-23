@@ -114,11 +114,16 @@
                      radial-gradient(circle at 80% 20%, rgba(245,197,24,0.03) 0%, transparent 50%);
   }
   .message-group { display:flex; margin-bottom:16px; align-items:flex-end; }
-  .message-group.sent { justify-content:flex-end; }
+  .message-group.sent  { justify-content:flex-end; }
+  /* The inner wrapper constrains the bubble width */
+  .message-group > div { max-width:70%; display:flex; flex-direction:column; }
+  .message-group.sent  > div { align-items:flex-end; }
+  .message-group.received > div { align-items:flex-start; }
   .message-bubble {
-    max-width:70%; padding:10px 14px; border-radius:18px;
-    font-size:0.85rem; line-height:1.5; position:relative;
-    word-break:break-word; display:inline-block;
+    display:block; width:fit-content; max-width:100%;
+    padding:10px 14px; border-radius:18px;
+    font-size:0.85rem; line-height:1.5;
+    word-break:break-word; white-space:pre-wrap;
   }
   .message-group.received .message-bubble {
     background:#fff; color:#1a1209; border-bottom-left-radius:6px;
