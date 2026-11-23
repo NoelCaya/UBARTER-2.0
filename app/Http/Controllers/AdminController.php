@@ -106,6 +106,12 @@ class AdminController extends Controller
     {
         $this->requireAdmin();
 
+        $pendingBarters = Item::where('item_type', 'Barter')
+            ->where('status', 'Pending')
+            ->with('user')
+            ->latest('posted_at')
+            ->paginate(20, ['*'], 'pending_page');
+
         $availableBarters = Item::where('item_type', 'Barter')
             ->where('status', 'Active')
             ->with('user')
@@ -117,7 +123,7 @@ class AdminController extends Controller
             ->latest('completed_at')
             ->paginate(20, ['*'], 'completed_page');
 
-        return view('admin.barters', compact('availableBarters', 'completedBarters'));
+        return view('admin.barters', compact('pendingBarters', 'availableBarters', 'completedBarters'));
     }
 
     // ─── 9.1 Export Donations CSV ─────────────────────────────────────────────

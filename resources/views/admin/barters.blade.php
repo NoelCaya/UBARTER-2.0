@@ -24,8 +24,81 @@
   @include('admin.partials.nav')
 
   <p style="font-size:0.78rem;color:#9ca3af;margin:0 0 16px;">
-    Read-only oversight of active listings and completed barters. Admins are not participants in these exchanges.
+    Review pending barter listings, monitor active listings, and view completed exchanges.
   </p>
+
+  {{-- ── Pending Barter Submissions ── --}}
+  <div class="sec">
+    <div class="sec-hd">
+      <span class="badge-mod" style="background:#f59e0b;">Review</span>
+      <h2>Pending Barter Submissions</h2>
+      <span style="font-size:0.72rem;color:#9ca3af;margin-left:auto;">{{ $pendingBarters->total() }} pending</span>
+    </div>
+    <div style="overflow-x:auto;">
+      @if($pendingBarters->count() > 0)
+        <table class="adm-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Owner</th>
+              <th>Category</th>
+              <th>Condition</th>
+              <th>Submitted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($pendingBarters as $item)
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="position:relative;width:44px;padding-bottom:44px;flex-shrink:0;border-radius:8px;overflow:hidden;background:#f5f5f5;">
+                      <img src="{{ $item->image_url }}" alt="{{ $item->title }}"
+                           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    <div style="min-width:0;">
+                      <p style="font-size:0.82rem;font-weight:700;color:#1a1209;margin:0;max-width:220px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{ $item->title }}</p>
+                      <p style="font-size:0.65rem;color:#9ca3af;margin:2px 0 0;max-width:220px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{ Str::limit($item->description, 60) }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ $item->user->name }}</td>
+                <td>{{ $item->category }}</td>
+                <td>{{ $item->condition }}</td>
+                <td style="font-size:0.72rem;color:#9ca3af;white-space:nowrap;">{{ $item->posted_at->format('M d, Y') }}</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;">
+                    <form action="{{ route('admin.items.approve', $item) }}" method="POST">
+                      @csrf
+                      <button type="submit" style="border:0;border-radius:7px;padding:6px 10px;background:#dcfce7;color:#166534;font-size:0.72rem;font-weight:700;cursor:pointer;">
+                        <i class="fas fa-check"></i> Approve
+                      </button>
+                    </form>
+                    <form action="{{ route('admin.items.reject', $item) }}" method="POST">
+                      @csrf
+                      <button type="submit" style="border:0;border-radius:7px;padding:6px 10px;background:#fee2e2;color:#991b1b;font-size:0.72rem;font-weight:700;cursor:pointer;">
+                        <i class="fas fa-times"></i> Reject
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+        @if($pendingBarters->hasPages())
+          <div style="padding:14px 20px;border-top:1px solid #f3f4f6;display:flex;justify-content:center;">
+            {{ $pendingBarters->links() }}
+          </div>
+        @endif
+      @else
+        <div style="padding:36px;text-align:center;color:#9ca3af;">
+          <p style="font-size:0.85rem;font-weight:700;color:#374151;margin:0 0 4px;">No pending barter submissions</p>
+          <p style="font-size:0.78rem;margin:0;">New barter listings awaiting review will appear here.</p>
+        </div>
+      @endif
+    </div>
+  </div>
 
   {{-- ── Available Barter Items ── --}}
   <div class="sec">
