@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'ces.admin@ub.edu.ph'],
             [
-                'name'              => 'Community Extension Services ADMIN',
+                'name'              => 'CES Admin',
                 'email'             => 'ces.admin@ub.edu.ph',
                 'password'          => Hash::make('CESAdmin@2026'),
                 'role'              => 'admin',

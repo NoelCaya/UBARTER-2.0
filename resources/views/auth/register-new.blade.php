@@ -36,6 +36,20 @@
                 <form method="POST" action="{{ route('register') }}" class="space-y-4">
                     @csrf
 
+                    <!-- Full Name -->
+                    <div>
+                        <label for="name" class="block text-sm font-semibold text-gray-900 mb-2">
+                            Full Name
+                        </label>
+                        <input type="text" id="name" name="name" value="{{ old('name') }}"
+                               placeholder="Juan Dela Cruz"
+                               class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                               required autocomplete="name">
+                        @error('name')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <!-- Email -->
                     <div>
                         <label for="email" class="block text-sm font-semibold text-gray-900 mb-2">

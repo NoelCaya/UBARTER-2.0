@@ -262,15 +262,20 @@
           </div>
         </div>
 
-        <form class="space-y-4">
+        <form class="space-y-4" method="POST" action="{{ route('profile.update') }}">
+          @csrf
+          @method('PATCH')
           <div class="form-group">
             <label class="form-label">Full Name</label>
-            <input type="text" value="{{ auth()->user()->name }}" class="form-input" placeholder="Enter your full name">
+            <input type="text" name="name" value="{{ old('name', auth()->user()->name) }}" class="form-input" placeholder="Enter your full name" required>
+            @error('name')
+              <p class="form-help text-red-600">{{ $message }}</p>
+            @enderror
           </div>
           
           <div class="form-group">
             <label class="form-label">Email Address</label>
-            <input type="email" value="{{ auth()->user()->email }}" class="form-input" readonly>
+            <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" class="form-input" readonly>
             <p class="form-help">
               <i class="fas fa-lock mr-1"></i> Email is managed through your UB account and cannot be changed here
             </p>

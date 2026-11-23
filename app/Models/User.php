@@ -35,8 +35,10 @@ class User extends Authenticatable
     public static function nameFromEmail(string $email): string
     {
         $localPart = explode('@', $email, 2)[0];
+        $name = ucwords(str_replace(['.', '_', '-'], ' ', $localPart));
 
-        return ucwords(str_replace(['.', '_', '-'], ' ', $localPart));
+        // Student-number emails cannot reveal a person's name.
+        return preg_match('/^\d+$/', $localPart) ? 'UB Member' : $name;
     }
 
     /**

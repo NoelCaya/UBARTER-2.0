@@ -71,15 +71,13 @@ class UserController extends Controller
         $user = auth()->user();
 
         $validated = $request->validate([
+            'name' => 'sometimes|string|max:255',
             'email' => 'sometimes|email|unique:users,email,' . $user->id,
             'bio' => 'sometimes|string|max:500',
             'phone' => 'sometimes|string|max:20',
         ]);
 
         $user->update($validated);
-        if (array_key_exists('email', $validated)) {
-            $user->update(['name' => User::nameFromEmail($user->email)]);
-        }
 
         return response()->json([
             'success' => true,

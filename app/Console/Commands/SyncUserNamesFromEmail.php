@@ -16,7 +16,11 @@ class SyncUserNamesFromEmail extends Command
         $updated = 0;
 
         foreach ($users as $user) {
-            if (!$user->email) {
+            if (!$user->email || $user->role === 'admin') {
+                continue;
+            }
+            $localPart = explode('@', $user->email, 2)[0];
+            if (preg_match('/^\d+$/', $localPart)) {
                 continue;
             }
             $synced = User::nameFromEmail($user->email);

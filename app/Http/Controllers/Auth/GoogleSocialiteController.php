@@ -28,6 +28,10 @@ class GoogleSocialiteController extends Controller
         $user = User::where('google_id', $googleUser->getId())->first();
 
         if ($user) {
+            $googleName = trim((string) $googleUser->getName());
+            if ($googleName !== '' && ctype_digit((string) $user->name)) {
+                $user->update(['name' => $googleName]);
+            }
             Auth::login($user);
             return redirect(route('dashboard', absolute: false));
         }
@@ -41,14 +45,19 @@ class GoogleSocialiteController extends Controller
                 'google_id' => $googleUser->getId(),
                 'google_email' => $googleUser->getEmail(),
             ]);
+            $googleName = trim((string) $googleUser->getName());
+            if ($googleName !== '' && ctype_digit((string) $existingUser->name)) {
+                $existingUser->update(['name' => $googleName]);
+            }
 
             Auth::login($existingUser);
             return redirect(route('dashboard', absolute: false));
         }
 
         // Create new user
+        $googleName = trim((string) $googleUser->getName());
         $user = User::create([
-            'name' => User::nameFromEmail($googleUser->getEmail()),
+            'name' => $googleName !== '' ? $googleName : User::nameFromEmail($googleUser->getEmail()),
             'email' => $googleUser->getEmail(),
             'google_id' => $googleUser->getId(),
             'google_email' => $googleUser->getEmail(),

@@ -12,7 +12,7 @@ test('profile page is displayed', function () {
     $response->assertOk();
 });
 
-test('profile name is derived from email and cannot be edited', function () {
+test('profile name can be edited', function () {
     $user = User::factory()->create();
 
     $response = $this
@@ -28,7 +28,7 @@ test('profile name is derived from email and cannot be edited', function () {
 
     $user->refresh();
 
-    $this->assertSame('Test', $user->name);
+    $this->assertSame('Test User', $user->name);
     $this->assertSame('test@example.com', $user->email);
     $this->assertNull($user->email_verified_at);
 });
@@ -48,10 +48,7 @@ test('email verification status is unchanged when the email address is unchanged
         ->assertRedirect('/profile');
 
     $this->assertNotNull($user->refresh()->email_verified_at);
-    $this->assertSame(
-        \App\Models\User::nameFromEmail($user->email),
-        $user->name
-    );
+    $this->assertSame('Test User', $user->name);
 });
 
 test('user can delete their account', function () {
