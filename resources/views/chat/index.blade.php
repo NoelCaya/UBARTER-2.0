@@ -503,9 +503,10 @@ document.addEventListener('DOMContentLoaded', function() {
      style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;align-items:center;justify-content:center;">
   <div style="background:#fff;border-radius:18px;padding:28px;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
     <h3 style="font-size:1rem;font-weight:800;color:#1a1209;margin:0 0 4px;">Report User</h3>
-    <p style="font-size:0.78rem;color:#9ca3af;margin:0 0 18px;">Report <strong>{{ $otherUser->name }}</strong> to CES Admin. Only submit genuine reports.</p>
+    <p style="font-size:0.78rem;color:#9ca3af;margin:0 0 18px;">Report <strong>{{ $otherUser->name }}</strong> to UBARTER Admin. Only submit genuine reports.</p>
     <div style="background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:9px;padding:10px 12px;margin-bottom:14px;font-size:0.76rem;line-height:1.5;">
-      False or malicious reports are prohibited. Reports may be reviewed by CES Admin and could result in action against the reporter.
+      <i class="fas fa-exclamation-triangle" style="margin-right:5px;"></i>
+      <strong>Warning:</strong> Bogus or malicious reports are strictly prohibited. Reports are reviewed by UBARTER Admin and false submissions may result in action against the reporter.
     </div>
     <form action="{{ route('reports.store') }}" method="POST">
       @csrf

@@ -269,7 +269,7 @@
     <div style="background:#fff;border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,0.07);overflow:hidden;">
       <div style="padding:14px 16px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between;">
         <h2 style="font-size:0.95rem;font-weight:800;color:#1a1209;margin:0;display:flex;align-items:center;gap:6px;">
-          <i class="fas fa-store" style="color:#7b0f10;font-size:0.82rem;"></i> Campus Marketplace
+          <i class="fas fa-store" style="color:#7b0f10;font-size:0.82rem;"></i> Item Listing
         </h2>
         <a href="{{ route('items.browse') }}" style="font-size:0.72rem;font-weight:700;color:#7b0f10;text-decoration:none;">See all →</a>
       </div>

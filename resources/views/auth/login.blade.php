@@ -410,7 +410,18 @@
         @endif
 
         <!-- Google SSO -->
-        <a href="{{ route('auth.google') }}" class="btn-sso">
+        <div style="margin-bottom:1rem;">
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;user-select:none;" id="privacy-label">
+            <input type="checkbox" id="privacy-check" onchange="toggleSso(this)"
+                   style="width:16px;height:16px;margin-top:2px;accent-color:var(--ub-maroon);flex-shrink:0;cursor:pointer;">
+            <span style="font-size:0.72rem;color:#6b7280;line-height:1.5;">
+              I agree to the <strong style="color:#7b0f10;">UBARTER Data Privacy Policy</strong> and consent to the collection and processing of my UB account information for the purposes of this platform.
+            </span>
+          </label>
+        </div>
+        <a href="{{ route('auth.google') }}" class="btn-sso" id="sso-btn"
+           style="pointer-events:none;opacity:0.45;"
+           onclick="if(!document.getElementById('privacy-check').checked){event.preventDefault();}">
           <span class="sso-icon"><i class="fas fa-envelope"></i></span>
           Continue with UB Mail
         </a>
@@ -498,6 +509,16 @@
     } else {
       input.type = 'password';
       icon.className = 'fas fa-eye';
+    }
+  }
+  function toggleSso(checkbox) {
+    var btn = document.getElementById('sso-btn');
+    if (checkbox.checked) {
+      btn.style.pointerEvents = 'auto';
+      btn.style.opacity = '1';
+    } else {
+      btn.style.pointerEvents = 'none';
+      btn.style.opacity = '0.45';
     }
   }
 </script>

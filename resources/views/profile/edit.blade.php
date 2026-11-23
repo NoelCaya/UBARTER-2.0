@@ -68,14 +68,37 @@
                 <h2 style="font-size:0.95rem;font-weight:800;color:#1a1209;margin:0 0 4px;display:flex;align-items:center;gap:8px;">
                     <i class="fas fa-user" style="color:#7b0f10;font-size:0.85rem;"></i> Profile Information
                 </h2>
-                <p style="font-size:0.75rem;color:#9ca3af;margin:0 0 16px;">Your profile name is based on your UBmail address and cannot be edited.</p>
+                <p style="font-size:0.75rem;color:#9ca3af;margin:0 0 16px;">Your profile name and UB Mail are managed through your UB account.</p>
+
+                <div style="margin-bottom:16px;">
+                    <p style="font-size:0.75rem;font-weight:700;color:#374151;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.05em;">Profile Picture</p>
+                    <div style="display:flex;align-items:center;gap:14px;">
+                        <img id="avatar-preview"
+                             src="{{ $user->avatar_url ?? 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=7b0f10&color=fff&bold=true&size=80' }}"
+                             style="width:64px;height:64px;border-radius:50%;border:3px solid #f3f4f6;object-fit:cover;flex-shrink:0;"
+                             alt="{{ $user->name }}">
+                        <div>
+                            <form method="post" action="{{ route('profile.avatar') }}" enctype="multipart/form-data" id="avatarForm">
+                                @csrf
+                                @method('patch')
+                                <label style="display:inline-flex;align-items:center;gap:6px;background:#7b0f10;color:#fff;font-size:0.75rem;font-weight:700;padding:7px 14px;border-radius:8px;cursor:pointer;transition:background 0.15s;"
+                                       onmouseover="this.style.background='#5a0a0b'" onmouseout="this.style.background='#7b0f10'">
+                                    <i class="fas fa-camera" style="font-size:0.7rem;"></i> Change Photo
+                                    <input type="file" name="avatar" accept="image/*" style="display:none;" onchange="previewAvatar(this); this.form.submit();">
+                                </label>
+                            </form>
+                            <p style="font-size:0.68rem;color:#9ca3af;margin:5px 0 0;">JPG or PNG, max 2MB</p>
+                        </div>
+                    </div>
+                    @error('avatar') <p style="color:#dc2626;font-size:0.72rem;margin:4px 0 0;">{{ $message }}</p> @enderror
+                </div>
 
                 <div style="margin-bottom:14px;">
                     <p style="font-size:0.75rem;font-weight:700;color:#374151;margin:0 0 5px;text-transform:uppercase;letter-spacing:0.05em;">Name</p>
                     <p style="font-size:0.85rem;color:#1a1209;margin:0;">{{ $user->name }}</p>
                 </div>
                 <div>
-                    <p style="font-size:0.75rem;font-weight:700;color:#374151;margin:0 0 5px;text-transform:uppercase;letter-spacing:0.05em;">UBmail</p>
+                    <p style="font-size:0.75rem;font-weight:700;color:#374151;margin:0 0 5px;text-transform:uppercase;letter-spacing:0.05em;">UB Mail</p>
                     <p style="font-size:0.85rem;color:#1a1209;margin:0;">{{ $user->email }}</p>
                 </div>
             </div>
@@ -194,5 +217,17 @@
         </form>
     </div>
 </div>
+
+<script>
+function previewAvatar(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            document.getElementById('avatar-preview').src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 
 @endsection

@@ -102,6 +102,12 @@
                                 {{ $trade->initiatorItem->title ?? 'Deleted item' }}
                             </p>
                             <p style="font-size:0.65rem;color:#9ca3af;margin:1px 0 0;">{{ $trade->initiatorItem->condition ?? '' }}</p>
+                            @if($trade->initiatorItem)
+                                <a href="{{ route('items.show', $trade->initiatorItem) }}" target="_blank"
+                                   style="display:inline-flex;align-items:center;gap:3px;font-size:0.62rem;font-weight:700;color:#7b0f10;text-decoration:none;margin-top:4px;">
+                                    <i class="fas fa-eye" style="font-size:0.58rem;"></i> View Details
+                                </a>
+                            @endif
                         </div>
                     </div>
 
@@ -126,6 +132,12 @@
                                 {{ $trade->receiverItem->title ?? 'Deleted item' }}
                             </p>
                             <p style="font-size:0.65rem;color:#9ca3af;margin:1px 0 0;">{{ $trade->receiverItem->condition ?? '' }}</p>
+                            @if($trade->receiverItem)
+                                <a href="{{ route('items.show', $trade->receiverItem) }}" target="_blank"
+                                   style="display:inline-flex;align-items:center;gap:3px;font-size:0.62rem;font-weight:700;color:#7b0f10;text-decoration:none;margin-top:4px;">
+                                    <i class="fas fa-eye" style="font-size:0.58rem;"></i> View Details
+                                </a>
+                            @endif
                         </div>
                     </div>
                 </div>

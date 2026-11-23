@@ -197,8 +197,8 @@
           <div class="type-icon" style="background:linear-gradient(135deg,#16a34a,#15803d);">
             <i class="fas fa-hand-holding-heart" style="color:#fff;"></i>
           </div>
-          <h3 style="font-size:1rem;font-weight:800;color:#1a1209;margin:0 0 6px;">Free Donation</h3>
-          <p style="font-size:0.78rem;color:#6b7280;margin:0 0 12px;line-height:1.5;">Give away items you no longer need to help UB students reduce waste and build community.</p>
+          <h3 style="font-size:1rem;font-weight:800;color:#1a1209;margin:0 0 6px;">Donation</h3>
+          <p style="font-size:0.78rem;color:#6b7280;margin:0 0 12px;line-height:1.5;">Donate items you no longer need to fellow UB students.</p>
           <div style="display:flex;align-items:center;gap:6px;">
             <span style="font-size:0.65rem;font-weight:700;background:#dcfce7;color:#166534;padding:3px 8px;border-radius:999px;">Eco-Friendly</span>
             <span style="font-size:0.65rem;color:#9ca3af;">• Free to claim</span>
