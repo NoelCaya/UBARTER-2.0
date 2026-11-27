@@ -246,8 +246,12 @@
       <h2>Visual Analytics</h2>
     </div>
     <div style="padding:20px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
-        @media(max-width:900px){grid-template-columns:1fr;}
+      <div class="charts-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+        <style>
+          @media(max-width:900px){
+            .charts-grid{grid-template-columns:1fr !important;}
+          }
+        </style>
         
         {{-- Line Chart: Most Bartered Items --}}
         <div style="background:#fff;border:1px solid #f3f4f6;border-radius:12px;padding:18px;">
@@ -275,8 +279,12 @@
       </div>
 
       {{-- Bar Charts: Category Analysis --}}
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-        @media(max-width:900px){grid-template-columns:1fr;}
+      <div class="charts-grid-bar" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <style>
+          @media(max-width:900px){
+            .charts-grid-bar{grid-template-columns:1fr !important;}
+          }
+        </style>
         
         {{-- Bar Chart: Barter Items by Category --}}
         <div style="background:#fff;border:1px solid #f3f4f6;border-radius:12px;padding:18px;">
