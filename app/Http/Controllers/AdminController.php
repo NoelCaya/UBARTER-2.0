@@ -56,6 +56,42 @@ class AdminController extends Controller
                               ->limit(5)
                               ->get();
 
+        // Chart data: Most bartered items (by views)
+        $mostBartered = Item::where('item_type', 'Barter')
+                            ->where('status', 'Active')
+                            ->orderBy('views', 'desc')
+                            ->limit(8)
+                            ->get(['title', 'views']);
+
+        // Chart data: Most donated items (by views)
+        $mostDonated = Item::where('item_type', 'Donation')
+                           ->where('status', 'Active')
+                           ->orderBy('views', 'desc')
+                           ->limit(8)
+                           ->get(['title', 'views']);
+
+        // Chart data: Most wishlisted items
+        $mostWishlisted = Item::where('status', 'Active')
+                              ->orderBy('wishlist_count', 'desc')
+                              ->limit(10)
+                              ->get(['title', 'wishlist_count']);
+
+        // Chart data: Barter items by category
+        $barterByCategory = Item::where('item_type', 'Barter')
+                                ->where('status', 'Active')
+                                ->select('category', \DB::raw('count(*) as count'))
+                                ->groupBy('category')
+                                ->orderBy('count', 'desc')
+                                ->get();
+
+        // Chart data: Donation items by category
+        $donationByCategory = Item::where('item_type', 'Donation')
+                                  ->where('status', 'Active')
+                                  ->select('category', \DB::raw('count(*) as count'))
+                                  ->groupBy('category')
+                                  ->orderBy('count', 'desc')
+                                  ->get();
+
         return view('admin.dashboard', compact(
             'pendingDonation',
             'activeBarters',
@@ -72,7 +108,12 @@ class AdminController extends Controller
             'approvedClaims',
             'openReports',
             'resolvedReports',
-            'recentActivity'
+            'recentActivity',
+            'mostBartered',
+            'mostDonated',
+            'mostWishlisted',
+            'barterByCategory',
+            'donationByCategory'
         ));
     }
 
@@ -299,7 +340,24 @@ class AdminController extends Controller
         }
 
         $report->update(['status' => 'Resolved']);
-        return back()->with('success', 'Report marked as resolved.');
+
+        // Notify both the reporter and the reported user
+        \App\Models\Notification::notify(
+            $report->reporter_id,
+            'report_resolved',
+            'Report Resolved',
+            'CES Admin has reviewed your report and marked it as resolved. Thank you for helping keep UBarter safe.',
+            route('chat.index')
+        );
+        \App\Models\Notification::notify(
+            $report->reported_user_id,
+            'report_resolved',
+            'Report Against You Resolved',
+            'A report filed against your account has been reviewed and resolved by CES Admin. No further action is required.',
+            null
+        );
+
+        return back()->with('success', 'Report marked as resolved. Both parties have been notified.');
     }
 
     public function dismissReport(\App\Models\Report $report)
@@ -310,6 +368,23 @@ class AdminController extends Controller
         }
 
         $report->update(['status' => 'Dismissed']);
-        return back()->with('success', 'Report dismissed.');
+
+        // Notify both parties
+        \App\Models\Notification::notify(
+            $report->reporter_id,
+            'report_dismissed',
+            'Report Dismissed',
+            'CES Admin has reviewed your report and found it did not meet the threshold for action. The report has been dismissed.',
+            route('chat.index')
+        );
+        \App\Models\Notification::notify(
+            $report->reported_user_id,
+            'report_dismissed',
+            'Report Against You Dismissed',
+            'A report filed against your account has been reviewed and dismissed by CES Admin. No action was taken against your account.',
+            null
+        );
+
+        return back()->with('success', 'Report dismissed. Both parties have been notified.');
     }
 }

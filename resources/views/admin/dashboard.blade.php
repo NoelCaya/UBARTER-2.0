@@ -238,6 +238,65 @@
     </div>
   </div>
 
+  {{-- ══ NEW CHART ANALYTICS ══ --}}
+  {{-- Line graphs and bar charts for items, categories --}}
+  <div class="sec">
+    <div class="sec-hd">
+      <span class="badge-tag" style="background:#7b0f10;">Charts</span>
+      <h2>Visual Analytics</h2>
+    </div>
+    <div style="padding:20px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+        @media(max-width:900px){grid-template-columns:1fr;}
+        
+        {{-- Line Chart: Most Bartered Items --}}
+        <div style="background:#fff;border:1px solid #f3f4f6;border-radius:12px;padding:18px;">
+          <h3 style="font-size:0.85rem;font-weight:800;color:#1a1209;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-chart-line" style="color:#0ea5e9;"></i> Most Bartered Items
+          </h3>
+          <canvas id="barteredItemsChart" style="max-height:220px;"></canvas>
+        </div>
+
+        {{-- Line Chart: Most Donated Items --}}
+        <div style="background:#fff;border:1px solid #f3f4f6;border-radius:12px;padding:18px;">
+          <h3 style="font-size:0.85rem;font-weight:800;color:#1a1209;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-chart-line" style="color:#16a34a;"></i> Most Donated Items
+          </h3>
+          <canvas id="donatedItemsChart" style="max-height:220px;"></canvas>
+        </div>
+      </div>
+
+      {{-- Line Chart: Most Wishlisted Items --}}
+      <div style="background:#fff;border:1px solid #f3f4f6;border-radius:12px;padding:18px;margin-bottom:20px;">
+        <h3 style="font-size:0.85rem;font-weight:800;color:#1a1209;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
+          <i class="fas fa-chart-line" style="color:#ef4444;"></i> Most Wishlisted Items
+        </h3>
+        <canvas id="wishlistedItemsChart" style="max-height:240px;"></canvas>
+      </div>
+
+      {{-- Bar Charts: Category Analysis --}}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        @media(max-width:900px){grid-template-columns:1fr;}
+        
+        {{-- Bar Chart: Barter Items by Category --}}
+        <div style="background:#fff;border:1px solid #f3f4f6;border-radius:12px;padding:18px;">
+          <h3 style="font-size:0.85rem;font-weight:800;color:#1a1209;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-chart-bar" style="color:#7b0f10;"></i> Barter Items by Category
+          </h3>
+          <canvas id="barterCategoriesChart" style="max-height:280px;"></canvas>
+        </div>
+
+        {{-- Bar Chart: Donated Items by Category --}}
+        <div style="background:#fff;border:1px solid #f3f4f6;border-radius:12px;padding:18px;">
+          <h3 style="font-size:0.85rem;font-weight:800;color:#1a1209;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-chart-bar" style="color:#16a34a;"></i> Donated Items by Category
+          </h3>
+          <canvas id="donationCategoriesChart" style="max-height:280px;"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
   {{-- ── RECENT PENDING DONATIONS ── --}}
   <div class="sec">
     <div class="sec-hd">
@@ -279,4 +338,132 @@
   </div>
 
 </div>
+
+{{-- Chart.js for visualizations --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// Most Bartered Items (Line Chart)
+new Chart(document.getElementById('barteredItemsChart'), {
+  type: 'line',
+  data: {
+    labels: {!! json_encode($mostBartered->pluck('title')->map(fn($t) => strlen($t) > 20 ? substr($t, 0, 20).'...' : $t)) !!},
+    datasets: [{
+      label: 'Views',
+      data: {!! json_encode($mostBartered->pluck('views')) !!},
+      borderColor: '#0ea5e9',
+      backgroundColor: 'rgba(14, 165, 233, 0.1)',
+      tension: 0.4,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+
+// Most Donated Items (Line Chart)
+new Chart(document.getElementById('donatedItemsChart'), {
+  type: 'line',
+  data: {
+    labels: {!! json_encode($mostDonated->pluck('title')->map(fn($t) => strlen($t) > 20 ? substr($t, 0, 20).'...' : $t)) !!},
+    datasets: [{
+      label: 'Views',
+      data: {!! json_encode($mostDonated->pluck('views')) !!},
+      borderColor: '#16a34a',
+      backgroundColor: 'rgba(22, 163, 74, 0.1)',
+      tension: 0.4,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+
+// Most Wishlisted Items (Line Chart)
+new Chart(document.getElementById('wishlistedItemsChart'), {
+  type: 'line',
+  data: {
+    labels: {!! json_encode($mostWishlisted->pluck('title')->map(fn($t) => strlen($t) > 25 ? substr($t, 0, 25).'...' : $t)) !!},
+    datasets: [{
+      label: 'Wishlist Count',
+      data: {!! json_encode($mostWishlisted->pluck('wishlist_count')) !!},
+      borderColor: '#ef4444',
+      backgroundColor: 'rgba(239, 68, 68, 0.1)',
+      tension: 0.4,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+
+// Barter Items by Category (Bar Chart)
+new Chart(document.getElementById('barterCategoriesChart'), {
+  type: 'bar',
+  data: {
+    labels: {!! json_encode($barterByCategory->pluck('category')) !!},
+    datasets: [{
+      label: 'Barter Items',
+      data: {!! json_encode($barterByCategory->pluck('count')) !!},
+      backgroundColor: '#7b0f10'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { stepSize: 1 } }
+    }
+  }
+});
+
+// Donated Items by Category (Bar Chart)
+new Chart(document.getElementById('donationCategoriesChart'), {
+  type: 'bar',
+  data: {
+    labels: {!! json_encode($donationByCategory->pluck('category')) !!},
+    datasets: [{
+      label: 'Donations',
+      data: {!! json_encode($donationByCategory->pluck('count')) !!},
+      backgroundColor: '#16a34a'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      y: { beginAtZero: true, ticks: { stepSize: 1 } }
+    }
+  }
+});
+</script>
 @endsection

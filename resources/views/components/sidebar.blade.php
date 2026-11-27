@@ -148,10 +148,6 @@
                 <span class="fb-icon" style="background:#ede9fe;color:#7c3aed;"><i class="fas fa-exchange-alt"></i></span>
                 <span class="fb-label">Barter Monitor</span>
             </a>
-            <a href="{{ route('admin.settings') }}" class="fb-nav-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
-                <span class="fb-icon" style="background:#fee2e2;color:#dc2626;"><i class="fas fa-cog"></i></span>
-                <span class="fb-label">Settings</span>
-            </a>
             <a href="{{ route('admin.reports') }}" class="fb-nav-link {{ request()->routeIs('admin.reports') ? 'active' : '' }}">
                 <span class="fb-icon" style="background:#fee2e2;color:#dc2626;"><i class="fas fa-flag"></i></span>
                 <span class="fb-label">User Reports</span>
@@ -169,6 +165,13 @@
                 @if($adminUnread > 0)
                     <span class="fb-badge">{{ $adminUnread > 9 ? '9+' : $adminUnread }}</span>
                 @endif
+            </a>
+
+            {{-- Settings at the bottom for admin --}}
+            <div class="fb-divider"></div>
+            <a href="{{ route('admin.settings') }}" class="fb-nav-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
+                <span class="fb-icon" style="background:#f3f4f6;color:#374151;"><i class="fas fa-cog"></i></span>
+                <span class="fb-label">Settings</span>
             </a>
 
         @else
@@ -226,6 +229,13 @@
                 <span class="fb-icon" style="background:#fef9c3;color:#ca8a04;"><i class="fas fa-star"></i></span>
                 <span class="fb-label">My Reviews</span>
             </a>
+
+            {{-- Settings at the bottom for users --}}
+            <div class="fb-divider"></div>
+            <a href="{{ route('settings') }}" class="fb-nav-link {{ request()->routeIs('settings') ? 'active' : '' }}">
+                <span class="fb-icon" style="background:#f3f4f6;color:#374151;"><i class="fas fa-cog"></i></span>
+                <span class="fb-label">Settings</span>
+            </a>
         @endif
 
         <div class="fb-divider"></div>
@@ -247,10 +257,6 @@
                 <a href="{{ route('profile.edit') }}" class="fb-action-btn fb-btn-profile" title="My Profile">
                     <i class="fas fa-user" style="font-size:0.68rem;"></i>
                     <span>Profile</span>
-                </a>
-                <a href="{{ route('settings') }}" class="fb-action-btn fb-btn-settings" title="Settings">
-                    <i class="fas fa-cog" style="font-size:0.68rem;"></i>
-                    <span>Settings</span>
                 </a>
             @endif
             <form method="POST" action="{{ route('logout') }}" style="flex:1;display:flex;">

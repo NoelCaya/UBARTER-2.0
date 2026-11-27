@@ -51,7 +51,7 @@
                                 <div class="px-4 py-6 text-center text-gray-400 text-sm">No notifications yet</div>
                             </div>
                             <div class="px-4 py-2.5 border-t border-gray-100 bg-gray-50 text-center">
-                                <span class="text-xs text-gray-400">Updates every 10 seconds</span>
+                                <span class="text-xs text-gray-400">Updates every 5 seconds</span>
                             </div>
                         </div>
                     </div>
@@ -81,6 +81,9 @@ const NOTIF_ICONS = {
     item_rejected:            { icon: 'fa-ban',              bg: '#fee2e2', color: '#dc2626' },
     account_suspended:        { icon: 'fa-user-slash',       bg: '#fee2e2', color: '#dc2626' },
     account_reactivated:      { icon: 'fa-user-check',       bg: '#dcfce7', color: '#16a34a' },
+    report_response:          { icon: 'fa-flag',             bg: '#fff7ed', color: '#c2410c' },
+    report_resolved:          { icon: 'fa-check-circle',     bg: '#dcfce7', color: '#16a34a' },
+    report_dismissed:         { icon: 'fa-times-circle',     bg: '#f3f4f6', color: '#6b7280' },
 };
 
 function renderNotifications(data) {
@@ -140,7 +143,7 @@ function markAllRead() {
     }).then(() => pollNotifications());
 }
 
-// Poll every 10 seconds (#13 real-time)
+// Poll every 5 seconds for near-real-time updates
 function pollNotifications() {
     fetch('/notifications/poll')
         .then(r => r.json())
@@ -149,7 +152,7 @@ function pollNotifications() {
 }
 
 pollNotifications(); // initial load
-setInterval(pollNotifications, 10000);
+setInterval(pollNotifications, 5000);
 
 // Toggle dropdown
 document.addEventListener('DOMContentLoaded', function () {

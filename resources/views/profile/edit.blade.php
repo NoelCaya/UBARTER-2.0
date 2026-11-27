@@ -130,12 +130,6 @@
                         <div style="display:flex;align-items:center;gap:8px;font-size:0.78rem;color:#16a34a;">
                             <i class="fas fa-check-circle"></i><span>Email Verified</span>
                         </div>
-                        <div style="display:flex;align-items:center;gap:8px;font-size:0.78rem;color:#16a34a;">
-                            <i class="fas fa-check-circle"></i><span>University ID Verified</span>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:8px;font-size:0.78rem;color:#d1d5db;">
-                            <i class="far fa-circle"></i><span style="color:#9ca3af;">Phone Not Verified</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -166,55 +160,8 @@
                     </a>
                 </div>
             </div>
-
-            <!-- Danger Zone -->
-            <div style="background:#fff5f5;border:1px solid #fecaca;border-radius:14px;padding:22px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-                <h2 style="font-size:0.95rem;font-weight:800;color:#991b1b;margin:0 0 4px;display:flex;align-items:center;gap:8px;">
-                    <i class="fas fa-exclamation-triangle" style="font-size:0.85rem;"></i> Danger Zone
-                </h2>
-                <p style="font-size:0.75rem;color:#b91c1c;margin:0 0 14px;">Once deleted, all data is permanently removed.</p>
-
-                <button onclick="document.getElementById('deleteModal').style.display='flex'"
-                        style="background:#dc2626;color:#fff;font-size:0.82rem;font-weight:700;padding:9px 18px;border-radius:8px;border:none;cursor:pointer;transition:background 0.15s;"
-                        onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
-                    <i class="fas fa-trash mr-2" style="font-size:0.75rem;"></i> Delete Account
-                </button>
-            </div>
         </div>
-    </div>
-</div>
 
-<!-- Delete Account Modal -->
-<div id="deleteModal"
-     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
-    <div style="background:#fff;border-radius:16px;padding:28px;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
-        <h3 style="font-size:1rem;font-weight:800;color:#1a1209;margin:0 0 8px;">Delete Account?</h3>
-        <p style="font-size:0.82rem;color:#6b7280;margin:0 0 18px;line-height:1.6;">
-            This will permanently delete your account and all associated data. This action cannot be undone. Please enter your password to confirm.
-        </p>
-        <form method="post" action="{{ route('profile.destroy') }}">
-            @csrf
-            @method('delete')
-            <div style="margin-bottom:14px;">
-                <label style="display:block;font-size:0.75rem;font-weight:700;color:#374151;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.05em;">Password</label>
-                <input type="password" name="password" placeholder="Enter your password"
-                       style="width:100%;padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:0.85rem;outline:none;box-sizing:border-box;"
-                       onfocus="this.style.borderColor='#dc2626'" onblur="this.style.borderColor='#e5e7eb'">
-                @error('password', 'userDeletion')
-                    <p style="color:#dc2626;font-size:0.72rem;margin:4px 0 0;">{{ $message }}</p>
-                @enderror
-            </div>
-            <div style="display:flex;gap:10px;justify-content:flex-end;">
-                <button type="button" onclick="document.getElementById('deleteModal').style.display='none'"
-                        style="background:#f3f4f6;color:#374151;font-size:0.82rem;font-weight:700;padding:9px 18px;border-radius:8px;border:none;cursor:pointer;">
-                    Cancel
-                </button>
-                <button type="submit"
-                        style="background:#dc2626;color:#fff;font-size:0.82rem;font-weight:700;padding:9px 18px;border-radius:8px;border:none;cursor:pointer;">
-                    Delete Account
-                </button>
-            </div>
-        </form>
     </div>
 </div>
 

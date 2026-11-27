@@ -98,7 +98,7 @@
                         <input type="checkbox" id="terms" name="terms" required
                                class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer mt-1">
                         <label for="terms" class="ml-2 text-sm text-gray-600 cursor-pointer">
-                            I agree to the <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">Terms of Service</a> and <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">Privacy Policy</a>
+                            I agree to the <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">Terms of Service</a> and <a href="{{ route('privacy-policy') }}" target="_blank" class="text-blue-600 hover:text-blue-700 font-medium">UBARTER Data Privacy Policy</a>
                         </label>
                     </div>
 

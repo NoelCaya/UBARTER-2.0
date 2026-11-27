@@ -162,6 +162,23 @@
         <p style="font-size:0.62rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.09em;margin:0 0 6px;">Description</p>
         <p style="font-size:0.88rem;color:#4b5563;line-height:1.75;margin:0 0 18px;">{{ $item->description }}</p>
 
+        {{-- Looking For (Barter only) --}}
+        @if($item->item_type === 'Barter' && $item->looking_for)
+        <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 14px;margin-bottom:18px;">
+          <p style="font-size:0.62rem;font-weight:800;color:#c2410c;text-transform:uppercase;letter-spacing:0.09em;margin:0 0 5px;display:flex;align-items:center;gap:5px;">
+            <i class="fas fa-exchange-alt"></i> Looking to Trade For
+          </p>
+          <p style="font-size:0.88rem;color:#92400e;margin:0;line-height:1.6;">{{ $item->looking_for }}</p>
+        </div>
+        @elseif($item->item_type === 'Barter')
+        <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:12px 14px;margin-bottom:18px;">
+          <p style="font-size:0.62rem;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:0.09em;margin:0 0 5px;display:flex;align-items:center;gap:5px;">
+            <i class="fas fa-exchange-alt"></i> Looking to Trade For
+          </p>
+          <p style="font-size:0.82rem;color:#9ca3af;margin:0;font-style:italic;">Open to any reasonable offer</p>
+        </div>
+        @endif
+
         {{-- Stats --}}
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px 0;border-top:1px solid #f3f4f6;border-bottom:1px solid #f3f4f6;text-align:center;">
           @foreach([[$item->views,'Views'],[$item->wishlist_count,'Wishlisted'],[number_format($item->seller_rating,1),'Rating'],[$item->posted_at->diffForHumans(),'Posted']] as $s)
@@ -196,9 +213,9 @@
     {{-- ═══ RIGHT: Sidebar ═══ --}}
     <div class="show-sidebar">
 
-      {{-- Seller Card --}}
+      {{-- Trader/Donor Card --}}
       <div style="background:#fff;border-radius:14px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.08);margin-bottom:12px;">
-        <p style="font-size:0.6rem;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:0.09em;margin:0 0 12px;">Seller</p>
+        <p style="font-size:0.6rem;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:0.09em;margin:0 0 12px;">{{ $item->item_type === 'Barter' ? 'Trader' : 'Donor' }}</p>
 
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
           <img src="https://ui-avatars.com/api/?name={{ urlencode($item->user->name) }}&background=7b0f10&color=fff&bold=true&size=48"

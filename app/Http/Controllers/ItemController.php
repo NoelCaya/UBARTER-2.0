@@ -197,8 +197,9 @@ class ItemController extends Controller
 
         $items      = $query->paginate(20)->appends($request->query());
         $totalCount = Item::where('item_type', 'Donation')->where('status', 'Active')->count();
-        $categories = Item::where('item_type', 'Donation')->where('status', 'Active')
-                          ->distinct()->pluck('category')->sort()->values();
+        // Always show all defined categories, even if empty
+        $allCategories = ['Books & Textbooks', 'Uniforms & Apparel', 'Lab Supplies', 'Electronics', 'Furniture', 'Art & Craft Supplies', 'Office Supplies', 'Sports Equipment', 'General'];
+        $categories = collect($allCategories);
         $conditions = ['New', 'Slightly Used', 'Used'];
 
         return view('items.donated', compact('items', 'totalCount', 'categories', 'conditions'));

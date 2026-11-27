@@ -23,6 +23,7 @@ class Item extends Model
         'seller_rating',
         'status',
         'posted_at',
+        'looking_for',
     ];
 
     protected $casts = [
